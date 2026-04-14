@@ -15,23 +15,23 @@
           <div v-if="store.tasks.length === 0" class="text-light-muted text-center py-4">Chưa có tác vụ nào trong hàng đợi</div>
           <div class="overflow-x-auto text-sm w-full" v-else>
             <table class="w-full text-left whitespace-nowrap">
-              <thead class="text-xs text-light-muted uppercase border-b border-light-border">
+              <thead class="bg-indigo-50/60 text-slate-700 font-semibold border-b-2 border-indigo-100/50 text-xs uppercase">
                 <tr>
-                  <th class="py-2 px-2 border-r border-light-border/60">Loại tác vụ</th>
-                  <th class="py-2 px-2 border-r border-light-border/60">Mục tiêu</th>
-                  <th class="py-2 px-2">Trạng thái</th>
+                  <th class="py-2.5 px-3 border-r border-indigo-100/30 text-center">Loại tác vụ</th>
+                  <th class="py-2.5 px-3 border-r border-indigo-100/30 text-center">Mục tiêu</th>
+                  <th class="py-2.5 px-3 text-center">Trạng thái</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="t in store.tasks.slice(0, 5)" :key="t.id" class="border-b border-light-border">
-                  <td class="py-2 px-2 text-light-text border-r border-light-border">{{ t.taskType }}</td>
-                  <td class="py-2 px-2 text-light-muted truncate max-w-[150px] border-r border-light-border">{{ t.postUrl || t.postId }}</td>
-                  <td class="py-2 px-2">
-                    <span :class="{
-                      'text-yellow-500': t.status==='Pending',
-                      'text-green-500': t.status==='Success',
-                      'text-purple-500': t.status==='Running' || t.status==='WaitingConfirmation',
-                      'text-red-500': t.status==='Failed'
+                <tr v-for="t in store.tasks.slice(0, 5)" :key="t.id" class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                  <td class="py-1.5 px-3 text-slate-700 border-r border-slate-100 text-left">{{ t.taskType }}</td>
+                  <td class="py-1.5 px-3 text-slate-500 truncate max-w-[150px] border-r border-slate-100 text-left">{{ t.postUrl || t.postId }}</td>
+                  <td class="py-1.5 px-3 text-center">
+                    <span class="inline-block px-1.5 py-0.5 rounded text-[11px] font-medium" :class="{
+                      'bg-amber-50 text-amber-600': t.status==='Pending',
+                      'bg-emerald-50 text-emerald-600': t.status==='Success',
+                      'bg-indigo-50 text-indigo-600': t.status==='Running' || t.status==='WaitingConfirmation',
+                      'bg-rose-50 text-rose-600': t.status==='Failed'
                     }">{{ t.status }}</span>
                   </td>
                 </tr>

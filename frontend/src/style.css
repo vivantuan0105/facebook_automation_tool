@@ -8,6 +8,15 @@
   }
 }
 
+/* Styling options inside native selects to enforce blue selection where supported */
+select option:checked,
+select option:hover,
+select option:focus {
+  background-color: theme('colors.primary.DEFAULT') !important;
+  background: theme('colors.primary.DEFAULT') !important;
+  color: white !important;
+}
+
 /* Custom Scrollbar for dark theme */
 ::-webkit-scrollbar {
   width: 8px;

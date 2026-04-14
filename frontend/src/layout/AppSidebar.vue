@@ -21,15 +21,7 @@
       </router-link>
     </nav>
     
-    <div class="p-4 border-t border-light-border">
-      <div class="bg-light-bg rounded-lg p-4">
-        <p class="text-xs font-medium text-light-muted uppercase mb-2">Trạng thái hệ thống</p>
-        <div class="flex items-center">
-          <div class="w-2 h-2 rounded-full bg-green-500 mr-2"></div>
-          <span class="text-sm font-medium text-light-text">Bình thường</span>
-        </div>
-      </div>
-    </div>
+
   </aside>
 </template>
 

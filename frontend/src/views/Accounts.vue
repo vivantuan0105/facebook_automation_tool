@@ -2,9 +2,8 @@
   <div class="space-y-6">
     <!-- Header Controls -->
     <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-      <div>
+      <div class="flex items-center">
         <h2 class="text-lg font-bold text-gray-800">Quản lý Tài Khoản (Clone)</h2>
-        <p class="text-sm text-gray-500 mt-1">Danh sách các tài khoản Facebook đang được biên chế để thả Like.</p>
       </div>
       <button 
         @click="showAddModal = true"
@@ -33,37 +32,37 @@
 
       <div v-else class="overflow-x-auto w-full">
         <table class="w-full text-left text-sm whitespace-nowrap">
-          <thead class="bg-gray-50 text-gray-600 font-medium border-b border-gray-200">
+          <thead class="bg-indigo-50/60 text-slate-700 font-semibold border-b-2 border-indigo-100/50">
             <tr>
-              <th class="py-3 px-4 w-12 border-r border-gray-200/60">#</th>
-              <th class="py-3 px-4 border-r border-gray-200/60">Tên gợi nhớ</th>
-              <th class="py-3 px-4 border-r border-gray-200/60">UID (c_user)</th>
-              <th class="py-3 px-4 border-r border-gray-200/60">Ngày thêm</th>
-              <th class="py-3 px-4 border-r border-gray-200/60">Trạng thái</th>
-              <th class="py-3 px-4 text-right">Thao tác</th>
+              <th class="py-2.5 px-4 w-12 border-r border-indigo-100/30 text-center">#</th>
+              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center">Tên gợi nhớ</th>
+              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center">UID (c_user)</th>
+              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center">Ngày thêm</th>
+              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center">Trạng thái</th>
+              <th class="py-2.5 px-4 text-center">Thao tác</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-100">
-            <tr v-for="(acc, index) in accounts" :key="acc.uid" class="hover:bg-gray-50 transition-colors">
-              <td class="py-3 px-4 text-gray-500 border-r border-gray-100">{{ index + 1 }}</td>
-              <td class="py-3 px-4 font-medium text-gray-800 border-r border-gray-100">
+            <tr v-for="(acc, index) in accounts" :key="acc.uid" class="hover:bg-slate-50 transition-colors">
+              <td class="py-2 px-4 text-slate-500 border-r border-slate-100 text-center">{{ index + 1 }}</td>
+              <td class="py-2 px-4 font-medium text-slate-700 border-r border-slate-100 text-center">
                 {{ acc.name || 'Không xác định' }}
               </td>
-              <td class="py-3 px-4 border-r border-gray-100">
-                <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded font-mono text-xs border border-gray-200">
+              <td class="py-2 px-4 border-r border-slate-100 text-center">
+                <span class="text-slate-600 text-sm">
                   {{ acc.uid }}
                 </span>
               </td>
-              <td class="py-3 px-4 text-gray-500 border-r border-gray-100">{{ acc.createdAt }}</td>
-              <td class="py-3 px-4 border-r border-gray-100">
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium"
-                  :class="acc.status === 'Live' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'">
-                  <span class="w-1.5 h-1.5 rounded-full" :class="acc.status === 'Live' ? 'bg-green-500' : 'bg-red-500'"></span>
+              <td class="py-2 px-4 text-slate-500 border-r border-slate-100 text-center">{{ acc.createdAt }}</td>
+              <td class="py-2 px-4 border-r border-slate-100 text-center">
+                <span class="inline-flex items-center justify-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium"
+                  :class="acc.status === 'Live' ? 'bg-emerald-50 text-emerald-600 border border-emerald-200' : 'bg-rose-50 text-rose-600 border border-rose-200'">
+                  <span class="w-1.5 h-1.5 rounded-full" :class="acc.status === 'Live' ? 'bg-emerald-500' : 'bg-rose-500'"></span>
                   {{ acc.status }}
                 </span>
               </td>
-              <td class="py-3 px-4 text-right flex justify-end gap-2">
-                <button @click="deleteAccount(acc.uid)" class="text-red-500 hover:text-red-700 p-1 rounded hover:bg-red-50 transition-colors" title="Xóa tài khoản">
+              <td class="py-2 px-4 flex justify-center gap-2">
+                <button @click="deleteAccount(acc.uid)" class="text-rose-500 hover:text-rose-700 p-1 rounded hover:bg-rose-50 transition-colors" title="Xóa tài khoản">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                   </svg>
@@ -76,7 +75,7 @@
     </div>
 
     <!-- Add Account Modal -->
-    <div v-if="showAddModal" class="fixed inset-0 bg-gray-900/10 backdrop-blur-sm z-50 pointer-events-none">
+    <div v-if="showAddModal" @mousedown.self="showAddModal = false" class="fixed inset-0 bg-slate-800/10 z-[100] pointer-events-auto transition-opacity">
       <div 
         ref="addModalRef"
         class="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden absolute pointer-events-auto shadow-[0_0_20px_rgba(0,0,0,0.15)]"
@@ -110,7 +109,7 @@
           
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Chuỗi Cookie Facebook</label>
-            <textarea v-model="newAccCookie" rows="4" placeholder="c_user=1000...; xs=...;" 
+            <textarea v-model="newAccCookie" rows="12" placeholder="c_user=1000...; xs=...;" 
               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all font-mono text-xs"></textarea>
             <p class="text-xs text-gray-500 mt-1">Hệ thống sẽ tự động bóc tách c_user (UID) làm định danh.</p>
           </div>

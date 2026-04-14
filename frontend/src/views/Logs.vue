@@ -18,32 +18,32 @@
     <div class="bg-light-surface border border-light-border rounded-xl shadow-sm overflow-hidden">
       <div class="overflow-x-auto w-full">
         <table class="w-full text-left text-sm text-light-text whitespace-nowrap">
-        <thead class="text-xs text-light-muted uppercase bg-light-bg border-b border-light-border">
+        <thead class="bg-indigo-50/60 text-slate-700 font-semibold border-b-2 border-indigo-100/50 text-xs uppercase">
           <tr>
-            <th class="px-6 py-4 font-medium w-48 border-r border-light-border/60">Thời gian</th>
-            <th class="px-6 py-4 font-medium w-32 border-r border-light-border/60">Trạng thái</th>
-            <th class="px-6 py-4 font-medium w-32 border-r border-light-border/60">Phân hệ</th>
-            <th class="px-6 py-4 font-medium w-32 border-r border-light-border/60">Hành động</th>
-            <th class="px-6 py-4 font-medium">Chi tiết thực thi</th>
+            <th class="px-6 py-2.5 w-48 border-r border-indigo-100/30 text-center">Thời gian</th>
+            <th class="px-6 py-2.5 w-32 border-r border-indigo-100/30 text-center">Trạng thái</th>
+            <th class="px-6 py-2.5 w-32 border-r border-indigo-100/30 text-center">Phân hệ</th>
+            <th class="px-6 py-2.5 w-32 border-r border-indigo-100/30 text-center">Hành động</th>
+            <th class="px-6 py-2.5 text-center">Chi tiết thực thi</th>
           </tr>
         </thead>
         <tbody>
           <tr v-if="store.logs.length === 0">
             <td colspan="5" class="px-6 py-8 text-center text-light-muted">Chưa có bản ghi nhật ký.</td>
           </tr>
-          <tr v-for="log in store.logs" :key="log.id" class="border-b border-light-border hover:bg-light-bg/50 transition-colors">
-            <td class="px-6 py-4 text-light-muted border-r border-light-border">{{ new Date(log.time).toLocaleString() }}</td>
-            <td class="px-6 py-4 border-r border-light-border">
-              <span class="px-2.5 py-1 rounded-full text-xs font-medium border" :class="{
-                'bg-green-50 text-green-600 border-green-200': log.status === 'Success',
-                'bg-red-50 text-red-600 border-red-200': log.status === 'Error' || log.status === 'Failed',
-                'bg-yellow-50 text-yellow-600 border-yellow-200': log.status === 'Warning',
-                'bg-blue-50 text-blue-600 border-blue-200': log.status === 'Info' || log.status === 'Running'
+          <tr v-for="log in store.logs" :key="log.id" class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+            <td class="px-6 py-2 text-slate-500 border-r border-slate-100 text-center">{{ new Date(log.time).toLocaleString() }}</td>
+            <td class="px-6 py-2 border-r border-slate-100 text-center">
+              <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-medium border" :class="{
+                'bg-emerald-50 text-emerald-600 border-emerald-200': log.status === 'Success',
+                'bg-rose-50 text-rose-600 border-rose-200': log.status === 'Error' || log.status === 'Failed',
+                'bg-amber-50 text-amber-600 border-amber-200': log.status === 'Warning',
+                'bg-indigo-50 text-indigo-600 border-indigo-200': log.status === 'Info' || log.status === 'Running'
               }">{{ log.status }}</span>
             </td>
-            <td class="px-6 py-4 border-r border-light-border">{{ log.module }}</td>
-            <td class="px-6 py-4 text-light-text font-medium border-r border-light-border">{{ log.action }}</td>
-            <td class="px-6 py-4 text-light-muted truncate max-w-sm" :title="log.details">{{ log.details }}</td>
+            <td class="px-6 py-2 border-r border-slate-100 text-slate-600 text-left">{{ log.module }}</td>
+            <td class="px-6 py-2 text-slate-700 font-medium border-r border-slate-100 text-left">{{ log.action }}</td>
+            <td class="px-6 py-2 text-slate-500 truncate max-w-sm text-left" :title="log.details">{{ log.details }}</td>
           </tr>
         </tbody>
       </table>
