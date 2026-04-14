@@ -1,1 +1,0 @@
-function c(n,t,o){return window.go.app.App.AddAccount(n,t,o)}function A(n){return window.go.app.App.DeleteAccount(n)}function p(){return window.go.app.App.GetAllAccounts()}export{c as A,A as D,p as G};

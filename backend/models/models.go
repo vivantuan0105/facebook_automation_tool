@@ -3,9 +3,8 @@ package models
 type FacebookAccount struct {
 	UID       string `json:"uid"`
 	Name             string `json:"name"` // Tên gợi nhớ hoặc tên Facebook
-	Cookie           string `json:"cookie"`
-	GraphqlLikeDocId string `json:"graphqlLikeDocId"`
-	Status           string `json:"status"` // Live, Die, Checkpoint, Unchecked
+	Cookie              string `json:"cookie"`
+	Status              string `json:"status"` // Live, Die, Checkpoint, Unchecked
 	CreatedAt        string `json:"createdAt"`
 }
 
@@ -17,8 +16,10 @@ type ReactionTask struct {
 	TargetMode    string `json:"targetMode"`
 	PostID        string `json:"postId"`
 	PostURL       string `json:"postUrl"`
-	ReactionType       string `json:"reactionType"`
-	FeedbackID         string `json:"feedbackId"`
+	ReactionType  string `json:"reactionType"`
+	Message       string   `json:"message"`
+	PhotoPaths    []string `json:"photoPaths"`
+	FeedbackID    string   `json:"feedbackId"`
 	FeedbackReactionID string `json:"feedbackReactionId"`
 	ActorID            string `json:"actorId"`
 	FeedbackSource     string `json:"feedbackSource"`
@@ -59,6 +60,8 @@ type AppSettings struct {
 	MaskCookieByDefault  bool   `json:"maskCookieByDefault"`
 	PersistToJson        bool   `json:"persistToJson"`
 	GraphqlLikeDocId     string `json:"graphqlLikeDocId"`
+	GraphqlCommentDocId  string `json:"graphqlCommentDocId"`
+	GraphqlPostDocId     string `json:"graphqlPostDocId"`
 }
 
 type DashboardStats struct {

@@ -13,20 +13,20 @@
         <div class="bg-light-surface rounded-xl border border-light-border p-6 shadow-sm">
           <h3 class="text-lg font-medium text-light-text mb-4">Danh sách hàng đợi (Preview)</h3>
           <div v-if="store.tasks.length === 0" class="text-light-muted text-center py-4">Chưa có tác vụ nào trong hàng đợi</div>
-          <div class="overflow-x-auto text-sm" v-else>
-            <table class="w-full text-left">
+          <div class="overflow-x-auto text-sm w-full" v-else>
+            <table class="w-full text-left whitespace-nowrap">
               <thead class="text-xs text-light-muted uppercase border-b border-light-border">
                 <tr>
-                  <th class="py-2">Loại tác vụ</th>
-                  <th>Mục tiêu</th>
-                  <th>Trạng thái</th>
+                  <th class="py-2 px-2 border-r border-light-border/60">Loại tác vụ</th>
+                  <th class="py-2 px-2 border-r border-light-border/60">Mục tiêu</th>
+                  <th class="py-2 px-2">Trạng thái</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="t in store.tasks.slice(0, 5)" :key="t.id" class="border-b border-light-border">
-                  <td class="py-2 text-light-text">{{ t.taskType }}</td>
-                  <td class="text-light-muted truncate max-w-[150px]">{{ t.postUrl || t.postId }}</td>
-                  <td>
+                  <td class="py-2 px-2 text-light-text border-r border-light-border">{{ t.taskType }}</td>
+                  <td class="py-2 px-2 text-light-muted truncate max-w-[150px] border-r border-light-border">{{ t.postUrl || t.postId }}</td>
+                  <td class="py-2 px-2">
                     <span :class="{
                       'text-yellow-500': t.status==='Pending',
                       'text-green-500': t.status==='Success',

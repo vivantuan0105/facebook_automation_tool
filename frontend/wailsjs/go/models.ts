@@ -29,6 +29,8 @@ export namespace models {
 	    maskCookieByDefault: boolean;
 	    persistToJson: boolean;
 	    graphqlLikeDocId: string;
+	    graphqlCommentDocId: string;
+	    graphqlPostDocId: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new AppSettings(source);
@@ -42,6 +44,8 @@ export namespace models {
 	        this.maskCookieByDefault = source["maskCookieByDefault"];
 	        this.persistToJson = source["persistToJson"];
 	        this.graphqlLikeDocId = source["graphqlLikeDocId"];
+	        this.graphqlCommentDocId = source["graphqlCommentDocId"];
+	        this.graphqlPostDocId = source["graphqlPostDocId"];
 	    }
 	}
 	export class DashboardStats {
@@ -68,7 +72,6 @@ export namespace models {
 	    uid: string;
 	    name: string;
 	    cookie: string;
-	    graphqlLikeDocId: string;
 	    status: string;
 	    createdAt: string;
 	
@@ -81,7 +84,6 @@ export namespace models {
 	        this.uid = source["uid"];
 	        this.name = source["name"];
 	        this.cookie = source["cookie"];
-	        this.graphqlLikeDocId = source["graphqlLikeDocId"];
 	        this.status = source["status"];
 	        this.createdAt = source["createdAt"];
 	    }
@@ -95,6 +97,8 @@ export namespace models {
 	    postId: string;
 	    postUrl: string;
 	    reactionType: string;
+	    message: string;
+	    photoPaths: string[];
 	    feedbackId: string;
 	    feedbackReactionId: string;
 	    actorId: string;
@@ -122,6 +126,8 @@ export namespace models {
 	        this.postId = source["postId"];
 	        this.postUrl = source["postUrl"];
 	        this.reactionType = source["reactionType"];
+	        this.message = source["message"];
+	        this.photoPaths = source["photoPaths"];
 	        this.feedbackId = source["feedbackId"];
 	        this.feedbackReactionId = source["feedbackReactionId"];
 	        this.actorId = source["actorId"];

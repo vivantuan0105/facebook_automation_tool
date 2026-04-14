@@ -1,0 +1,1 @@
+function n(o,t){return window.go.app.App.AddAccount(o,t)}function c(o){return window.go.app.App.DeleteAccount(o)}function e(){return window.go.app.App.GetAllAccounts()}function p(){return window.go.app.App.SelectPhotoDialog()}export{n as A,c as D,e as G,p as S};

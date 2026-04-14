@@ -3,6 +3,8 @@
   "name": "clone 1",
   "cookie": "datr=33ahZ__jReTc94rIzAOsibB-;xs=30%3A3udEyjfS-pSL_w%3A2%3A1776045455%3A-1%3A-1;sb=hU3caTcEW8N3vgg3TBuziDVY;fr=1kzz7SE6hXCtmng8Y.AWeLgofRpb9_Iwe5q8ySoug7xTNXwalPpmwxVyX7vQ3u4Xb5pBg.Bob5C3..AAA.0.0.Bp3E2I.AWdJSgsRzpip7wZtGoN_QrEYbxs;c_user=61572157625165;pas=61572157625165%3AkVmSSB6yxH;locale=en_US",
   "graphqlLikeDocId": "34430477113234631",
+  "graphqlCommentDocId": "26702851969352660",
+  "graphqlPostDocId": "26582192198080141",
   "status": "Live",
   "createdAt": "2026-04-14 08:18:30"
 }

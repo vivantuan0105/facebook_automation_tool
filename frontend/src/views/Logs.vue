@@ -16,13 +16,14 @@
     </div>
 
     <div class="bg-light-surface border border-light-border rounded-xl shadow-sm overflow-hidden">
-      <table class="w-full text-left text-sm text-light-text">
+      <div class="overflow-x-auto w-full">
+        <table class="w-full text-left text-sm text-light-text whitespace-nowrap">
         <thead class="text-xs text-light-muted uppercase bg-light-bg border-b border-light-border">
           <tr>
-            <th class="px-6 py-4 font-medium w-48">Thời gian</th>
-            <th class="px-6 py-4 font-medium w-32">Trạng thái</th>
-            <th class="px-6 py-4 font-medium w-32">Phân hệ</th>
-            <th class="px-6 py-4 font-medium w-32">Hành động</th>
+            <th class="px-6 py-4 font-medium w-48 border-r border-light-border/60">Thời gian</th>
+            <th class="px-6 py-4 font-medium w-32 border-r border-light-border/60">Trạng thái</th>
+            <th class="px-6 py-4 font-medium w-32 border-r border-light-border/60">Phân hệ</th>
+            <th class="px-6 py-4 font-medium w-32 border-r border-light-border/60">Hành động</th>
             <th class="px-6 py-4 font-medium">Chi tiết thực thi</th>
           </tr>
         </thead>
@@ -31,8 +32,8 @@
             <td colspan="5" class="px-6 py-8 text-center text-light-muted">Chưa có bản ghi nhật ký.</td>
           </tr>
           <tr v-for="log in store.logs" :key="log.id" class="border-b border-light-border hover:bg-light-bg/50 transition-colors">
-            <td class="px-6 py-4 text-light-muted">{{ new Date(log.time).toLocaleString() }}</td>
-            <td class="px-6 py-4">
+            <td class="px-6 py-4 text-light-muted border-r border-light-border">{{ new Date(log.time).toLocaleString() }}</td>
+            <td class="px-6 py-4 border-r border-light-border">
               <span class="px-2.5 py-1 rounded-full text-xs font-medium border" :class="{
                 'bg-green-50 text-green-600 border-green-200': log.status === 'Success',
                 'bg-red-50 text-red-600 border-red-200': log.status === 'Error' || log.status === 'Failed',
@@ -40,12 +41,13 @@
                 'bg-blue-50 text-blue-600 border-blue-200': log.status === 'Info' || log.status === 'Running'
               }">{{ log.status }}</span>
             </td>
-            <td class="px-6 py-4">{{ log.module }}</td>
-            <td class="px-6 py-4 text-light-text font-medium">{{ log.action }}</td>
+            <td class="px-6 py-4 border-r border-light-border">{{ log.module }}</td>
+            <td class="px-6 py-4 text-light-text font-medium border-r border-light-border">{{ log.action }}</td>
             <td class="px-6 py-4 text-light-muted truncate max-w-sm" :title="log.details">{{ log.details }}</td>
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 </template>

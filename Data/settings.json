@@ -1,0 +1,10 @@
+{
+  "appName": "Social Desktop Manager",
+  "theme": "light",
+  "defaultExecutionMode": "mock",
+  "maskCookieByDefault": true,
+  "persistToJson": true,
+  "graphqlLikeDocId": "26477330531933156",
+  "graphqlCommentDocId": "27321223354145000",
+  "graphqlPostDocId": "26454041007581197"
+}

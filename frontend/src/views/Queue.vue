@@ -11,29 +11,29 @@
       <div v-if="store.tasks.length === 0" class="text-light-muted text-center py-8">
         Chưa có tác vụ nào. Vui lòng chuyển sang Trung tâm tác vụ để tạo mới.
       </div>
-      <div class="overflow-x-auto" v-else>
-        <table class="w-full text-left text-sm text-light-text">
+      <div class="overflow-x-auto w-full" v-else>
+        <table class="w-full text-left text-sm text-light-text whitespace-nowrap">
           <thead class="text-xs text-light-muted uppercase bg-light-bg border-b border-light-border">
             <tr>
-              <th class="px-4 py-3 font-medium">ID</th>
-              <th class="px-4 py-3 font-medium">Loại</th>
-              <th class="px-4 py-3 font-medium">Hành động</th>
-              <th class="px-4 py-3 font-medium">Mục tiêu</th>
-              <th class="px-4 py-3 font-medium">Khởi tạo lúc</th>
-              <th class="px-4 py-3 font-medium">Trạng thái</th>
+              <th class="px-4 py-3 font-medium border-r border-light-border/60">ID</th>
+              <th class="px-4 py-3 font-medium border-r border-light-border/60">Loại</th>
+              <th class="px-4 py-3 font-medium border-r border-light-border/60">Hành động</th>
+              <th class="px-4 py-3 font-medium border-r border-light-border/60">Mục tiêu</th>
+              <th class="px-4 py-3 font-medium border-r border-light-border/60">Khởi tạo lúc</th>
+              <th class="px-4 py-3 font-medium border-r border-light-border/60">Trạng thái</th>
               <th class="px-4 py-3 font-medium text-right">Tuỳ chọn</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="task in store.tasks" :key="task.id" class="border-b border-light-border hover:bg-light-bg/50 transition-colors">
-              <td class="px-4 py-3">{{ task.id }}</td>
-              <td class="px-4 py-3 font-medium">{{ task.taskType }}</td>
-              <td class="px-4 py-3">{{ task.reactionType }}</td>
-              <td class="px-4 py-3 truncate max-w-xs text-primary hover:underline cursor-pointer" :title="task.postUrl || task.postId">
+              <td class="px-4 py-3 border-r border-light-border">{{ task.id }}</td>
+              <td class="px-4 py-3 font-medium border-r border-light-border">{{ task.taskType }}</td>
+              <td class="px-4 py-3 border-r border-light-border">{{ task.reactionType }}</td>
+              <td class="px-4 py-3 truncate max-w-xs text-primary hover:underline cursor-pointer border-r border-light-border" :title="task.postUrl || task.postId">
                 {{ task.postUrl ? 'URL' : 'ID: ' + task.postId }}
               </td>
-              <td class="px-4 py-3 text-light-muted">{{ new Date(task.createdAt).toLocaleString() }}</td>
-              <td class="px-4 py-3">
+              <td class="px-4 py-3 text-light-muted border-r border-light-border">{{ new Date(task.createdAt).toLocaleString() }}</td>
+              <td class="px-4 py-3 border-r border-light-border">
                 <span class="px-2 py-1 rounded text-xs font-medium border" :class="{
                   'bg-yellow-50 text-yellow-600 border-yellow-200': task.status === 'Pending',
                   'bg-purple-50 text-purple-600 border-purple-200': task.status === 'Running',

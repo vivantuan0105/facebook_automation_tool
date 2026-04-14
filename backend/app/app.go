@@ -11,6 +11,8 @@ import (
 	"socialmanager/backend/models"
 	"socialmanager/backend/providers"
 	"socialmanager/backend/store"
+
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 type App struct {
@@ -23,6 +25,16 @@ func NewApp() *App {
 
 func (a *App) Startup(ctx context.Context) {
 	a.ctx = ctx
+}
+
+func (a *App) SelectPhotoDialog() (string, error) {
+	options := runtime.OpenDialogOptions{
+		Title: "Chọn file ảnh",
+		Filters: []runtime.FileFilter{
+			{DisplayName: "Image Files (*.jpg, *.jpeg, *.png)", Pattern: "*.jpg;*.jpeg;*.png"},
+		},
+	}
+	return runtime.OpenFileDialog(a.ctx, options)
 }
 
 func (a *App) GetOverview() models.DashboardStats {
@@ -80,14 +92,22 @@ func (a *App) ValidateReactionTask(input models.ReactionTask) string {
 	if strings.TrimSpace(input.Cookie) == "" {
 		return "Vui lòng nhập Cookie"
 	}
-	if input.TargetMode == "post_url" && strings.TrimSpace(input.PostURL) == "" {
-		return "Vui lòng nhập URL của post"
+	if input.TaskType != "Đăng bài viết" {
+		if input.TargetMode == "post_url" && strings.TrimSpace(input.PostURL) == "" {
+			return "Vui lòng nhập URL của post"
+		}
+		if input.TargetMode == "post_id" && strings.TrimSpace(input.PostID) == "" {
+			return "Vui lòng nhập ID của post"
+		}
 	}
-	if input.TargetMode == "post_id" && strings.TrimSpace(input.PostID) == "" {
-		return "Vui lòng nhập ID của post"
-	}
-	if input.ReactionType == "" {
+	if input.TaskType == "Like bài viết" && input.ReactionType == "" {
 		return "Vui lòng chọn loại reaction"
+	}
+	if input.TaskType == "Comment bài viết" && strings.TrimSpace(input.Message) == "" {
+		return "Vui lòng nhập nội dung bình luận"
+	}
+	if input.TaskType == "Đăng bài viết" && strings.TrimSpace(input.Message) == "" && len(input.PhotoPaths) == 0 {
+		return "Vui lòng nhập nội dung bài viết hoặc đính kèm ít nhất 1 ảnh"
 	}
 	return ""
 }
@@ -174,21 +194,46 @@ func (a *App) RunReactionTaskNow(taskID uint, mode string) error {
 			return
 		}
 
-			// Lấy docId từ Account
-			accounts, _ := store.GetAllAccounts()
-			docId := store.DB.Settings.GraphqlLikeDocId
-			for _, acc := range accounts {
-				if acc.Cookie == t.Cookie && acc.GraphqlLikeDocId != "" {
-					docId = acc.GraphqlLikeDocId
-					break
-				}
+			// Lấy docId từ Cài Đặt (Hệ thống) thay vì từ Account
+			var docId string
+
+			if t.TaskType == "Comment bài viết" {
+				docId = store.DB.Settings.GraphqlCommentDocId
+			} else if t.TaskType == "Đăng bài viết" {
+				docId = store.DB.Settings.GraphqlPostDocId
+			} else {
+				docId = store.DB.Settings.GraphqlLikeDocId
 			}
 
 			// Gọi FacebookProvider thật
 			fbProvider := providers.NewFacebookProvider()
-			store.DB.AddLog("Queue", "Execution", "Info", "Đang trích xuất fb_dtsg và mã hóa Base64...")
+			store.DB.AddLog("Queue", "Execution", "Info", "Đang phân tích trang và chuẩn bị payload...")
 			
-			resultLog, err := fbProvider.ReactToPost(t.Cookie, targetURL, t.ReactionType, docId)
+			var resultLog string
+			var err error
+
+			if t.TaskType == "Comment bài viết" {
+				resultLog, err = fbProvider.CommentToPost(t.Cookie, targetURL, t.Message, docId)
+			} else if t.TaskType == "Đăng bài viết" {
+				photoIDs := []string{}
+				for _, path := range t.PhotoPaths {
+					if path != "" {
+						store.DB.AddLog("FacebookProvider", "UploadPhoto", "Info", fmt.Sprintf("Đang tải ảnh từ %s lên Facebook...", path))
+						photoID, upErr := fbProvider.UploadPhoto(t.Cookie, path)
+						if upErr != nil {
+							err = fmt.Errorf("Lỗi tải ảnh %s: %v", path, upErr)
+							break
+						}
+						photoIDs = append(photoIDs, photoID)
+					}
+				}
+				
+				if err == nil {
+					resultLog, err = fbProvider.PostToFacebook(t.Cookie, t.Message, photoIDs, docId)
+				}
+			} else {
+				resultLog, err = fbProvider.ReactToPost(t.Cookie, targetURL, t.ReactionType, docId)
+			}
 			
 			if err != nil {
 				t.Status = "Failed"
@@ -197,7 +242,7 @@ func (a *App) RunReactionTaskNow(taskID uint, mode string) error {
 				e.FinishedAt = time.Now().Format(time.RFC3339)
 				e.ErrorMessage = err.Error()
 
-				store.DB.AddLog("FacebookProvider", "ReactToPost", "Error", fmt.Sprintf("Task %d thất bại: %v", id, err.Error()))
+				store.DB.AddLog("FacebookProvider", "Execute", "Error", fmt.Sprintf("Task %d thất bại: %v", id, err.Error()))
 			} else {
 				t.Status = "Success"
 				t.UpdatedAt = time.Now().Format(time.RFC3339)
@@ -205,7 +250,7 @@ func (a *App) RunReactionTaskNow(taskID uint, mode string) error {
 				e.FinishedAt = time.Now().Format(time.RFC3339)
 				e.ResultSummary = resultLog
 
-				store.DB.AddLog("FacebookProvider", "ReactToPost", "Success", fmt.Sprintf("Task %d chạy thật thành công", id))
+				store.DB.AddLog("FacebookProvider", "Execute", "Success", fmt.Sprintf("Task %d chạy thật thành công", id))
 			}
 
 	}(taskID, exec.ID, mode, task.PostURL, task.PostID)
@@ -289,7 +334,14 @@ func (a *App) UpdateSettings(s models.AppSettings) error {
 	store.DB.Mu.Lock()
 	defer store.DB.Mu.Unlock()
 	store.DB.Settings = s
-	store.DB.AddLog("Settings", "Update", "Success", "Cấu hình được lưu thành công.")
+	
+	err := store.DB.SaveSettings()
+	if err != nil {
+		store.DB.AddLog("Settings", "Update", "Error", fmt.Sprintf("Lỗi khi lưu cấu hình: %v", err))
+		return err
+	}
+	
+	store.DB.AddLog("Settings", "Update", "Success", "Cấu hình được lưu thành công vào file settings.json.")
 	return nil
 }
 
@@ -307,7 +359,7 @@ func (a *App) DeleteAccount(uid string) error {
 	return err
 }
 
-func (a *App) AddAccount(name string, cookie string, docId string) (models.FacebookAccount, error) {
+func (a *App) AddAccount(name string, cookie string) (models.FacebookAccount, error) {
 	// Lấy UID từ Cookie (c_user=...)
 	re := regexp.MustCompile(`c_user=(\d+)`)
 	matches := re.FindStringSubmatch(cookie)
@@ -321,11 +373,10 @@ func (a *App) AddAccount(name string, cookie string, docId string) (models.Faceb
 	}
 
 	acc := models.FacebookAccount{
-		UID:              uid,
-		Name:             name,
-		Cookie:           cookie,
-		GraphqlLikeDocId: docId,
-		Status:           "Live", // Mặc định khi vừa thêm
+		UID:                 uid,
+		Name:                name,
+		Cookie:              cookie,
+		Status:              "Live", // Mặc định khi vừa thêm
 	}
 
 	err := store.SaveAccount(acc)
@@ -334,3 +385,4 @@ func (a *App) AddAccount(name string, cookie string, docId string) (models.Faceb
 	}
 	return acc, err
 }
+

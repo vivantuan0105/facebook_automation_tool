@@ -39,6 +39,24 @@
               </label>
             </div>
           </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+            <label class="text-sm font-medium text-light-text">Global API Config</label>
+            <div class="md:col-span-2 space-y-3">
+              <div>
+                <label class="block text-xs text-light-muted mb-1">doc_id cho chức năng LIKE bài viết</label>
+                <input type="text" v-model="localSettings.graphqlLikeDocId" class="w-full bg-light-bg border border-light-border text-light-text text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5 transition-colors" placeholder="Ví dụ: 7750...4232">
+              </div>
+              <div>
+                <label class="block text-xs text-light-muted mb-1">doc_id cho chức năng COMMENT bài viết</label>
+                <input type="text" v-model="localSettings.graphqlCommentDocId" class="w-full bg-light-bg border border-light-border text-light-text text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5 transition-colors" placeholder="Ví dụ: 2670...2660">
+              </div>
+              <div>
+                <label class="block text-xs text-light-muted mb-1">doc_id cho chức năng ĐĂNG BÀI VIẾT (Post)</label>
+                <input type="text" v-model="localSettings.graphqlPostDocId" class="w-full bg-light-bg border border-light-border text-light-text text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5 transition-colors" placeholder="Ví dụ: 9972...9780">
+              </div>
+            </div>
+          </div>
         </div>
         <div v-else class="text-light-muted py-4">Đang tải cài đặt...</div>
       </div>
