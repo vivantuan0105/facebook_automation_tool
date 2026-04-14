@@ -338,7 +338,15 @@ const targetModeOptions = computed(() => {
   if (form.taskType === 'Đăng bài viết') return [{ value: 'timeline', label: 'Đăng lên trang cá nhân (Timeline)' }]
   return [{ value: 'post_url', label: 'Dùng URL Bài viết (Khuyên dùng)' }]
 })
-const reactionTypeOptions = ['Like', 'Love', 'Care', 'Haha', 'Wow', 'Sad', 'Angry'].map(r => ({ value: r, label: r }))
+const reactionTypeOptions = [
+  { value: 'Like', label: 'Like 👍' },
+  { value: 'Love', label: 'Love ❤️' },
+  { value: 'Care', label: 'Care 🥰' },
+  { value: 'Haha', label: 'Haha 😂' },
+  { value: 'Wow', label: 'Wow 😮' },
+  { value: 'Sad', label: 'Sad 😢' },
+  { value: 'Angry', label: 'Angry 😡' },
+]
 
 const onTaskTypeChange = () => {
   if (form.taskType === 'Đăng bài viết') {

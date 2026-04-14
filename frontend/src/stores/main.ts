@@ -48,9 +48,10 @@ export const useMainStore = defineStore('main', {
       return await apiCall('ValidateReactionTask', input)
     },
     async createTask(input: any) {
-      await apiCall('CreateReactionTask', input)
+      const res = await apiCall('CreateReactionTask', input)
       await this.fetchTasks()
       await this.fetchOverview()
+      return res
     },
     async runTaskNow(id: number, mode: string) {
       await apiCall('RunReactionTaskNow', id, mode)

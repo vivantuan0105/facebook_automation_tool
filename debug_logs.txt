@@ -210,3 +210,133 @@
 [2026-04-14T15:12:32+07:00] Queue | RunTask | Running | Bắt đầu chạy task 3 ở mode live
 [2026-04-14T15:12:33+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
 [2026-04-14T15:12:49+07:00] FacebookProvider | Execute | Success | Task 3 chạy thật thành công
+[2026-04-14T15:28:10+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T15:28:12+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-14T15:28:13+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T15:28:18+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-14T15:28:47+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T15:28:49+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-14T15:28:50+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T15:28:54+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-14T15:32:01+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T15:32:02+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-14T15:32:03+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T15:32:07+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-14T15:37:50+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T15:37:50+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T15:37:53+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-14T15:37:53+07:00] Queue | RunTask | Running | Bắt đầu chạy task 3 ở mode live
+[2026-04-14T15:37:54+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T15:37:58+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-14T15:37:58+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T15:37:59+07:00] FacebookProvider | Execute | Error | Task 3 thất bại: GraphQL thực thi lỗi nghiêm trọng: {"data":{"feedback_react":null},"errors":[{"message":"A server error missing_required_variable_value occured. Check server logs for details.","severity":"WARNING"},{"message":"A server error field_exception occured. Check server logs for details.","severity":"CRITICAL","mids":["ffb52d766b21b54667689a15793c1c0e"],"debug_link":"https://www.meta.com/debug/?mid=ffb52d766b21b54667689a15793c1c0e","code":1446034,"api_error_code":null,"summary":"Content Not Available Anymore","description":"The content you are trying to react to is not available anymore.","description_html":null,"description_raw":"The content you are trying to react to is not available anymore.","is_silent":false,"is_transient":false,"is_not_critical":true,"requires_reauth":false,"allow_user_retry":false,"debug_info":null,"query_path":null,"fbtrace_id":"BeYWVyvnQaw","www_request_id":"AqBh1zoLYWR-lo7ja8IIoOp","path":["feedback_react"]}],"extensions":{"is_final":true}}
+[2026-04-14T15:39:04+07:00] Queue | RunTask | Running | Bắt đầu chạy task 3 ở mode live
+[2026-04-14T15:39:06+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T15:39:08+07:00] FacebookProvider | Execute | Error | Task 3 thất bại: GraphQL thực thi lỗi nghiêm trọng: {"data":{"feedback_react":null},"errors":[{"message":"A server error missing_required_variable_value occured. Check server logs for details.","severity":"WARNING"},{"message":"A server error field_exception occured. Check server logs for details.","severity":"CRITICAL","mids":["ffb52d766b21b54667689a15793c1c0e"],"debug_link":"https://www.meta.com/debug/?mid=ffb52d766b21b54667689a15793c1c0e","code":1446034,"api_error_code":null,"summary":"Content Not Available Anymore","description":"The content you are trying to react to is not available anymore.","description_html":null,"description_raw":"The content you are trying to react to is not available anymore.","is_silent":false,"is_transient":false,"is_not_critical":true,"requires_reauth":false,"allow_user_retry":false,"debug_info":null,"query_path":null,"fbtrace_id":"Hzkrs3W+5YN","www_request_id":"AA_V4xRotjz_KN6EaM8RWD7","path":["feedback_react"]}],"extensions":{"is_final":true}}
+[2026-04-14T15:45:20+07:00] Accounts | Add | Success | Đã thêm tài khoản nic1 (UID: 61572157625165)
+[2026-04-14T15:46:00+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T15:46:00+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T15:46:02+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-14T15:46:02+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-14T15:46:04+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T15:46:05+07:00] FacebookProvider | Execute | Error | Task 1 thất bại: Bị chặn/Từ chối: Content Not Available Anymore (Chi tiết: The content you are trying to react to is not available anymore.)
+[2026-04-14T15:46:05+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T15:46:09+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-14T15:50:49+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61572157625165
+[2026-04-14T15:50:56+07:00] Accounts | Add | Success | Đã thêm tài khoản nic1 (UID: 61572157625165)
+[2026-04-14T15:52:51+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T15:52:51+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T15:52:52+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-14T15:52:52+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-14T15:52:54+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T15:52:58+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-14T15:52:58+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T15:53:00+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-14T15:53:33+07:00] Task Center | CreateTask | Success | Đã thêm task 'Comment bài viết' vào queue.
+[2026-04-14T15:53:33+07:00] Task Center | CreateTask | Success | Đã thêm task 'Comment bài viết' vào queue.
+[2026-04-14T15:53:35+07:00] Queue | RunTask | Running | Bắt đầu chạy task 3 ở mode live
+[2026-04-14T15:53:35+07:00] Queue | RunTask | Running | Bắt đầu chạy task 4 ở mode live
+[2026-04-14T15:53:37+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T15:53:40+07:00] FacebookProvider | Execute | Success | Task 3 chạy thật thành công
+[2026-04-14T15:53:40+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T15:53:44+07:00] FacebookProvider | Execute | Success | Task 4 chạy thật thành công
+[2026-04-14T15:55:01+07:00] Task Center | CreateTask | Success | Đã thêm task 'Comment bài viết' vào queue.
+[2026-04-14T15:55:01+07:00] Task Center | CreateTask | Success | Đã thêm task 'Comment bài viết' vào queue.
+[2026-04-14T15:55:03+07:00] Queue | RunTask | Running | Bắt đầu chạy task 5 ở mode live
+[2026-04-14T15:55:03+07:00] Queue | RunTask | Running | Bắt đầu chạy task 6 ở mode live
+[2026-04-14T15:55:04+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T15:55:08+07:00] FacebookProvider | Execute | Success | Task 5 chạy thật thành công
+[2026-04-14T15:55:08+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T15:55:12+07:00] FacebookProvider | Execute | Success | Task 6 chạy thật thành công
+[2026-04-14T16:13:29+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T16:13:29+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T16:13:31+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-14T16:13:31+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-14T16:13:32+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T16:13:36+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-14T16:13:36+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T16:13:37+07:00] FacebookProvider | Execute | Error | Task 2 thất bại: Bị chặn/Từ chối: Content Not Available Anymore (Chi tiết: The content you are trying to react to is not available anymore.)
+[2026-04-14T16:17:23+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61572157625165
+[2026-04-14T16:17:41+07:00] Accounts | Add | Success | Đã thêm tài khoản nic3 (UID: 61574299097448)
+[2026-04-14T16:17:57+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T16:17:57+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T16:18:21+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-14T16:18:21+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-14T16:18:24+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T16:18:33+07:00] FacebookProvider | Execute | Error | Task 1 thất bại: Bị chặn/Từ chối: Ch\u01b0a x\u1eed l\u00fd \u0111\u01b0\u1ee3c y\u00eau c\u1ea7u c\u1ee7a b\u1ea1n (Chi tiết: \u0110\u00e3 x\u1ea3y ra l\u1ed7i v\u1edbi y\u00eau c\u1ea7u n\u00e0y. H\u00e3y th\u1eed l\u1ea1i sau.)
+[2026-04-14T16:18:33+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T16:18:34+07:00] FacebookProvider | Execute | Error | Task 2 thất bại: Bị chặn/Từ chối: Content Not Available Anymore (Chi tiết: The content you are trying to react to is not available anymore.)
+[2026-04-14T16:19:45+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T16:19:47+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-14T16:19:48+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T16:19:50+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-14T16:20:03+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T16:20:04+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-14T16:20:06+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T16:20:07+07:00] FacebookProvider | Execute | Error | Task 2 thất bại: Bị chặn/Từ chối: Content Not Available Anymore (Chi tiết: The content you are trying to react to is not available anymore.)
+[2026-04-14T16:21:07+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61574299097448
+[2026-04-14T16:21:15+07:00] Accounts | Add | Success | Đã thêm tài khoản nic4 (UID: 61574299097448)
+[2026-04-14T16:21:23+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T16:21:25+07:00] Queue | RunTask | Running | Bắt đầu chạy task 3 ở mode live
+[2026-04-14T16:21:27+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T16:21:28+07:00] FacebookProvider | Execute | Error | Task 3 thất bại: Bị chặn/Từ chối: Content Not Available Anymore (Chi tiết: The content you are trying to react to is not available anymore.)
+[2026-04-14T16:22:12+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T16:22:12+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T16:22:14+07:00] Queue | RunTask | Running | Bắt đầu chạy task 4 ở mode live
+[2026-04-14T16:22:14+07:00] Queue | RunTask | Running | Bắt đầu chạy task 5 ở mode live
+[2026-04-14T16:22:16+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T16:22:20+07:00] FacebookProvider | Execute | Success | Task 4 chạy thật thành công
+[2026-04-14T16:22:20+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T16:22:31+07:00] FacebookProvider | Execute | Success | Task 5 chạy thật thành công
+[2026-04-14T16:23:55+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T16:23:55+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T16:24:34+07:00] Queue | RunTask | Running | Bắt đầu chạy task 6 ở mode live
+[2026-04-14T16:24:34+07:00] Queue | RunTask | Running | Bắt đầu chạy task 7 ở mode live
+[2026-04-14T16:24:36+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T16:24:40+07:00] FacebookProvider | Execute | Success | Task 6 chạy thật thành công
+[2026-04-14T16:24:40+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T16:24:43+07:00] FacebookProvider | Execute | Success | Task 7 chạy thật thành công
+[2026-04-14T16:24:57+07:00] Task Center | CreateTask | Success | Đã thêm task 'Comment bài viết' vào queue.
+[2026-04-14T16:24:57+07:00] Task Center | CreateTask | Success | Đã thêm task 'Comment bài viết' vào queue.
+[2026-04-14T16:24:59+07:00] Queue | RunTask | Running | Bắt đầu chạy task 8 ở mode live
+[2026-04-14T16:24:59+07:00] Queue | RunTask | Running | Bắt đầu chạy task 9 ở mode live
+[2026-04-14T16:25:00+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T16:25:04+07:00] FacebookProvider | Execute | Success | Task 8 chạy thật thành công
+[2026-04-14T16:25:04+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T16:25:10+07:00] FacebookProvider | Execute | Success | Task 9 chạy thật thành công
+[2026-04-14T16:25:44+07:00] Task Center | CreateTask | Success | Đã thêm task 'Đăng bài viết' vào queue.
+[2026-04-14T16:25:44+07:00] Task Center | CreateTask | Success | Đã thêm task 'Đăng bài viết' vào queue.
+[2026-04-14T16:25:45+07:00] Queue | RunTask | Running | Bắt đầu chạy task 10 ở mode live
+[2026-04-14T16:25:45+07:00] Queue | RunTask | Running | Bắt đầu chạy task 11 ở mode live
+[2026-04-14T16:25:47+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T16:25:52+07:00] FacebookProvider | Execute | Success | Task 10 chạy thật thành công
+[2026-04-14T16:25:52+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T16:25:59+07:00] FacebookProvider | Execute | Success | Task 11 chạy thật thành công
+[2026-04-14T16:27:35+07:00] Task Center | CreateTask | Success | Đã thêm task 'Comment bài viết' vào queue.
+[2026-04-14T16:27:35+07:00] Task Center | CreateTask | Success | Đã thêm task 'Comment bài viết' vào queue.
+[2026-04-14T16:27:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 12 ở mode live
+[2026-04-14T16:27:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 13 ở mode live
+[2026-04-14T16:27:38+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T16:27:42+07:00] FacebookProvider | Execute | Success | Task 12 chạy thật thành công
+[2026-04-14T16:27:42+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T16:27:46+07:00] FacebookProvider | Execute | Success | Task 13 chạy thật thành công

@@ -11,10 +11,10 @@
             <div class="flex justify-between items-center mb-1">
               <label class="text-sm font-medium text-light-text">Chọn Tài khoản (Clone)</label>
             </div>
-            <CustomSelect 
-              v-model="form.cookie" 
+            <MultiSelect 
+              v-model="form.cookies" 
               :options="accountOptions"
-              placeholder="--- Chọn tài khoản để chạy ---"
+              placeholder="--- Bấm để chọn một hoặc nhiều tài khoản ---"
             />
           </div>
 
@@ -114,7 +114,7 @@
           </div>
           <div class="flex justify-between">
             <dt class="text-light-muted">Tài khoản</dt>
-            <dd class="font-medium text-light-text truncate w-32 text-right">{{ form.cookie ? selectedAccountName : 'Chưa chọn' }}</dd>
+            <dd class="font-medium text-light-text text-right">{{ form.cookies.length > 0 ? form.cookies.length + ' tài khoản' : 'Chưa chọn' }}</dd>
           </div>
         </dl>
       </div>
@@ -128,6 +128,7 @@ import { useRouter } from 'vue-router'
 import { useMainStore } from '../stores/main'
 import { GetAllAccounts, SelectPhotoDialog } from '../../wailsjs/go/app/App'
 import CustomSelect from '../components/CustomSelect.vue'
+import MultiSelect from '../components/MultiSelect.vue'
 
 const store = useMainStore()
 const router = useRouter()
@@ -148,7 +149,15 @@ const targetModeOptions = computed(() => {
   return [{ value: 'post_url', label: 'Dùng URL Bài viết (Khuyên dùng)' }]
 })
 
-const reactionTypeOptions = ['Like', 'Love', 'Care', 'Haha', 'Wow', 'Sad', 'Angry'].map(r => ({ value: r, label: r }))
+const reactionTypeOptions = [
+  { value: 'Like', label: 'Like 👍' },
+  { value: 'Love', label: 'Love ❤️' },
+  { value: 'Care', label: 'Care 🥰' },
+  { value: 'Haha', label: 'Haha 😂' },
+  { value: 'Wow', label: 'Wow 😮' },
+  { value: 'Sad', label: 'Sad 😢' },
+  { value: 'Angry', label: 'Angry 😡' },
+]
 
 const accountOptions = computed(() => {
   return accounts.value.map(acc => ({
@@ -157,10 +166,7 @@ const accountOptions = computed(() => {
   }))
 })
 
-const selectedAccountName = computed(() => {
-  const acc = accounts.value.find(a => a.cookie === form.cookie)
-  return acc ? (acc.name || acc.uid) : '...'
-})
+
 
 onMounted(async () => {
   try {
@@ -172,7 +178,7 @@ onMounted(async () => {
 })
 
 const form = reactive({
-  cookie: '',
+  cookies: [] as string[],
   taskType: 'Like bài viết',
   execMode: 'live',
   targetMode: 'post_url',
@@ -222,7 +228,13 @@ const isSubmitting = ref(false)
 
 const validateForm = async () => {
   validationError.value = ''
-  const err = await store.validateTask(form)
+  if (form.cookies.length === 0) {
+    validationError.value = 'Vui lòng chọn ít nhất 1 tài khoản.'
+    return
+  }
+  // Validate with first selected cookie for general structure
+  const tempForm = { ...form, cookie: form.cookies[0] }
+  const err = await store.validateTask(tempForm)
   if (err) {
     validationError.value = err
   }
@@ -233,7 +245,9 @@ const addToQueue = async () => {
   isSubmitting.value = true
   await validateForm()
   if (!validationError.value) {
-    await store.createTask(form)
+    for (const cookie of form.cookies) {
+      await store.createTask({ ...form, cookie })
+    }
     router.push('/queue')
   }
   isSubmitting.value = false
@@ -244,16 +258,19 @@ const runNow = async () => {
   isSubmitting.value = true
   await validateForm()
   if (!validationError.value) {
-    await store.createTask(form)
-    const newestTask = store.tasks[0]
-    await store.runTaskNow(newestTask.id, form.execMode)
+    for (const cookie of form.cookies) {
+      const task = await store.createTask({ ...form, cookie })
+      if (task && (task.id || task.ID)) {
+        await store.runTaskNow(task.id || task.ID, form.execMode)
+      }
+    }
     router.push('/queue')
   }
   isSubmitting.value = false
 }
 
 const resetForm = () => {
-  form.cookie = ''
+  form.cookies = []
   form.postUrl = ''
   form.postId = ''
   form.reactionType = 'Like'

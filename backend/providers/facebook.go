@@ -101,48 +101,78 @@ func (f *FacebookProvider) ReactToPost(cookie string, postURL string, reactionTy
 	if m := actorRegex.FindStringSubmatch(htmlText); len(m) > 1 {
 		actorId = m[1]
 	}
-
-	// Cố gắng tìm trực tiếp chuỗi Base64 (Thường bắt đầu bằng ZmVl)
-	feedbackIDBase64 := ""
-	encodedRegex1 := regexp.MustCompile(`"feedback":{"id":"(ZmV[^"]+)"}`)
-	if m := encodedRegex1.FindStringSubmatch(htmlText); len(m) > 1 {
-		feedbackIDBase64 = m[1]
-	} else {
-		encodedRegex2 := regexp.MustCompile(`"feedback_id":"(ZmV[^"]+)"`)
-		if m := encodedRegex2.FindStringSubmatch(htmlText); len(m) > 1 {
-			feedbackIDBase64 = m[1]
-		}
+	if actorId == "0" || actorId == "" {
+		fmt.Println("[DEBUG-ERROR] Không trích xuất được USER_ID, có thể Cookie đã chết, bị Checkpoint, hoặc định dạng trống/sai.")
+		return "", errors.New("Cookie đã chết (Trang trả về dưới quyền Khách/USER_ID=0) hoặc bị checkpoint!")
 	}
 
-	// Lấy Numeric ID của bài viết nếuchưa có chuỗi mã hóa
-	if feedbackIDBase64 == "" {
-		numericID := ""
-		idRegex := regexp.MustCompile(`"top_level_post_id":"(\d+)"`)
+	// 1. Lấy Numeric ID của bài viết
+	numericID := ""
+	idRegex := regexp.MustCompile(`"top_level_post_id":"(\d+)"`)
+	if m := idRegex.FindStringSubmatch(htmlText); len(m) > 1 {
+		numericID = m[1]
+	} else {
+		idRegex = regexp.MustCompile(`"ent_id":"(\d+)"`)
 		if m := idRegex.FindStringSubmatch(htmlText); len(m) > 1 {
 			numericID = m[1]
 		} else {
-			idRegex = regexp.MustCompile(`"ent_id":"(\d+)"`)
-			if m := idRegex.FindStringSubmatch(htmlText); len(m) > 1 {
-				numericID = m[1]
-			} else {
-				// Cào tham số từ URL nhưng cẩn thận với pfbid
-				parsedUrl, err := url.Parse(postURL)
+			// Cào tham số từ URL
+			parsedUrl, err := url.Parse(postURL)
+			if err == nil {
+				fallbackId := parsedUrl.Query().Get("story_fbid")
+				if fallbackId != "" && !strings.HasPrefix(fallbackId, "pfbid") {
+					numericID = fallbackId
+				}
+			}
+		}
+	}
+
+	feedbackIDBase64 := ""
+
+	// 2. THUẬT TOÁN TÌM KIẾM THÔNG MINH (Smart Match)
+	// Tránh dùng Regex tĩnh ngay từ đầu vì thường bắt nhầm ID của Composer.
+	if numericID != "" {
+		allFeedbacks := regexp.MustCompile(`(ZmVlZGJhY2s6[a-zA-Z0-9+_/=]+)`).FindAllStringSubmatch(htmlText, -1)
+		for _, match := range allFeedbacks {
+			if len(match) > 1 {
+				decodedBytes, err := base64.StdEncoding.DecodeString(match[1])
 				if err == nil {
-					fallbackId := parsedUrl.Query().Get("story_fbid")
-					if fallbackId != "" && !strings.HasPrefix(fallbackId, "pfbid") {
-						numericID = fallbackId
+					decodedStr := string(decodedBytes)
+					if strings.HasPrefix(decodedStr, "feedback:") && strings.Contains(decodedStr, numericID) {
+						feedbackIDBase64 = match[1]
+						fmt.Printf("[DEBUG] Smart Match Found: %s -> %s\n", match[1], decodedStr)
+						break
 					}
 				}
 			}
 		}
+	}
 
-		if numericID == "" {
-			return "", errors.New("Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html. Có thể Cookie đã hết hạn hoặc định dạng page bị đổi.")
+	// 3. Nếu chưa tìm thấy, dùng Regex bóc tách tĩnh
+	if feedbackIDBase64 == "" {
+		patterns := []string{
+			`"feedback"\s*:\s*\{\s*"id"\s*:\s*"(ZmVlZGJhY2s6[^"]+)"`,
+			`"feedback_id"\s*:\s*"(ZmVlZGJhY2s6[^"]+)"`,
+			`"target_feedback"\s*:\s*\{\s*"id"\s*:\s*"(ZmVlZGJhY2s6[^"]+)"`,
+			`"node"\s*:\s*\{\s*"id"\s*:\s*"(ZmVlZGJhY2s6[^"]+)"\s*,\s*"__isFeedback"`,
 		}
+		for _, p := range patterns {
+			rx := regexp.MustCompile(p)
+			if m := rx.FindStringSubmatch(htmlText); len(m) > 1 {
+				feedbackIDBase64 = m[1]
+				break
+			}
+		}
+	}
 
-		// 2. Chuyển đổi ID sang định dạng Base64
+	// 4. Nếu vẫn trống và có Numeric ID, ghép cơ bản
+	if feedbackIDBase64 == "" && numericID != "" {
 		feedbackRaw := "feedback:" + numericID
 		feedbackIDBase64 = base64.StdEncoding.EncodeToString([]byte(feedbackRaw))
+	}
+
+	if feedbackIDBase64 == "" {
+		return "", errors.New("Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.")
 	}
 
 	// 3. Mapping Reaction ID
@@ -217,6 +247,18 @@ func (f *FacebookProvider) ReactToPost(cookie string, postURL string, reactionTy
 	}
 	
 	if strings.Contains(fbBody, `"severity":"CRITICAL"`) {
+		summary := ""
+		if m := regexp.MustCompile(`"summary":"([^"]+)"`).FindStringSubmatch(fbBody); len(m) > 1 {
+			summary = m[1]
+		}
+		description := ""
+		if m := regexp.MustCompile(`"description":"([^"]+)"`).FindStringSubmatch(fbBody); len(m) > 1 {
+			description = m[1]
+		}
+		
+		if summary != "" {
+			return "", fmt.Errorf("Bị chặn/Từ chối: %s (Chi tiết: %s)", summary, description)
+		}
 		return "", fmt.Errorf("GraphQL thực thi lỗi nghiêm trọng: %s", strings.TrimPrefix(fbBody, "for (;;);"))
 	}
 
@@ -298,45 +340,67 @@ func (f *FacebookProvider) CommentToPost(cookie string, postURL string, message 
 		actorId = m[1]
 	}
 
-	// Cố gắng tìm trực tiếp chuỗi Base64
-	feedbackIDBase64 := ""
-	encodedRegex1 := regexp.MustCompile(`"feedback":{"id":"(ZmV[^"]+)"}`)
-	if m := encodedRegex1.FindStringSubmatch(htmlText); len(m) > 1 {
-		feedbackIDBase64 = m[1]
+	// 1. Lấy Numeric ID của bài viết
+	numericID := ""
+	idRegex := regexp.MustCompile(`"top_level_post_id":"(\d+)"`)
+	if m := idRegex.FindStringSubmatch(htmlText); len(m) > 1 {
+		numericID = m[1]
 	} else {
-		encodedRegex2 := regexp.MustCompile(`"feedback_id":"(ZmV[^"]+)"`)
-		if m := encodedRegex2.FindStringSubmatch(htmlText); len(m) > 1 {
-			feedbackIDBase64 = m[1]
-		}
-	}
-
-	// Lấy Numeric ID của bài viết
-	if feedbackIDBase64 == "" {
-		numericID := ""
-		idRegex := regexp.MustCompile(`"top_level_post_id":"(\d+)"`)
+		idRegex = regexp.MustCompile(`"ent_id":"(\d+)"`)
 		if m := idRegex.FindStringSubmatch(htmlText); len(m) > 1 {
 			numericID = m[1]
 		} else {
-			idRegex = regexp.MustCompile(`"ent_id":"(\d+)"`)
-			if m := idRegex.FindStringSubmatch(htmlText); len(m) > 1 {
-				numericID = m[1]
-			} else {
-				parsedUrl, err := url.Parse(postURL)
+			parsedUrl, err := url.Parse(postURL)
+			if err == nil {
+				fallbackId := parsedUrl.Query().Get("story_fbid")
+				if fallbackId != "" && !strings.HasPrefix(fallbackId, "pfbid") {
+					numericID = fallbackId
+				}
+			}
+		}
+	}
+
+	feedbackIDBase64 := ""
+
+	if numericID != "" {
+		allFeedbacks := regexp.MustCompile(`(ZmVlZGJhY2s6[a-zA-Z0-9+_/=]+)`).FindAllStringSubmatch(htmlText, -1)
+		for _, match := range allFeedbacks {
+			if len(match) > 1 {
+				decodedBytes, err := base64.StdEncoding.DecodeString(match[1])
 				if err == nil {
-					fallbackId := parsedUrl.Query().Get("story_fbid")
-					if fallbackId != "" && !strings.HasPrefix(fallbackId, "pfbid") {
-						numericID = fallbackId
+					decodedStr := string(decodedBytes)
+					if strings.HasPrefix(decodedStr, "feedback:") && strings.Contains(decodedStr, numericID) {
+						feedbackIDBase64 = match[1]
+						break
 					}
 				}
 			}
 		}
+	}
 
-		if numericID == "" {
-			return "", errors.New("Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.")
+	if feedbackIDBase64 == "" {
+		patterns := []string{
+			`"feedback"\s*:\s*\{\s*"id"\s*:\s*"(ZmVlZGJhY2s6[^"]+)"`,
+			`"feedback_id"\s*:\s*"(ZmVlZGJhY2s6[^"]+)"`,
+			`"target_feedback"\s*:\s*\{\s*"id"\s*:\s*"(ZmVlZGJhY2s6[^"]+)"`,
+			`"node"\s*:\s*\{\s*"id"\s*:\s*"(ZmVlZGJhY2s6[^"]+)"\s*,\s*"__isFeedback"`,
 		}
+		for _, p := range patterns {
+			rx := regexp.MustCompile(p)
+			if m := rx.FindStringSubmatch(htmlText); len(m) > 1 {
+				feedbackIDBase64 = m[1]
+				break
+			}
+		}
+	}
 
+	if feedbackIDBase64 == "" && numericID != "" {
 		feedbackRaw := "feedback:" + numericID
 		feedbackIDBase64 = base64.StdEncoding.EncodeToString([]byte(feedbackRaw))
+	}
+
+	if feedbackIDBase64 == "" {
+		return "", errors.New("Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.")
 	}
 
 	// 4. Bắn Request GraphQL Comment
