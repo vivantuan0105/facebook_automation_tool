@@ -175,3 +175,26 @@
 [2026-04-14T12:22:43+07:00] FacebookProvider | UploadPhoto | Info | Đang tải ảnh từ C:\Users\ADMIN\Downloads\neww3 (1).jpg lên Facebook...
 [2026-04-14T12:22:51+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
 [2026-04-14T13:01:53+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T13:24:56+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-14T13:24:57+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T13:24:59+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-14T13:27:27+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T13:27:29+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-14T13:27:30+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T13:27:33+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-14T13:40:48+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T13:40:48+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T13:45:27+07:00] Queue | RunTask | Running | Bắt đầu chạy task 3 ở mode live
+[2026-04-14T13:45:27+07:00] Queue | RunTask | Running | Bắt đầu chạy task 4 ở mode live
+[2026-04-14T13:45:28+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T13:45:29+07:00] FacebookProvider | Execute | Success | Task 3 chạy thật thành công
+[2026-04-14T13:45:29+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T13:45:31+07:00] FacebookProvider | Execute | Error | Task 4 thất bại: GraphQL thực thi lỗi nghiêm trọng: {"data":{"feedback_react":null},"errors":[{"message":"A server error missing_required_variable_value occured. Check server logs for details.","severity":"WARNING"},{"message":"A server error field_exception occured. Check server logs for details.","severity":"CRITICAL","mids":["ffb52d766b21b54667689a15793c1c0e"],"debug_link":"https://www.meta.com/debug/?mid=ffb52d766b21b54667689a15793c1c0e","code":1446034,"api_error_code":null,"summary":"Content Not Available Anymore","description":"The content you are trying to react to is not available anymore.","description_html":null,"description_raw":"The content you are trying to react to is not available anymore.","is_silent":false,"is_transient":false,"is_not_critical":true,"requires_reauth":false,"allow_user_retry":false,"debug_info":null,"query_path":null,"fbtrace_id":"DujZlONzUJ/","www_request_id":"AgGDZlA9gENnVQmIwtA7DAM","path":["feedback_react"]}],"extensions":{"is_final":true}}
+[2026-04-14T13:48:48+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T13:48:48+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T13:49:31+07:00] Queue | RunTask | Running | Bắt đầu chạy task 5 ở mode live
+[2026-04-14T13:49:31+07:00] Queue | RunTask | Running | Bắt đầu chạy task 6 ở mode live
+[2026-04-14T13:49:33+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T13:49:34+07:00] FacebookProvider | Execute | Success | Task 5 chạy thật thành công
+[2026-04-14T13:49:34+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T13:49:36+07:00] FacebookProvider | Execute | Error | Task 6 thất bại: GraphQL thực thi lỗi nghiêm trọng: {"data":{"feedback_react":null},"errors":[{"message":"A server error missing_required_variable_value occured. Check server logs for details.","severity":"WARNING"},{"message":"A server error field_exception occured. Check server logs for details.","severity":"CRITICAL","mids":["ffb52d766b21b54667689a15793c1c0e"],"debug_link":"https://www.meta.com/debug/?mid=ffb52d766b21b54667689a15793c1c0e","code":1446034,"api_error_code":null,"summary":"Content Not Available Anymore","description":"The content you are trying to react to is not available anymore.","description_html":null,"description_raw":"The content you are trying to react to is not available anymore.","is_silent":false,"is_transient":false,"is_not_critical":true,"requires_reauth":false,"allow_user_retry":false,"debug_info":null,"query_path":null,"fbtrace_id":"DtkJU4uzZOW","www_request_id":"AYFBTVhF10WhG1fXvUh0Dhl","path":["feedback_react"]}],"extensions":{"is_final":true}}

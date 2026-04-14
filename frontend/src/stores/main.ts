@@ -20,7 +20,8 @@ export const useMainStore = defineStore('main', {
     executions: [] as any[],
     logs: [] as any[],
     settings: null as any,
-    loading: false
+    loading: false,
+    filterStatusTrigger: null as string | null
   }),
   actions: {
     async fetchOverview() {

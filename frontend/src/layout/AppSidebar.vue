@@ -37,9 +37,7 @@ import {
 
 const navItems = [
   { name: 'Tổng quan', path: '/overview', icon: HomeIcon },
-  { name: 'Tài khoản (Clone)', path: '/accounts', icon: UsersIcon },
-  { name: 'Trung tâm tác vụ', path: '/task-center', icon: DocumentTextIcon },
-  { name: 'Hàng đợi (Queue)', path: '/queue', icon: QueueListIcon },
+  { name: 'Tài khoản (UID)', path: '/accounts', icon: UsersIcon },
   { name: 'Nhật ký (Logs)', path: '/logs', icon: CpuChipIcon },
   { name: 'Cài đặt', path: '/settings', icon: Cog8ToothIcon },
 ]

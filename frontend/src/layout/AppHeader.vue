@@ -3,26 +3,18 @@
     <div class="flex items-center space-x-6">
       <h2 class="text-lg font-medium text-light-text capitalize">{{ routeNameVn }}</h2>
       <div class="hidden md:flex items-center space-x-3 text-xs border-l border-light-border pl-6">
-        <span class="flex items-center text-light-muted">
-          <div class="w-2 h-2 rounded-full bg-green-500 mr-1.5 animate-pulse"></div>
-          Hệ thống trực tuyến
-        </span>
-        <span class="text-light-border">|</span>
-        <span class="text-light-muted">
-          Chế độ: <span class="font-medium text-emerald-600">{{ currentMode }}</span>
-        </span>
-        <span class="text-light-border">|</span>
-        <span class="text-light-muted">
+        <span class="text-light-muted flex items-center gap-1">
           Hàng đợi: 
-          <span class="font-medium text-yellow-600">{{ store.overview?.pending || 0 }} Đang chờ</span>,
-          <span class="font-medium text-purple-600">{{ store.overview?.running || 0 }} Đang chạy</span>
+          <span class="font-medium text-yellow-600 cursor-pointer hover:underline" @click="store.filterStatusTrigger = 'Pending'" title="Nhấp để click chọn các tài khoản Đang chờ bên dưới">
+            {{ store.overview?.pending || 0 }} Đang chờ
+          </span>,
+          <span class="font-medium text-purple-600 cursor-pointer hover:underline" @click="store.filterStatusTrigger = 'Running'" title="Nhấp để click chọn các tài khoản Đang chạy bên dưới">
+            {{ store.overview?.running || 0 }} Đang chạy
+          </span>
         </span>
       </div>
     </div>
     <div class="flex items-center space-x-4">
-      <button class="px-3 py-1.5 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg text-xs font-medium transition-colors" @click="router.push('/task-center')">
-        + Tạo tác vụ
-      </button>
       <div class="h-8 w-8 rounded-full bg-gradient-to-tr from-primary to-blue-400 p-[2px]">
         <div class="h-full w-full rounded-full bg-light-surface flex items-center justify-center">
           <UserIcon class="w-4 h-4 text-light-text" />
