@@ -29,9 +29,9 @@ func (a *App) Startup(ctx context.Context) {
 
 func (a *App) SelectPhotoDialog() (string, error) {
 	options := runtime.OpenDialogOptions{
-		Title: "Chọn file ảnh",
+		Title: "Chọn file Ảnh / Video",
 		Filters: []runtime.FileFilter{
-			{DisplayName: "Image Files (*.jpg, *.jpeg, *.png)", Pattern: "*.jpg;*.jpeg;*.png"},
+			{DisplayName: "Media Files (*.jpg, *.png, *.mp4, *.mov, *.avi)", Pattern: "*.jpg;*.jpeg;*.png;*.mp4;*.mov;*.avi"},
 		},
 	}
 	return runtime.OpenFileDialog(a.ctx, options)
@@ -216,20 +216,40 @@ func (a *App) RunReactionTaskNow(taskID uint, mode string) error {
 				resultLog, err = fbProvider.CommentToPost(t.Cookie, targetURL, t.Message, docId)
 			} else if t.TaskType == "Đăng bài viết" {
 				photoIDs := []string{}
+				hasVideo := false
+				videoID := ""
+				
 				for _, path := range t.PhotoPaths {
 					if path != "" {
-						store.DB.AddLog("FacebookProvider", "UploadPhoto", "Info", fmt.Sprintf("Đang tải ảnh từ %s lên Facebook...", path))
-						photoID, upErr := fbProvider.UploadPhoto(t.Cookie, path)
-						if upErr != nil {
-							err = fmt.Errorf("Lỗi tải ảnh %s: %v", path, upErr)
-							break
+						ext := strings.ToLower(path)
+						if strings.HasSuffix(ext, ".mp4") || strings.HasSuffix(ext, ".mov") || strings.HasSuffix(ext, ".avi") {
+							store.DB.AddLog("FacebookProvider", "UploadVideo", "Info", fmt.Sprintf("Đang xử lý video %s qua Resumable Upload 3-Phases...", path))
+							vid, upErr := fbProvider.UploadVideoFB(t.Cookie, path)
+							if upErr != nil {
+								err = fmt.Errorf("Lỗi Upload video %s: %v", path, upErr)
+								break
+							}
+							hasVideo = true
+							videoID = vid
+							break // Hiện tại chỉ hỗ trợ đăng 1 video/bài
+						} else {
+							store.DB.AddLog("FacebookProvider", "UploadPhoto", "Info", fmt.Sprintf("Đang tải ảnh từ %s lên Facebook...", path))
+							photoID, upErr := fbProvider.UploadPhoto(t.Cookie, path)
+							if upErr != nil {
+								err = fmt.Errorf("Lỗi tải ảnh %s: %v", path, upErr)
+								break
+							}
+							photoIDs = append(photoIDs, photoID)
 						}
-						photoIDs = append(photoIDs, photoID)
 					}
 				}
 				
 				if err == nil {
-					resultLog, err = fbProvider.PostToFacebook(t.Cookie, t.Message, photoIDs, docId)
+					if hasVideo {
+						resultLog, err = fbProvider.PostVideoToFacebook(t.Cookie, t.Message, videoID, docId)
+					} else {
+						resultLog, err = fbProvider.PostToFacebook(t.Cookie, t.Message, photoIDs, docId)
+					}
 				}
 			} else {
 				resultLog, err = fbProvider.ReactToPost(t.Cookie, targetURL, t.ReactionType, docId)

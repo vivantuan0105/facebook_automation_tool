@@ -28,10 +28,8 @@
 <script setup lang="ts">
 import { 
   HomeIcon, 
-  DocumentTextIcon, 
   CpuChipIcon, 
   Cog8ToothIcon,
-  QueueListIcon,
   UsersIcon
 } from '@heroicons/vue/24/outline'
 

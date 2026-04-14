@@ -153,6 +153,17 @@
               <label class="block text-sm font-medium text-slate-700 mb-1">{{ form.taskType === 'Đăng bài viết' ? 'Nội dung bài viết (Status)' : 'Nội dung bình luận' }}</label>
               <textarea v-model="form.message" class="w-full text-sm bg-white border border-gray-300 rounded-lg p-2.5 focus:ring-primary focus:border-primary min-h-[100px]" placeholder="Nhập nội dung... Hỗ trợ spin {A|B}"></textarea>
             </div>
+
+            <div class="md:col-span-2" v-if="form.taskType === 'Đăng bài viết'">
+              <label class="block text-sm font-medium text-slate-700 mb-1">Đường dẫn file Ảnh/Video (Tùy chọn)</label>
+              <div class="space-y-2">
+                <div v-for="(_, index) in form.photoPaths" :key="index" class="flex gap-2">
+                  <input type="text" v-model="form.photoPaths[index]" class="flex-1 w-full text-sm bg-white border border-gray-300 rounded-lg p-2.5 focus:ring-primary focus:border-primary" placeholder="Ví dụ: C:\images\cat.jpg hoặc D:\video\clip.mp4" />
+                  <button @click="removePhoto(index)" class="px-3 py-2 border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 text-sm rounded-lg transition-colors">Xóa</button>
+                </div>
+                <button @click="onSelectPhoto" class="px-4 py-2 border border-slate-200 bg-gray-50 hover:bg-gray-100 text-slate-700 text-sm rounded-lg transition-colors inline-block">+ Chọn file Ảnh / Video</button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -218,7 +229,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, onUnmounted, watch } from 'vue'
-import { GetAllAccounts, AddAccount, DeleteAccount } from '../../wailsjs/go/app/App'
+import { GetAllAccounts, AddAccount, DeleteAccount, SelectPhotoDialog } from '../../wailsjs/go/app/App'
 import { useMainStore } from '../stores/main'
 import CustomSelect from '../components/CustomSelect.vue'
 
@@ -326,6 +337,22 @@ const onTaskTypeChange = () => {
   } else {
     form.targetMode = 'post_url'
   }
+}
+
+const onSelectPhoto = async () => {
+  try {
+    const path = await SelectPhotoDialog()
+    if (path) {
+      if(!form.photoPaths) form.photoPaths = []
+      form.photoPaths.push(path)
+    }
+  } catch(e) {
+    console.error("Lỗi chọn file:", e)
+  }
+}
+
+const removePhoto = (index: number) => {
+  form.photoPaths.splice(index, 1)
 }
 
 const applyTasks = async () => {
