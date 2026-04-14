@@ -3,142 +3,334 @@ package app
 import (
 	"context"
 	"errors"
+	"fmt"
+	"strings"
+	"time"
 
-	"socialmanager/backend/database"
+	"regexp"
 	"socialmanager/backend/models"
-	"socialmanager/backend/scheduler"
+	"socialmanager/backend/providers"
+	"socialmanager/backend/store"
 )
 
 type App struct {
-	ctx   context.Context
-	sched *scheduler.Scheduler
+	ctx context.Context
 }
 
 func NewApp() *App {
-	return &App{
-		sched: scheduler.NewScheduler(),
-	}
+	return &App{}
 }
 
 func (a *App) Startup(ctx context.Context) {
 	a.ctx = ctx
-	a.sched.Start()
 }
 
-// Stats
-func (a *App) GetDashboardStats() models.DashboardStats {
-	var totalPosts, totalTasks, success, errorsCount int64
-	database.DB.Model(&models.Post{}).Count(&totalPosts)
-	database.DB.Model(&models.Task{}).Count(&totalTasks)
-	database.DB.Model(&models.Log{}).Where("status = ?", "Success").Count(&success)
-	database.DB.Model(&models.Log{}).Where("status = ?", "Error").Count(&errorsCount)
+func (a *App) GetOverview() models.DashboardStats {
+	store.DB.Mu.RLock()
+	defer store.DB.Mu.RUnlock()
 
-	var settings models.Settings
-	database.DB.First(&settings)
+	var pending, running, success, failed int
+	for _, t := range store.DB.Tasks {
+		switch t.Status {
+		case "Pending":
+			pending++
+		case "Running", "WaitingConfirmation":
+			running++
+		case "Success":
+			success++
+		case "Failed":
+			failed++
+		}
+	}
 
 	return models.DashboardStats{
-		TotalPosts:       totalPosts,
-		TotalTasks:       totalTasks,
-		SuccessfulRuns:   success,
-		RecentErrors:     errorsCount,
-		ConnectionStatus: settings.ConnectionStatus,
-		ConnectedAccount: settings.ConnectedAccount,
+		TotalTasks: len(store.DB.Tasks),
+		Pending:    pending,
+		Running:    running,
+		Success:    success,
+		Failed:     failed,
 	}
 }
 
-// --- POSTS ---
-func (a *App) GetPosts() []models.Post {
-	var posts []models.Post
-	database.DB.Order("created_at desc").Find(&posts)
-	return posts
+func (a *App) GetReactionTasks() []models.ReactionTask {
+	store.DB.Mu.RLock()
+	defer store.DB.Mu.RUnlock()
+	return store.DB.Tasks
 }
 
-func (a *App) CreatePost(post models.Post) (models.Post, error) {
-	result := database.DB.Create(&post)
-	return post, result.Error
+func (a *App) GetExecutions() []models.TaskExecution {
+	store.DB.Mu.RLock()
+	defer store.DB.Mu.RUnlock()
+	return store.DB.Executions
 }
 
-func (a *App) UpdatePost(post models.Post) (models.Post, error) {
-	result := database.DB.Save(&post)
-	return post, result.Error
+func (a *App) GetLogs() []models.ActivityLog {
+	store.DB.Mu.RLock()
+	defer store.DB.Mu.RUnlock()
+	return store.DB.Logs
 }
 
-func (a *App) DeletePost(id uint) error {
-	return database.DB.Delete(&models.Post{}, id).Error
+func (a *App) GetSettings() models.AppSettings {
+	store.DB.Mu.RLock()
+	defer store.DB.Mu.RUnlock()
+	return store.DB.Settings
 }
 
-// --- TASKS ---
-func (a *App) GetTasks() []models.Task {
-	var tasks []models.Task
-	database.DB.Order("created_at desc").Find(&tasks)
-	return tasks
-}
-
-func (a *App) CreateTask(task models.Task) (models.Task, error) {
-	result := database.DB.Create(&task)
-	return task, result.Error
-}
-
-func (a *App) UpdateTask(task models.Task) (models.Task, error) {
-	result := database.DB.Save(&task)
-	return task, result.Error
-}
-
-func (a *App) DeleteTask(id uint) error {
-	return database.DB.Delete(&models.Task{}, id).Error
-}
-
-func (a *App) RunTaskOnce(id uint) error {
-	var task models.Task
-	if err := database.DB.First(&task, id).Error; err != nil {
-		return err
+func (a *App) ValidateReactionTask(input models.ReactionTask) string {
+	if strings.TrimSpace(input.Cookie) == "" {
+		return "Vui lòng nhập Cookie"
 	}
-	
-	database.DB.Create(&models.Log{
-		Time:    database.DB.NowFunc(),
-		Module:  "Automation",
-		Action:  "Manual Run: " + task.Name,
-		Status:  "Success",
-		Details: "Triggered manually by user.",
-	})
+	if input.TargetMode == "post_url" && strings.TrimSpace(input.PostURL) == "" {
+		return "Vui lòng nhập URL của post"
+	}
+	if input.TargetMode == "post_id" && strings.TrimSpace(input.PostID) == "" {
+		return "Vui lòng nhập ID của post"
+	}
+	if input.ReactionType == "" {
+		return "Vui lòng chọn loại reaction"
+	}
+	return ""
+}
+
+func (a *App) CreateReactionTask(input models.ReactionTask) models.ReactionTask {
+	store.DB.Mu.Lock()
+	defer store.DB.Mu.Unlock()
+
+	input.ID = store.DB.NextTaskID()
+	input.Status = "Pending"
+	input.CreatedAt = time.Now().Format(time.RFC3339)
+	input.UpdatedAt = time.Now().Format(time.RFC3339)
+
+	// mask cookie
+	cookieLen := len(input.Cookie)
+	if cookieLen > 20 {
+		input.CookieMasked = input.Cookie[:10] + "..." + input.Cookie[cookieLen-10:]
+	} else {
+		input.CookieMasked = "***"
+	}
+
+	store.DB.Tasks = append([]models.ReactionTask{input}, store.DB.Tasks...)
+	store.DB.AddLog("Task Center", "CreateTask", "Success", fmt.Sprintf("Đã thêm task '%v' vào queue.", input.TaskType))
+
+	return input
+}
+
+func (a *App) RunReactionTaskNow(taskID uint, mode string) error {
+	var task *models.ReactionTask
+	store.DB.Mu.Lock()
+	for i := range store.DB.Tasks {
+		if store.DB.Tasks[i].ID == taskID {
+			task = &store.DB.Tasks[i]
+			break
+		}
+	}
+	if task == nil {
+		store.DB.Mu.Unlock()
+		return errors.New("không tìm thấy task")
+	}
+
+	if task.Status == "Running" || task.Status == "WaitingConfirmation" {
+		store.DB.Mu.Unlock()
+		return errors.New("task đang chạy")
+	}
+
+	task.Status = "Running"
+	task.UpdatedAt = time.Now().Format(time.RFC3339)
+
+	exec := models.TaskExecution{
+		ID:        store.DB.NextExecID(),
+		TaskID:    taskID,
+		Mode:      mode,
+		Status:    "Running",
+		StartedAt: time.Now().Format(time.RFC3339),
+	}
+	store.DB.Executions = append([]models.TaskExecution{exec}, store.DB.Executions...)
+	store.DB.AddLog("Queue", "RunTask", "Running", fmt.Sprintf("Bắt đầu chạy task %d ở mode %v", taskID, mode))
+	store.DB.Mu.Unlock()
+
+	// async execution
+	go func(id uint, eID uint, tMode string, targetURL string, targetID string) {
+		time.Sleep(1500 * time.Millisecond) // Simulate some work
+		store.DB.Mu.Lock()
+		defer store.DB.Mu.Unlock()
+
+		// locate structs
+		var t *models.ReactionTask
+		var e *models.TaskExecution
+		for i := range store.DB.Tasks {
+			if store.DB.Tasks[i].ID == id {
+				t = &store.DB.Tasks[i]
+				break
+			}
+		}
+		for i := range store.DB.Executions {
+			if store.DB.Executions[i].ID == eID {
+				e = &store.DB.Executions[i]
+				break
+			}
+		}
+
+		if t == nil || e == nil {
+			return
+		}
+
+			// Lấy docId từ Account
+			accounts, _ := store.GetAllAccounts()
+			docId := store.DB.Settings.GraphqlLikeDocId
+			for _, acc := range accounts {
+				if acc.Cookie == t.Cookie && acc.GraphqlLikeDocId != "" {
+					docId = acc.GraphqlLikeDocId
+					break
+				}
+			}
+
+			// Gọi FacebookProvider thật
+			fbProvider := providers.NewFacebookProvider()
+			store.DB.AddLog("Queue", "Execution", "Info", "Đang trích xuất fb_dtsg và mã hóa Base64...")
+			
+			resultLog, err := fbProvider.ReactToPost(t.Cookie, targetURL, t.ReactionType, docId)
+			
+			if err != nil {
+				t.Status = "Failed"
+				t.UpdatedAt = time.Now().Format(time.RFC3339)
+				e.Status = "Failed"
+				e.FinishedAt = time.Now().Format(time.RFC3339)
+				e.ErrorMessage = err.Error()
+
+				store.DB.AddLog("FacebookProvider", "ReactToPost", "Error", fmt.Sprintf("Task %d thất bại: %v", id, err.Error()))
+			} else {
+				t.Status = "Success"
+				t.UpdatedAt = time.Now().Format(time.RFC3339)
+				e.Status = "Success"
+				e.FinishedAt = time.Now().Format(time.RFC3339)
+				e.ResultSummary = resultLog
+
+				store.DB.AddLog("FacebookProvider", "ReactToPost", "Success", fmt.Sprintf("Task %d chạy thật thành công", id))
+			}
+
+	}(taskID, exec.ID, mode, task.PostURL, task.PostID)
+
 	return nil
 }
 
-// --- LOGS ---
-func (a *App) GetLogs() []models.Log {
-	var logs []models.Log
-	database.DB.Order("time desc").Limit(100).Find(&logs)
-	return logs
-}
-
-// --- SETTINGS ---
-func (a *App) GetSettings() (models.Settings, error) {
-	var settings models.Settings
-	err := database.DB.First(&settings).Error
-	if err != nil && settings.ID == 0 {
-	    return settings, errors.New("settings not found")
+func (a *App) PauseReactionTask(taskID uint) error {
+	store.DB.Mu.Lock()
+	defer store.DB.Mu.Unlock()
+	for i := range store.DB.Tasks {
+		if store.DB.Tasks[i].ID == taskID {
+			store.DB.Tasks[i].Status = "Paused"
+			store.DB.Tasks[i].UpdatedAt = time.Now().Format(time.RFC3339)
+			store.DB.AddLog("Queue", "PauseTask", "Info", fmt.Sprintf("Đã tạm dừng task %d", taskID))
+			return nil
+		}
 	}
-	return settings, nil
+	return errors.New("không tìm thấy task")
 }
 
-func (a *App) UpdateSettings(s models.Settings) error {
-	return database.DB.Save(&s).Error
-}
-
-func (a *App) DisconnectAccount() error {
-	return database.DB.Model(&models.Settings{}).Where("1=1").Updates(map[string]interface{}{
-		"connection_status": "disconnected",
-		"connected_account": "",
-	}).Error
-}
-
-func (a *App) ConnectAccount(token string) error {
-	// Mock connection
-	if token == "" {
-		return errors.New("Invalid token")
+func (a *App) RetryReactionTask(taskID uint) error {
+	store.DB.Mu.Lock()
+	defer store.DB.Mu.Unlock()
+	for i := range store.DB.Tasks {
+		if store.DB.Tasks[i].ID == taskID {
+			store.DB.Tasks[i].Status = "Pending"
+			store.DB.Tasks[i].UpdatedAt = time.Now().Format(time.RFC3339)
+			store.DB.AddLog("Queue", "RetryTask", "Info", fmt.Sprintf("Đưa task %d về Pending", taskID))
+			return nil
+		}
 	}
-	return database.DB.Model(&models.Settings{}).Where("1=1").Updates(map[string]interface{}{
-		"connection_status": "connected",
-		"connected_account": "new_page_demo",
-	}).Error
+	return errors.New("không tìm thấy task")
+}
+
+func (a *App) RemoveReactionTask(taskID uint) error {
+	store.DB.Mu.Lock()
+	defer store.DB.Mu.Unlock()
+	idx := -1
+	for i := range store.DB.Tasks {
+		if store.DB.Tasks[i].ID == taskID {
+			idx = i
+			break
+		}
+	}
+	if idx != -1 {
+		store.DB.Tasks = append(store.DB.Tasks[:idx], store.DB.Tasks[idx+1:]...)
+		store.DB.AddLog("Queue", "RemoveTask", "Info", fmt.Sprintf("Xóa bỏ task %d", taskID))
+		return nil
+	}
+	return errors.New("không tìm thấy task")
+}
+
+func (a *App) MarkManualCompleted(taskID uint) error {
+	store.DB.Mu.Lock()
+	defer store.DB.Mu.Unlock()
+	for i := range store.DB.Tasks {
+		if store.DB.Tasks[i].ID == taskID {
+			if store.DB.Tasks[i].Status == "WaitingConfirmation" {
+				store.DB.Tasks[i].Status = "Success"
+				store.DB.Tasks[i].UpdatedAt = time.Now().Format(time.RFC3339)
+
+				// find execution
+				for j := range store.DB.Executions {
+					if store.DB.Executions[j].TaskID == taskID && store.DB.Executions[j].Status == "WaitingConfirmation" {
+						store.DB.Executions[j].Status = "Success"
+						store.DB.Executions[j].FinishedAt = time.Now().Format(time.RFC3339)
+						store.DB.Executions[j].ResultSummary = "Manually confirmed by user"
+					}
+				}
+
+				store.DB.AddLog("ManualAssist", "ConfirmTask", "Success", fmt.Sprintf("Task %d đã được xác nhận thủ công bởi người dùng", taskID))
+				return nil
+			}
+		}
+	}
+	return errors.New("Không thể xác nhận task này")
+}
+
+func (a *App) UpdateSettings(s models.AppSettings) error {
+	store.DB.Mu.Lock()
+	defer store.DB.Mu.Unlock()
+	store.DB.Settings = s
+	store.DB.AddLog("Settings", "Update", "Success", "Cấu hình được lưu thành công.")
+	return nil
+}
+
+// ---- QUẢN LÝ TÀI KHOẢN (ACCOUNTS) ----
+
+func (a *App) GetAllAccounts() ([]models.FacebookAccount, error) {
+	return store.GetAllAccounts()
+}
+
+func (a *App) DeleteAccount(uid string) error {
+	err := store.DeleteAccount(uid)
+	if err == nil {
+		store.DB.AddLog("Accounts", "Delete", "Success", fmt.Sprintf("Đã xóa tài khoản UID %s", uid))
+	}
+	return err
+}
+
+func (a *App) AddAccount(name string, cookie string, docId string) (models.FacebookAccount, error) {
+	// Lấy UID từ Cookie (c_user=...)
+	re := regexp.MustCompile(`c_user=(\d+)`)
+	matches := re.FindStringSubmatch(cookie)
+	uid := ""
+	if len(matches) > 1 {
+		uid = matches[1]
+	}
+
+	if uid == "" {
+		return models.FacebookAccount{}, errors.New("Cookie không hợp lệ. Không tìm thấy c_user (UID) trong Cookie")
+	}
+
+	acc := models.FacebookAccount{
+		UID:              uid,
+		Name:             name,
+		Cookie:           cookie,
+		GraphqlLikeDocId: docId,
+		Status:           "Live", // Mặc định khi vừa thêm
+	}
+
+	err := store.SaveAccount(acc)
+	if err == nil {
+		store.DB.AddLog("Accounts", "Add", "Success", fmt.Sprintf("Đã thêm tài khoản %s (UID: %s)", name, uid))
+	}
+	return acc, err
 }

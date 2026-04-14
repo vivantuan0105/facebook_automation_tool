@@ -1,9 +1,9 @@
 <template>
-  <div class="flex h-screen bg-dark-bg overflow-hidden text-sm">
+  <div class="flex h-screen bg-light-bg overflow-hidden text-sm">
     <AppSidebar />
     <div class="flex-1 flex flex-col min-w-0">
       <AppHeader />
-      <main class="flex-1 overflow-y-auto p-6 bg-dark-bg">
+      <main class="flex-1 overflow-y-auto p-6 bg-light-bg">
         <router-view v-slot="{ Component }">
           <transition name="fade" mode="out-in">
             <component :is="Component" />
@@ -30,3 +30,4 @@ import AppHeader from './AppHeader.vue'
   opacity: 0;
 }
 </style>
+

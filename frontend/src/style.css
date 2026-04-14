@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-dark-bg text-dark-text antialiased;
+    @apply bg-light-bg text-light-text antialiased;
   }
 }
 
@@ -14,11 +14,12 @@
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  @apply bg-dark-bg;
+  @apply bg-light-bg;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-dark-border rounded;
+  @apply bg-light-border rounded;
 }
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-dark-muted;
+  @apply bg-light-muted;
 }
+

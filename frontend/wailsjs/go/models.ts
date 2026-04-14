@@ -1,12 +1,55 @@
 export namespace models {
 	
+	export class ActivityLog {
+	    id: number;
+	    time: string;
+	    module: string;
+	    action: string;
+	    status: string;
+	    details: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new ActivityLog(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.time = source["time"];
+	        this.module = source["module"];
+	        this.action = source["action"];
+	        this.status = source["status"];
+	        this.details = source["details"];
+	    }
+	}
+	export class AppSettings {
+	    appName: string;
+	    theme: string;
+	    defaultExecutionMode: string;
+	    maskCookieByDefault: boolean;
+	    persistToJson: boolean;
+	    graphqlLikeDocId: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new AppSettings(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.appName = source["appName"];
+	        this.theme = source["theme"];
+	        this.defaultExecutionMode = source["defaultExecutionMode"];
+	        this.maskCookieByDefault = source["maskCookieByDefault"];
+	        this.persistToJson = source["persistToJson"];
+	        this.graphqlLikeDocId = source["graphqlLikeDocId"];
+	    }
+	}
 	export class DashboardStats {
-	    total_posts: number;
-	    total_tasks: number;
-	    successful_runs: number;
-	    recent_errors: number;
-	    connection_status: string;
-	    connected_account: string;
+	    totalTasks: number;
+	    pending: number;
+	    running: number;
+	    success: number;
+	    failed: number;
 	
 	    static createFrom(source: any = {}) {
 	        return new DashboardStats(source);
@@ -14,180 +57,110 @@ export namespace models {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.total_posts = source["total_posts"];
-	        this.total_tasks = source["total_tasks"];
-	        this.successful_runs = source["successful_runs"];
-	        this.recent_errors = source["recent_errors"];
-	        this.connection_status = source["connection_status"];
-	        this.connected_account = source["connected_account"];
+	        this.totalTasks = source["totalTasks"];
+	        this.pending = source["pending"];
+	        this.running = source["running"];
+	        this.success = source["success"];
+	        this.failed = source["failed"];
 	    }
 	}
-	export class Log {
-	    id: number;
-	    // Go type: time
-	    time: any;
-	    module: string;
-	    action: string;
-	    status: string;
-	    details: string;
-	
-	    static createFrom(source: any = {}) {
-	        return new Log(source);
-	    }
-	
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.id = source["id"];
-	        this.time = this.convertValues(source["time"], null);
-	        this.module = source["module"];
-	        this.action = source["action"];
-	        this.status = source["status"];
-	        this.details = source["details"];
-	    }
-	
-		convertValues(a: any, classs: any, asMap: boolean = false): any {
-		    if (!a) {
-		        return a;
-		    }
-		    if (a.slice && a.map) {
-		        return (a as any[]).map(elem => this.convertValues(elem, classs));
-		    } else if ("object" === typeof a) {
-		        if (asMap) {
-		            for (const key of Object.keys(a)) {
-		                a[key] = new classs(a[key]);
-		            }
-		            return a;
-		        }
-		        return new classs(a);
-		    }
-		    return a;
-		}
-	}
-	export class Post {
-	    id: number;
-	    title: string;
-	    content: string;
-	    summary: string;
-	    status: string;
-	    notes: string;
-	    // Go type: time
-	    post_at: any;
-	    // Go type: time
-	    created_at: any;
-	    // Go type: time
-	    updated_at: any;
-	
-	    static createFrom(source: any = {}) {
-	        return new Post(source);
-	    }
-	
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.id = source["id"];
-	        this.title = source["title"];
-	        this.content = source["content"];
-	        this.summary = source["summary"];
-	        this.status = source["status"];
-	        this.notes = source["notes"];
-	        this.post_at = this.convertValues(source["post_at"], null);
-	        this.created_at = this.convertValues(source["created_at"], null);
-	        this.updated_at = this.convertValues(source["updated_at"], null);
-	    }
-	
-		convertValues(a: any, classs: any, asMap: boolean = false): any {
-		    if (!a) {
-		        return a;
-		    }
-		    if (a.slice && a.map) {
-		        return (a as any[]).map(elem => this.convertValues(elem, classs));
-		    } else if ("object" === typeof a) {
-		        if (asMap) {
-		            for (const key of Object.keys(a)) {
-		                a[key] = new classs(a[key]);
-		            }
-		            return a;
-		        }
-		        return new classs(a);
-		    }
-		    return a;
-		}
-	}
-	export class Settings {
-	    id: number;
-	    theme: string;
-	    app_name: string;
-	    database_path: string;
-	    auto_start: boolean;
-	    log_level: string;
-	    timezone: string;
-	    connection_status: string;
-	    connected_account: string;
-	
-	    static createFrom(source: any = {}) {
-	        return new Settings(source);
-	    }
-	
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.id = source["id"];
-	        this.theme = source["theme"];
-	        this.app_name = source["app_name"];
-	        this.database_path = source["database_path"];
-	        this.auto_start = source["auto_start"];
-	        this.log_level = source["log_level"];
-	        this.timezone = source["timezone"];
-	        this.connection_status = source["connection_status"];
-	        this.connected_account = source["connected_account"];
-	    }
-	}
-	export class Task {
-	    id: number;
+	export class FacebookAccount {
+	    uid: string;
 	    name: string;
-	    description: string;
-	    type: string;
-	    schedule: string;
-	    enabled: boolean;
-	    // Go type: time
-	    last_run?: any;
-	    // Go type: time
-	    created_at: any;
-	    // Go type: time
-	    updated_at: any;
+	    cookie: string;
+	    graphqlLikeDocId: string;
+	    status: string;
+	    createdAt: string;
 	
 	    static createFrom(source: any = {}) {
-	        return new Task(source);
+	        return new FacebookAccount(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.uid = source["uid"];
+	        this.name = source["name"];
+	        this.cookie = source["cookie"];
+	        this.graphqlLikeDocId = source["graphqlLikeDocId"];
+	        this.status = source["status"];
+	        this.createdAt = source["createdAt"];
+	    }
+	}
+	export class ReactionTask {
+	    id: number;
+	    cookie: string;
+	    cookieMasked: string;
+	    taskType: string;
+	    targetMode: string;
+	    postId: string;
+	    postUrl: string;
+	    reactionType: string;
+	    feedbackId: string;
+	    feedbackReactionId: string;
+	    actorId: string;
+	    feedbackSource: string;
+	    sessionId: string;
+	    clientMutationId: string;
+	    notes: string;
+	    scheduleAt: string;
+	    quantityLimit: number;
+	    status: string;
+	    createdAt: string;
+	    updatedAt: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new ReactionTask(source);
 	    }
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.id = source["id"];
-	        this.name = source["name"];
-	        this.description = source["description"];
-	        this.type = source["type"];
-	        this.schedule = source["schedule"];
-	        this.enabled = source["enabled"];
-	        this.last_run = this.convertValues(source["last_run"], null);
-	        this.created_at = this.convertValues(source["created_at"], null);
-	        this.updated_at = this.convertValues(source["updated_at"], null);
+	        this.cookie = source["cookie"];
+	        this.cookieMasked = source["cookieMasked"];
+	        this.taskType = source["taskType"];
+	        this.targetMode = source["targetMode"];
+	        this.postId = source["postId"];
+	        this.postUrl = source["postUrl"];
+	        this.reactionType = source["reactionType"];
+	        this.feedbackId = source["feedbackId"];
+	        this.feedbackReactionId = source["feedbackReactionId"];
+	        this.actorId = source["actorId"];
+	        this.feedbackSource = source["feedbackSource"];
+	        this.sessionId = source["sessionId"];
+	        this.clientMutationId = source["clientMutationId"];
+	        this.notes = source["notes"];
+	        this.scheduleAt = source["scheduleAt"];
+	        this.quantityLimit = source["quantityLimit"];
+	        this.status = source["status"];
+	        this.createdAt = source["createdAt"];
+	        this.updatedAt = source["updatedAt"];
+	    }
+	}
+	export class TaskExecution {
+	    id: number;
+	    taskId: number;
+	    mode: string;
+	    status: string;
+	    startedAt: string;
+	    finishedAt: string;
+	    errorMessage: string;
+	    resultSummary: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new TaskExecution(source);
 	    }
 	
-		convertValues(a: any, classs: any, asMap: boolean = false): any {
-		    if (!a) {
-		        return a;
-		    }
-		    if (a.slice && a.map) {
-		        return (a as any[]).map(elem => this.convertValues(elem, classs));
-		    } else if ("object" === typeof a) {
-		        if (asMap) {
-		            for (const key of Object.keys(a)) {
-		                a[key] = new classs(a[key]);
-		            }
-		            return a;
-		        }
-		        return new classs(a);
-		    }
-		    return a;
-		}
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.taskId = source["taskId"];
+	        this.mode = source["mode"];
+	        this.status = source["status"];
+	        this.startedAt = source["startedAt"];
+	        this.finishedAt = source["finishedAt"];
+	        this.errorMessage = source["errorMessage"];
+	        this.resultSummary = source["resultSummary"];
+	    }
 	}
 
 }

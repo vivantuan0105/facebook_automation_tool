@@ -5,22 +5,27 @@ const routes = [
   {
     path: '/',
     component: MainLayout,
-    redirect: '/dashboard',
+    redirect: '/overview',
     children: [
       {
-        path: 'dashboard',
-        name: 'Dashboard',
-        component: () => import('../views/Dashboard.vue')
+        path: 'overview',
+        name: 'Overview',
+        component: () => import('../views/Overview.vue')
       },
       {
-        path: 'posts',
-        name: 'Posts',
-        component: () => import('../views/Posts.vue')
+        path: 'accounts',
+        name: 'Accounts',
+        component: () => import('../views/Accounts.vue')
       },
       {
-        path: 'automation',
-        name: 'Automation',
-        component: () => import('../views/Automation.vue')
+        path: 'task-center',
+        name: 'Task Center',
+        component: () => import('../views/TaskCenter.vue')
+      },
+      {
+        path: 'queue',
+        name: 'Queue',
+        component: () => import('../views/Queue.vue')
       },
       {
         path: 'logs',

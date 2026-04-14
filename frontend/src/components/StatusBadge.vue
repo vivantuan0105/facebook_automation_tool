@@ -27,3 +27,4 @@ const colorClasses: Record<string, string> = {
   'default': 'bg-gray-500/10 text-gray-400 border-gray-500/20'
 }
 </script>
+

@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"socialmanager/backend/app"
-	"socialmanager/backend/database"
+	"socialmanager/backend/store"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -16,7 +16,7 @@ import (
 var assets embed.FS
 
 func main() {
-	database.InitDB()
+	store.InitStore()
 
 	application := app.NewApp()
 

@@ -1,58 +1,70 @@
 package models
 
-import "time"
-
-type Post struct {
-	ID        uint      `json:"id" gorm:"primaryKey"`
-	Title     string    `json:"title"`
-	Content   string    `json:"content"`
-	Summary   string    `json:"summary"`
-	Status    string    `json:"status"` // Draft, Scheduled, Published
-	Notes     string    `json:"notes"`
-	PostAt    time.Time `json:"post_at"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+type FacebookAccount struct {
+	UID       string `json:"uid"`
+	Name             string `json:"name"` // Tên gợi nhớ hoặc tên Facebook
+	Cookie           string `json:"cookie"`
+	GraphqlLikeDocId string `json:"graphqlLikeDocId"`
+	Status           string `json:"status"` // Live, Die, Checkpoint, Unchecked
+	CreatedAt        string `json:"createdAt"`
 }
 
-type Task struct {
-	ID          uint       `json:"id" gorm:"primaryKey"`
-	Name        string     `json:"name"`
-	Description string     `json:"description"`
-	Type        string     `json:"type"` // Reminder, Sync, Check
-	Schedule    string     `json:"schedule"` // e.g. "0 9 * * *"
-	Enabled     bool       `json:"enabled"`
-	LastRun     *time.Time `json:"last_run"`
-	CreatedAt   time.Time  `json:"created_at"`
-	UpdatedAt   time.Time  `json:"updated_at"`
+type ReactionTask struct {
+	ID            uint   `json:"id"`
+	Cookie        string `json:"cookie"`
+	CookieMasked  string `json:"cookieMasked"`
+	TaskType      string `json:"taskType"`
+	TargetMode    string `json:"targetMode"`
+	PostID        string `json:"postId"`
+	PostURL       string `json:"postUrl"`
+	ReactionType       string `json:"reactionType"`
+	FeedbackID         string `json:"feedbackId"`
+	FeedbackReactionID string `json:"feedbackReactionId"`
+	ActorID            string `json:"actorId"`
+	FeedbackSource     string `json:"feedbackSource"`
+	SessionID          string `json:"sessionId"`
+	ClientMutationID   string `json:"clientMutationId"`
+	Notes              string `json:"notes"`
+	ScheduleAt         string `json:"scheduleAt"`
+	QuantityLimit int    `json:"quantityLimit"`
+	Status        string `json:"status"` // Pending, Running, Success, Failed, Paused, WaitingConfirmation
+	CreatedAt     string `json:"createdAt"`
+	UpdatedAt     string `json:"updatedAt"`
 }
 
-type Log struct {
-	ID      uint      `json:"id" gorm:"primaryKey"`
-	Time    time.Time `json:"time"`
-	Module  string    `json:"module"`
-	Action  string    `json:"action"`
-	Status  string    `json:"status"` // Success, Warning, Error, Info
-	Details string    `json:"details"`
+type TaskExecution struct {
+	ID            uint   `json:"id"`
+	TaskID        uint   `json:"taskId"`
+	Mode          string `json:"mode"`
+	Status        string `json:"status"`
+	StartedAt     string `json:"startedAt"`
+	FinishedAt    string `json:"finishedAt"`
+	ErrorMessage  string `json:"errorMessage"`
+	ResultSummary string `json:"resultSummary"`
 }
 
-type Settings struct {
-	ID               uint   `json:"id" gorm:"primaryKey"`
-	Theme            string `json:"theme"`
-	AppName          string `json:"app_name"`
-	DatabasePath     string `json:"database_path"`
-	AutoStart        bool   `json:"auto_start"`
-	LogLevel         string `json:"log_level"`
-	Timezone         string `json:"timezone"`
-	ConnectionStatus string `json:"connection_status"`
-	ConnectedAccount string `json:"connected_account"`
+type ActivityLog struct {
+	ID      uint   `json:"id"`
+	Time    string `json:"time"`
+	Module  string `json:"module"`
+	Action  string `json:"action"`
+	Status  string `json:"status"`
+	Details string `json:"details"`
 }
 
-// DashboardStats for stats cards
+type AppSettings struct {
+	AppName              string `json:"appName"`
+	Theme                string `json:"theme"`
+	DefaultExecutionMode string `json:"defaultExecutionMode"`
+	MaskCookieByDefault  bool   `json:"maskCookieByDefault"`
+	PersistToJson        bool   `json:"persistToJson"`
+	GraphqlLikeDocId     string `json:"graphqlLikeDocId"`
+}
+
 type DashboardStats struct {
-	TotalPosts       int64 `json:"total_posts"`
-	TotalTasks       int64 `json:"total_tasks"`
-	SuccessfulRuns   int64 `json:"successful_runs"`
-	RecentErrors     int64 `json:"recent_errors"`
-	ConnectionStatus string `json:"connection_status"`
-	ConnectedAccount string `json:"connected_account"`
+	TotalTasks int `json:"totalTasks"`
+	Pending    int `json:"pending"`
+	Running    int `json:"running"`
+	Success    int `json:"success"`
+	Failed     int `json:"failed"`
 }

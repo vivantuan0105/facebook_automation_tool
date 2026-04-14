@@ -7,12 +7,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        dark: {
-          bg: '#121212',
-          surface: '#1e1e1e',
-          border: '#333333',
-          text: '#ffffff',
-          muted: '#a0a0a0'
+        light: {
+          bg: '#f8fafc',
+          surface: '#ffffff',
+          border: '#e2e8f0',
+          text: '#0f172a',
+          muted: '#64748b'
         },
         primary: {
           DEFAULT: '#3b82f6',

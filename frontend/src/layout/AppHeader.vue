@@ -1,15 +1,31 @@
 <template>
-  <header class="h-16 bg-dark-surface border-b border-dark-border flex items-center justify-between px-6 z-10 sticky top-0">
-    <div class="flex items-center">
-      <h2 class="text-lg font-medium text-white capitalize">{{ routeName }}</h2>
+  <header class="h-16 bg-light-surface border-b border-light-border flex items-center justify-between px-6 z-10 sticky top-0">
+    <div class="flex items-center space-x-6">
+      <h2 class="text-lg font-medium text-light-text capitalize">{{ routeNameVn }}</h2>
+      <div class="hidden md:flex items-center space-x-3 text-xs border-l border-light-border pl-6">
+        <span class="flex items-center text-light-muted">
+          <div class="w-2 h-2 rounded-full bg-green-500 mr-1.5 animate-pulse"></div>
+          Hệ thống trực tuyến
+        </span>
+        <span class="text-light-border">|</span>
+        <span class="text-light-muted">
+          Chế độ: <span class="font-medium text-emerald-600">{{ currentMode }}</span>
+        </span>
+        <span class="text-light-border">|</span>
+        <span class="text-light-muted">
+          Hàng đợi: 
+          <span class="font-medium text-yellow-600">{{ store.overview?.pending || 0 }} Đang chờ</span>,
+          <span class="font-medium text-purple-600">{{ store.overview?.running || 0 }} Đang chạy</span>
+        </span>
+      </div>
     </div>
     <div class="flex items-center space-x-4">
-      <button class="p-2 rounded-full text-dark-muted hover:text-white hover:bg-dark-border transition-colors">
-        <BellIcon class="w-5 h-5" />
+      <button class="px-3 py-1.5 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg text-xs font-medium transition-colors" @click="router.push('/task-center')">
+        + Tạo tác vụ
       </button>
       <div class="h-8 w-8 rounded-full bg-gradient-to-tr from-primary to-blue-400 p-[2px]">
-        <div class="h-full w-full rounded-full bg-dark-surface flex items-center justify-center">
-          <UserIcon class="w-4 h-4 text-white" />
+        <div class="h-full w-full rounded-full bg-light-surface flex items-center justify-center">
+          <UserIcon class="w-4 h-4 text-light-text" />
         </div>
       </div>
     </div>
@@ -18,11 +34,28 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { BellIcon, UserIcon } from '@heroicons/vue/24/outline'
+import { useRoute, useRouter } from 'vue-router'
+import { UserIcon } from '@heroicons/vue/24/outline'
+import { useMainStore } from '../stores/main'
 
 const route = useRoute()
-const routeName = computed(() => {
-  return route.name ? route.name.toString() : 'Dashboard'
+const router = useRouter()
+const store = useMainStore()
+
+const routeNameVn = computed(() => {
+  const name = route.name ? route.name.toString() : 'Overview'
+  const map: Record<string, string> = {
+    'Overview': 'Tổng quan',
+    'Task Center': 'Trung tâm Tác vụ',
+    'Accounts': 'Tài khoản (Clone)',
+    'Queue': 'Biên chế Hàng đợi',
+    'Logs': 'Nhật ký Hệ thống',
+    'Settings': 'Cài đặt'
+  }
+  return map[name] || name
+})
+
+const currentMode = computed(() => {
+  return 'Thực thi thật (Live)'
 })
 </script>
