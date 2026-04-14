@@ -101,9 +101,6 @@ onUnmounted(() => {
   clearInterval(interval)
 })
 
-const runTask = async (id: number) => {
-  await store.runTaskNow(id, 'live')
-}
 
 const runSelected = async () => {
   for (const id of selectedTasks.value) {

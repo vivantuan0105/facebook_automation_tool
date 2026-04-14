@@ -26,12 +26,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { UserIcon } from '@heroicons/vue/24/outline'
 import { useMainStore } from '../stores/main'
 
 const route = useRoute()
-const router = useRouter()
 const store = useMainStore()
 
 const routeNameVn = computed(() => {
@@ -47,7 +46,4 @@ const routeNameVn = computed(() => {
   return map[name] || name
 })
 
-const currentMode = computed(() => {
-  return 'Thực thi thật (Live)'
-})
 </script>

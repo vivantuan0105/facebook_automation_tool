@@ -146,13 +146,26 @@ func (f *FacebookProvider) ReactToPost(cookie string, postURL string, reactionTy
 	}
 
 	// 3. Mapping Reaction ID
-	reactionID := "1635855486666999" // ID mặc định cho LIKE (Gợi ý của hệ thống)
+	reactionToFB := map[string]string{
+		"Like":  "1635855486666999",
+		"Love":  "1678524932434102",
+		"Care":  "613557422527858",
+		"Haha":  "115940658764963",
+		"Wow":   "478547315650144",
+		"Sad":   "908563459236466",
+		"Angry": "444813342392137",
+	}
+	
+	fbReactionType := reactionToFB[reactionType]
+	if fbReactionType == "" {
+		fbReactionType = "1635855486666999" // Mặc định là Like
+	}
 
 	// doc_id được lấy từ tham số truyền vào, không hardcode nữa
 
 	// 4. Bắn Request GraphQL
 	variables := fmt.Sprintf(`{"input":{"feedback_id":"%s","feedback_reaction_id":"%s","feedback_source":"OBJECT","is_tracking_encrypted":true,"tracking":[],"session_id":"%s","actor_id":"%s","client_mutation_id":"1"},"useDefaultActor":false,"scale":1.5}`,
-		feedbackIDBase64, reactionID, generatePseudoUUID(), actorId)
+		feedbackIDBase64, fbReactionType, generatePseudoUUID(), actorId)
 
 	data := url.Values{}
 	data.Set("fb_dtsg", fbDtsg)
@@ -194,7 +207,7 @@ func (f *FacebookProvider) ReactToPost(cookie string, postURL string, reactionTy
 	}
 
 	// Kiểm tra xem có bằng chứng thành công trong data không. Nếu có thì ưu tiên trả về thành công dù GraphQL có kèm theo warning.
-	if strings.Contains(fbBody, `"viewer_feedback_reaction_info"`) {
+	if strings.Contains(fbBody, `"viewer_feedback_reaction_info":{"`) {
 		return fmt.Sprintf("Thành công! ID mã hóa: %s. Trạng thái HTTP: 200", feedbackIDBase64), nil
 	}
 

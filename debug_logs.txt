@@ -198,3 +198,15 @@
 [2026-04-14T13:49:34+07:00] FacebookProvider | Execute | Success | Task 5 chạy thật thành công
 [2026-04-14T13:49:34+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
 [2026-04-14T13:49:36+07:00] FacebookProvider | Execute | Error | Task 6 thất bại: GraphQL thực thi lỗi nghiêm trọng: {"data":{"feedback_react":null},"errors":[{"message":"A server error missing_required_variable_value occured. Check server logs for details.","severity":"WARNING"},{"message":"A server error field_exception occured. Check server logs for details.","severity":"CRITICAL","mids":["ffb52d766b21b54667689a15793c1c0e"],"debug_link":"https://www.meta.com/debug/?mid=ffb52d766b21b54667689a15793c1c0e","code":1446034,"api_error_code":null,"summary":"Content Not Available Anymore","description":"The content you are trying to react to is not available anymore.","description_html":null,"description_raw":"The content you are trying to react to is not available anymore.","is_silent":false,"is_transient":false,"is_not_critical":true,"requires_reauth":false,"allow_user_retry":false,"debug_info":null,"query_path":null,"fbtrace_id":"DtkJU4uzZOW","www_request_id":"AYFBTVhF10WhG1fXvUh0Dhl","path":["feedback_react"]}],"extensions":{"is_final":true}}
+[2026-04-14T15:04:01+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T15:04:02+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-14T15:04:04+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T15:04:09+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-14T15:11:09+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T15:11:10+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-14T15:11:12+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T15:11:16+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-14T15:11:57+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-14T15:12:32+07:00] Queue | RunTask | Running | Bắt đầu chạy task 3 ở mode live
+[2026-04-14T15:12:33+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T15:12:49+07:00] FacebookProvider | Execute | Success | Task 3 chạy thật thành công

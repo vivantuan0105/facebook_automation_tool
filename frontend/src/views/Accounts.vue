@@ -153,6 +153,27 @@
               <label class="block text-sm font-medium text-slate-700 mb-1">{{ form.taskType === 'Đăng bài viết' ? 'Nội dung bài viết (Status)' : 'Nội dung bình luận' }}</label>
               <textarea v-model="form.message" class="w-full text-sm bg-white border border-gray-300 rounded-lg p-2.5 focus:ring-primary focus:border-primary min-h-[100px]" placeholder="Nhập nội dung... Hỗ trợ spin {A|B}"></textarea>
             </div>
+
+            <div class="md:col-span-2" v-if="form.taskType === 'Đăng bài viết'">
+              <label class="block text-sm font-medium text-slate-700 mb-1">Tệp đính kèm (Ảnh/Video)</label>
+              <div class="space-y-3">
+                <div v-if="form.photoPaths.length > 0" class="space-y-2">
+                  <div v-for="(_, index) in form.photoPaths" :key="index" class="flex gap-2 items-center bg-gray-50 px-3 py-2.5 rounded-lg border border-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                    </svg>
+                    <span class="flex-1 text-sm text-gray-700 truncate" :title="form.photoPaths[index]">{{ form.photoPaths[index].split('\\').pop() || form.photoPaths[index].split('/').pop() }}</span>
+                    <button @click="removePhoto(index)" class="px-3 py-1 border border-red-200 bg-white hover:bg-red-50 text-red-600 text-sm rounded transition-colors whitespace-nowrap">Xóa</button>
+                  </div>
+                </div>
+                <div>
+                  <button @click="selectPhoto" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 border-dashed hover:bg-slate-100 text-slate-700 text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                    Chọn file Ảnh / Video từ máy tính
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -218,7 +239,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, onUnmounted, watch } from 'vue'
-import { GetAllAccounts, AddAccount, DeleteAccount } from '../../wailsjs/go/app/App'
+import { GetAllAccounts, AddAccount, DeleteAccount, SelectPhotoDialog } from '../../wailsjs/go/app/App'
 import { useMainStore } from '../stores/main'
 import CustomSelect from '../components/CustomSelect.vue'
 
@@ -325,6 +346,22 @@ const onTaskTypeChange = () => {
     form.postUrl = ''
   } else {
     form.targetMode = 'post_url'
+  }
+}
+
+
+const removePhoto = (index: number) => {
+  form.photoPaths.splice(index, 1)
+}
+
+const selectPhoto = async () => {
+  try {
+    const path = await SelectPhotoDialog()
+    if (path) {
+      form.photoPaths.push(path)
+    }
+  } catch (err) {
+    console.error(err)
   }
 }
 
