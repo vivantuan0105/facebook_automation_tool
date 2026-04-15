@@ -5,7 +5,11 @@ type FacebookAccount struct {
 	Name             string `json:"name"` // Tên gợi nhớ hoặc tên Facebook
 	Cookie              string `json:"cookie"`
 	Status              string `json:"status"` // Live, Die, Checkpoint, Unchecked
-	CreatedAt        string `json:"createdAt"`
+	Gender              string `json:"gender"`
+	Location            string `json:"location"`
+	Friends             string `json:"friends"`
+	Followers           string `json:"followers"`
+	CreatedAt           string `json:"createdAt"`
 }
 
 type ReactionTask struct {
@@ -62,6 +66,8 @@ type AppSettings struct {
 	GraphqlLikeDocId     string `json:"graphqlLikeDocId"`
 	GraphqlCommentDocId  string `json:"graphqlCommentDocId"`
 	GraphqlPostDocId     string `json:"graphqlPostDocId"`
+	GraphqlProfileDocId  string `json:"graphqlProfileDocId"`
+	GraphqlFriendsDocId  string `json:"graphqlFriendsDocId"`
 }
 
 type DashboardStats struct {

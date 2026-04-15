@@ -31,6 +31,8 @@ export namespace models {
 	    graphqlLikeDocId: string;
 	    graphqlCommentDocId: string;
 	    graphqlPostDocId: string;
+	    graphqlProfileDocId: string;
+	    graphqlFriendsDocId: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new AppSettings(source);
@@ -46,6 +48,8 @@ export namespace models {
 	        this.graphqlLikeDocId = source["graphqlLikeDocId"];
 	        this.graphqlCommentDocId = source["graphqlCommentDocId"];
 	        this.graphqlPostDocId = source["graphqlPostDocId"];
+	        this.graphqlProfileDocId = source["graphqlProfileDocId"];
+	        this.graphqlFriendsDocId = source["graphqlFriendsDocId"];
 	    }
 	}
 	export class DashboardStats {
@@ -73,6 +77,10 @@ export namespace models {
 	    name: string;
 	    cookie: string;
 	    status: string;
+	    gender: string;
+	    location: string;
+	    friends: string;
+	    followers: string;
 	    createdAt: string;
 	
 	    static createFrom(source: any = {}) {
@@ -85,6 +93,10 @@ export namespace models {
 	        this.name = source["name"];
 	        this.cookie = source["cookie"];
 	        this.status = source["status"];
+	        this.gender = source["gender"];
+	        this.location = source["location"];
+	        this.friends = source["friends"];
+	        this.followers = source["followers"];
 	        this.createdAt = source["createdAt"];
 	    }
 	}

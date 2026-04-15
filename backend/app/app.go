@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"strings"
 	"time"
+	"os"
+	"path/filepath"
 
 	"regexp"
 	"socialmanager/backend/models"
@@ -201,6 +203,8 @@ func (a *App) RunReactionTaskNow(taskID uint, mode string) error {
 				docId = store.DB.Settings.GraphqlCommentDocId
 			} else if t.TaskType == "Đăng bài viết" {
 				docId = store.DB.Settings.GraphqlPostDocId
+			} else if t.TaskType == "Quét thông tin" {
+				docId = store.DB.Settings.GraphqlProfileDocId
 			} else {
 				docId = store.DB.Settings.GraphqlLikeDocId
 			}
@@ -230,6 +234,38 @@ func (a *App) RunReactionTaskNow(taskID uint, mode string) error {
 				
 				if err == nil {
 					resultLog, err = fbProvider.PostToFacebook(t.Cookie, t.Message, photoIDs, docId)
+				}
+			} else if t.TaskType == "Quét thông tin" {
+				// Cập nhật Database với info quét được chính xác từ UID cookie
+				re := regexp.MustCompile(`c_user=(\d+)`)
+				matches := re.FindStringSubmatch(t.Cookie)
+				uid := ""
+				if len(matches) > 1 {
+					uid = matches[1]
+				}
+				if uid != "" {
+					_, err = a.ScanAccountData(uid, t.Cookie)
+					if err == nil {
+						resultLog = "Quét thông tin thành công và cập nhật vào Database."
+					}
+				} else {
+					err = errors.New("Không thể lấy UID từ cookie")
+				}
+			} else if t.TaskType == "Quét bạn bè" {
+				re := regexp.MustCompile(`c_user=(\d+)`)
+				matches := re.FindStringSubmatch(t.Cookie)
+				uid := ""
+				if len(matches) > 1 {
+					uid = matches[1]
+				}
+				if uid != "" {
+					count, errX := a.ScanAccountFriendsAPI(uid, t.Cookie)
+					err = errX
+					if err == nil {
+						resultLog = fmt.Sprintf("Quét thành công %d bạn bè.", count)
+					}
+				} else {
+					err = errors.New("Không thể lấy UID từ cookie để quét bạn")
 				}
 			} else {
 				resultLog, err = fbProvider.ReactToPost(t.Cookie, targetURL, t.ReactionType, docId)
@@ -386,3 +422,88 @@ func (a *App) AddAccount(name string, cookie string) (models.FacebookAccount, er
 	return acc, err
 }
 
+func (a *App) ScanAccountData(uid string, cookie string) (models.FacebookAccount, error) {
+	docId := store.DB.Settings.GraphqlProfileDocId
+	fbProvider := providers.NewFacebookProvider()
+	resultMap, err := fbProvider.ScanAccountInfo(cookie, uid, docId)
+	if err != nil {
+		store.DB.AddLog("Accounts", "Scan", "Error", fmt.Sprintf("Lỗi quét tài khoản %s: %v", uid, err))
+		return models.FacebookAccount{}, err
+	}
+
+	// Đọc list cũ để merge (do SaveAccount sẽ ghi đè toàn bộ struct)
+	var currentAcc *models.FacebookAccount
+	accounts, _ := store.GetAllAccounts()
+	for _, acc := range accounts {
+		if acc.UID == uid {
+			currentAcc = &acc
+			break
+		}
+	}
+
+	if currentAcc == nil {
+		return models.FacebookAccount{}, fmt.Errorf("Không tìm thấy tài khoản UID %s trong Database Local", uid)
+	}
+
+	// Update data
+	if resultMap["name"] != "" {
+		currentAcc.Name = resultMap["name"]
+	}
+	currentAcc.Gender = resultMap["gender"]
+	currentAcc.Location = resultMap["location"]
+	currentAcc.Friends = resultMap["friends"]
+	currentAcc.Followers = resultMap["followers"]
+
+	err = store.SaveAccount(*currentAcc)
+	if err == nil {
+		store.DB.AddLog("Accounts", "Scan", "Success", fmt.Sprintf("Cập nhật thông tin thành công cho %s", uid))
+	}
+	return *currentAcc, err
+}
+
+func (a *App) ScanAccountFriendsAPI(uid string, cookie string) (int, error) {
+	docId := store.DB.Settings.GraphqlFriendsDocId
+	fbProvider := providers.NewFacebookProvider()
+	
+	count, err := fbProvider.ScanAccountFriends(cookie, uid, docId)
+	if err != nil {
+		store.DB.AddLog("Accounts", "ScanFriends", "Error", fmt.Sprintf("Lỗi quét bạn bè tài khoản %s: %v", uid, err))
+		return 0, err
+	}
+
+	// Update friend count to current account state
+	var currentAcc *models.FacebookAccount
+	accounts, _ := store.GetAllAccounts()
+	for _, acc := range accounts {
+		if acc.UID == uid {
+			currentAcc = &acc
+			break
+		}
+	}
+
+	if currentAcc != nil {
+		currentAcc.Friends = fmt.Sprintf("%d", count)
+		store.SaveAccount(*currentAcc)
+	}
+
+	store.DB.AddLog("Accounts", "ScanFriends", "Success", fmt.Sprintf("Quét thành công %d bạn bè cho %s", count, uid))
+	return count, nil
+}
+
+func (a *App) GetAccountFriendsList(uid string) ([]string, error) {
+	path := filepath.Join("Data", uid, "Friends.txt")
+	content, err := os.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+
+	lines := strings.Split(string(content), "\n")
+	var result []string
+	// Bỏ qua 2 dòng header đầu tiên (Tính tổng cộng: ... và ====)
+	for i, line := range lines {
+		if i > 1 && strings.TrimSpace(line) != "" {
+			result = append(result, strings.TrimSpace(line))
+		}
+	}
+	return result, nil
+}

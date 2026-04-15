@@ -8,6 +8,8 @@ export function CreateReactionTask(arg1:models.ReactionTask):Promise<models.Reac
 
 export function DeleteAccount(arg1:string):Promise<void>;
 
+export function GetAccountFriendsList(arg1:string):Promise<Array<string>>;
+
 export function GetAllAccounts():Promise<Array<models.FacebookAccount>>;
 
 export function GetExecutions():Promise<Array<models.TaskExecution>>;
@@ -29,6 +31,10 @@ export function RemoveReactionTask(arg1:number):Promise<void>;
 export function RetryReactionTask(arg1:number):Promise<void>;
 
 export function RunReactionTaskNow(arg1:number,arg2:string):Promise<void>;
+
+export function ScanAccountData(arg1:string,arg2:string):Promise<models.FacebookAccount>;
+
+export function ScanAccountFriendsAPI(arg1:string,arg2:string):Promise<number>;
 
 export function SelectPhotoDialog():Promise<string>;
 

@@ -139,6 +139,8 @@ const taskTypeOptions = [
   { value: 'Like bài viết', label: 'Thích (Reaction) bài viết' },
   { value: 'Comment bài viết', label: 'Bình luận bài viết' },
   { value: 'Đăng bài viết', label: 'Đăng bài viết (Post)' },
+  { value: 'Quét thông tin', label: 'Quét thông tin Cá nhân (Scan Profile)' },
+  { value: 'Quét bạn bè', label: 'Quét danh sách Bạn bè (Scan Friends)' },
   { value: 'Reaction batch', label: 'Reaction hàng loạt (Sắp có)', disabled: true }
 ]
 
@@ -146,6 +148,8 @@ const targetModeOptions = computed(() => {
   if (form.taskType === 'Đăng bài viết') {
     return [{ value: 'timeline', label: 'Đăng lên trang cá nhân (Timeline)' }]
   }
+  if (form.taskType === 'Quét thông tin') return [{ value: 'self_profile', label: 'Quét thông tin chính tài khoản này' }]
+  if (form.taskType === 'Quét bạn bè') return [{ value: 'self_profile', label: 'Quét danh sách bạn bè của tài khoản này' }]
   return [{ value: 'post_url', label: 'Dùng URL Bài viết (Khuyên dùng)' }]
 })
 
@@ -202,6 +206,9 @@ watch(form, () => {
 const onTaskTypeChange = () => {
   if (form.taskType === 'Đăng bài viết') {
     form.targetMode = 'timeline'
+    form.postUrl = ''
+  } else if (form.taskType === 'Quét thông tin' || form.taskType === 'Quét bạn bè') {
+    form.targetMode = 'self_profile'
     form.postUrl = ''
   } else {
     form.targetMode = 'post_url'

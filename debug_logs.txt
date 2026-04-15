@@ -340,3 +340,81 @@
 [2026-04-14T16:27:42+07:00] FacebookProvider | Execute | Success | Task 12 chạy thật thành công
 [2026-04-14T16:27:42+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
 [2026-04-14T16:27:46+07:00] FacebookProvider | Execute | Success | Task 13 chạy thật thành công
+[2026-04-14T17:08:29+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-14T17:08:31+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-14T17:08:32+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T17:08:36+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61571360758847
+[2026-04-14T17:08:36+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-14T17:09:17+07:00] Settings | Update | Success | Cấu hình được lưu thành công vào file settings.json.
+[2026-04-14T17:11:05+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-14T17:11:07+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-14T17:11:09+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T17:11:12+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61571360758847
+[2026-04-14T17:11:12+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-14T17:23:27+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-14T17:23:28+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-14T17:23:30+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T17:23:31+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61571360758847
+[2026-04-14T17:23:31+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-14T17:25:56+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61571360758847
+[2026-04-14T21:46:08+07:00] Settings | Update | Success | Cấu hình được lưu thành công vào file settings.json.
+[2026-04-14T21:46:20+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-14T21:46:23+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-14T21:46:25+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T21:46:30+07:00] Accounts | ScanFriends | Success | Quét thành công 0 bạn bè cho 61571360758847
+[2026-04-14T21:46:30+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-14T22:54:50+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-14T22:54:52+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-14T22:54:53+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T22:54:55+07:00] Accounts | ScanFriends | Success | Quét thành công 0 bạn bè cho 61571360758847
+[2026-04-14T22:54:55+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-14T22:55:04+07:00] Settings | Update | Success | Cấu hình được lưu thành công vào file settings.json.
+[2026-04-14T22:55:21+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-14T22:55:22+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-14T22:55:23+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T22:55:25+07:00] Accounts | ScanFriends | Success | Quét thành công 0 bạn bè cho 61571360758847
+[2026-04-14T22:55:25+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-14T23:03:19+07:00] Task Center | CreateTask | Success | Đã thêm task 'Comment bài viết' vào queue.
+[2026-04-14T23:03:19+07:00] Task Center | CreateTask | Success | Đã thêm task 'Comment bài viết' vào queue.
+[2026-04-14T23:03:21+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-14T23:03:21+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-14T23:03:22+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T23:03:30+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-14T23:03:30+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T23:03:37+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-14T23:04:16+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-14T23:05:14+07:00] Queue | RunTask | Running | Bắt đầu chạy task 3 ở mode live
+[2026-04-14T23:05:15+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T23:05:17+07:00] Accounts | ScanFriends | Error | Lỗi quét bạn bè tài khoản 61571360758847: GraphQL Error: The GraphQL document with ID 26339944415655330 was not found.
+[2026-04-14T23:05:17+07:00] FacebookProvider | Execute | Error | Task 3 thất bại: GraphQL Error: The GraphQL document with ID 26339944415655330 was not found.
+[2026-04-14T23:10:20+07:00] Settings | Update | Success | Cấu hình được lưu thành công vào file settings.json.
+[2026-04-14T23:10:30+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-14T23:10:41+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-14T23:10:42+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T23:10:44+07:00] Accounts | ScanFriends | Error | Lỗi quét bạn bè tài khoản 61571360758847: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-14T23:10:44+07:00] FacebookProvider | Execute | Error | Task 1 thất bại: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-14T23:14:17+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-14T23:14:18+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-14T23:14:19+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T23:14:22+07:00] Accounts | ScanFriends | Error | Lỗi quét bạn bè tài khoản 61571360758847: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-14T23:14:22+07:00] FacebookProvider | Execute | Error | Task 1 thất bại: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-14T23:14:59+07:00] Task Center | CreateTask | Success | Đã thêm task 'Đăng bài viết' vào queue.
+[2026-04-14T23:15:01+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-14T23:15:03+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T23:15:09+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-14T23:15:39+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-14T23:15:40+07:00] Queue | RunTask | Running | Bắt đầu chạy task 3 ở mode live
+[2026-04-14T23:15:41+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-14T23:15:43+07:00] Accounts | ScanFriends | Error | Lỗi quét bạn bè tài khoản 61571360758847: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-14T23:15:43+07:00] FacebookProvider | Execute | Error | Task 3 thất bại: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-15T08:59:54+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-15T08:59:56+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-15T08:59:58+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T08:59:59+07:00] Accounts | ScanFriends | Success | Quét thành công 5 bạn bè cho 61571360758847
+[2026-04-15T08:59:59+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-15T09:00:34+07:00] Settings | Update | Success | Cấu hình được lưu thành công vào file settings.json.
+[2026-04-15T09:00:47+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-15T09:00:48+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-15T09:00:50+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T09:00:51+07:00] Accounts | ScanFriends | Success | Quét thành công 5 bạn bè cho 61571360758847
+[2026-04-15T09:00:51+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công

@@ -1,13 +1,13 @@
 package providers
 
 import (
+	"bytes"
 	"crypto/rand"
 	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
-	"bytes"
 	"mime/multipart"
 	"net/http"
 	"net/url"
@@ -15,6 +15,9 @@ import (
 	"regexp"
 	"strings"
 	"time"
+	"path/filepath"
+
+	"github.com/tidwall/gjson"
 )
 
 type FacebookProvider struct {
@@ -185,7 +188,7 @@ func (f *FacebookProvider) ReactToPost(cookie string, postURL string, reactionTy
 		"Sad":   "908563459236466",
 		"Angry": "444813342392137",
 	}
-	
+
 	fbReactionType := reactionToFB[reactionType]
 	if fbReactionType == "" {
 		fbReactionType = "1635855486666999" // Mặc định là Like
@@ -205,7 +208,7 @@ func (f *FacebookProvider) ReactToPost(cookie string, postURL string, reactionTy
 	if lsd != "" {
 		data.Set("lsd", lsd)
 	}
-	
+
 	// Facebook strict payload parameters
 	data.Set("__user", actorId)
 	data.Set("__a", "1")
@@ -228,7 +231,7 @@ func (f *FacebookProvider) ReactToPost(cookie string, postURL string, reactionTy
 
 	fbBodyBytes, _ := io.ReadAll(res.Body)
 	fbBody := string(fbBodyBytes)
-	
+
 	// Lưu lại response log để AI đọc
 	os.WriteFile("debug_facebook_response.json", fbBodyBytes, 0644)
 
@@ -245,7 +248,7 @@ func (f *FacebookProvider) ReactToPost(cookie string, postURL string, reactionTy
 	if strings.Contains(fbBody, "was not found") && strings.Contains(fbBody, "The GraphQL document") {
 		return "", errors.New("GraphQL Doc_ID Like đã hết hạn (Not Found). Vui lòng cập nhật Doc_ID mới trong Cài Đặt!")
 	}
-	
+
 	if strings.Contains(fbBody, `"severity":"CRITICAL"`) {
 		summary := ""
 		if m := regexp.MustCompile(`"summary":"([^"]+)"`).FindStringSubmatch(fbBody); len(m) > 1 {
@@ -255,7 +258,7 @@ func (f *FacebookProvider) ReactToPost(cookie string, postURL string, reactionTy
 		if m := regexp.MustCompile(`"description":"([^"]+)"`).FindStringSubmatch(fbBody); len(m) > 1 {
 			description = m[1]
 		}
-		
+
 		if summary != "" {
 			return "", fmt.Errorf("Bị chặn/Từ chối: %s (Chi tiết: %s)", summary, description)
 		}
@@ -422,7 +425,7 @@ func (f *FacebookProvider) CommentToPost(cookie string, postURL string, message 
 	if lsd != "" {
 		data.Set("lsd", lsd)
 	}
-	
+
 	data.Set("__user", actorId)
 	data.Set("__a", "1")
 	data.Set("__req", "1")
@@ -442,13 +445,13 @@ func (f *FacebookProvider) CommentToPost(cookie string, postURL string, message 
 
 	fbBodyBytes, _ := io.ReadAll(res.Body)
 	fbBody := string(fbBodyBytes)
-	
+
 	os.WriteFile("debug_facebook_response.json", fbBodyBytes, 0644)
 
 	if res.StatusCode != 200 {
 		return "", fmt.Errorf("GraphQL HTTP %d: %s", res.StatusCode, fbBody)
 	}
-	
+
 	// Kiểm tra xem có bằng chứng thành công trong data không.
 	// Sử dụng `"comment_create"` hoặc `"comment"` để nhận diện data hợp lệ.
 	if strings.Contains(fbBody, `"comment_create"`) || strings.Contains(fbBody, `"comment"`) {
@@ -481,16 +484,16 @@ func createPostPayload(uid, message string, photoIDs []string) map[string]interf
 	}
 
 	idempotencyToken := generatePseudoUUID() + "_FEED"
-	
+
 	return map[string]interface{}{
 		"input": map[string]interface{}{
-			"actor_id":                 uid,
-			"message":                  map[string]string{"text": message},
-			"attachments":              attachments,
-			"source":                   "WWW",
-			"composer_entry_point":     "inline_composer",
-			"composer_source_surface":  "timeline",
-			"idempotence_token":        idempotencyToken,
+			"actor_id":                uid,
+			"message":                 map[string]string{"text": message},
+			"attachments":             attachments,
+			"source":                  "WWW",
+			"composer_entry_point":    "inline_composer",
+			"composer_source_surface": "timeline",
+			"idempotence_token":       idempotencyToken,
 			"audience": map[string]interface{}{
 				"privacy": map[string]interface{}{
 					"base_state": "EVERYONE",
@@ -571,7 +574,7 @@ func (f *FacebookProvider) PostToFacebook(cookie string, message string, photoID
 
 	fbBodyBytes, _ := io.ReadAll(res.Body)
 	fbBody := string(fbBodyBytes)
-	
+
 	os.WriteFile("debug_facebook_response.json", fbBodyBytes, 0644)
 
 	if res.StatusCode != 200 {
@@ -714,7 +717,7 @@ func (f *FacebookProvider) UploadPhoto(cookie, filePath string) (string, error) 
 		PhotoID string `json:"photo_id"`
 	}
 	json.Unmarshal(respBody, &fbResp)
-	
+
 	photoID := fbResp.PhotoID
 
 	if photoID == "" {
@@ -756,4 +759,366 @@ func (f *FacebookProvider) UploadPhoto(cookie, filePath string) (string, error) 
 	}
 
 	return photoID, nil
+
+}
+
+// ---------------------------------------------------------
+// TÍNH NĂNG QUÉT THÔNG TIN PROFILE VÀ LƯU INFO.TXT
+// ---------------------------------------------------------
+
+func (f *FacebookProvider) ScanAccountInfo(cookie string, uid string, docId string) (map[string]string, error) {
+	// Lấy trang cá nhân section About để có nhiều thông tin nhất
+	req, err := http.NewRequest("GET", "https://www.facebook.com/profile.php?id="+uid+"&sk=about", nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Cookie", cookie)
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
+	req.Header.Set("Accept", "text/html,application/xhtml+xml")
+	req.Header.Set("Accept-Language", "vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7")
+
+	resp, err := f.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	bodyBytes, _ := io.ReadAll(resp.Body)
+	htmlText := string(bodyBytes)
+
+	// Lưới Vét Regex: Trích xuất tất cả các khối JSON trong thẻ script
+	jsonFragments := []string{}
+	scripts := regexp.MustCompile(`<script type="application/json"[^>]*>(.*?)</script>`).FindAllStringSubmatch(htmlText, -1)
+	for _, m := range scripts {
+		if len(m) > 1 {
+			jsonFragments = append(jsonFragments, m[1])
+		}
+	}
+
+	// Bổ sung lưới phụ vét sâu hơn từ các biến JS (nếu có)
+	relayScripts := regexp.MustCompile(`"data"\s*:\s*(\{.*?\})\s*,\s*"errors"`).FindAllStringSubmatch(htmlText, -1)
+	for _, m := range relayScripts {
+		if len(m) > 1 {
+			jsonFragments = append(jsonFragments, `{"data":` + m[1] + `}`)
+		}
+	}
+
+	resultMap := map[string]string{
+		"gender":    "",
+		"location":  "",
+		"friends":   "",
+		"followers": "",
+		"name":      "",
+	}
+
+	var details string
+
+	for _, rawJson := range jsonFragments {
+		// 1. Tìm Tên (Name) - Có thể nằm ở nhiều chỗ khác nhau tùy section
+		namePaths := []string{
+			"data.user.name",
+			"data.viewer.actor.name",
+			"__bbox.result.data.user.name",
+			"__bbox.result.data.name",
+			"data.name",
+		}
+		for _, path := range namePaths {
+			if n := gjson.Get(rawJson, path).String(); n != "" {
+				resultMap["name"] = n
+				break
+			}
+		}
+
+		// 2. Tìm Giới tính (Gender)
+		genderPaths := []string{
+			"data.user.gender",
+			"__bbox.result.data.user.gender",
+			"__bbox.result.data.gender",
+		}
+		for _, path := range genderPaths {
+			if g := gjson.Get(rawJson, path).String(); g != "" {
+				resultMap["gender"] = g
+				break
+			}
+		}
+
+		// 3. Tìm Followers / Friends
+		fCount := gjson.Get(rawJson, "data.user.profile_header_actions.follower_count.count").String()
+		if fCount != "" && resultMap["followers"] == "" {
+			resultMap["followers"] = fCount
+		}
+
+		// 4. Quét Context Items (Học vấn, Nơi ở, v.v.)
+		// Comet layout thường để ở timeline_context_item_sections hoặc profile_about_all_sections
+		contextPaths := []string{
+			"data.user.timeline_context_item_sections.0.items",
+			"__bbox.result.data.user.timeline_context_item_sections.0.items",
+			"data.user.profile_about_all_sections.edges",
+		}
+
+		for _, cp := range contextPaths {
+			items := gjson.Get(rawJson, cp)
+			if items.Exists() {
+				items.ForEach(func(key, value gjson.Result) bool {
+					// Thử lấy text từ các cấu trúc phức tạp của Facebok
+					label := value.Get("renderer.context_item.title.text").String()
+					if label == "" {
+						label = value.Get("node.title.text").String() // fallback cho about sections
+					}
+
+					if label != "" {
+						details += fmt.Sprintf("- %s\n", label)
+						
+						lowLabel := strings.ToLower(label)
+						if strings.Contains(lowLabel, "sống tại") || strings.Contains(lowLabel, "đến từ") {
+							resultMap["location"] = strings.TrimSpace(strings.ReplaceAll(strings.ReplaceAll(label, "Sống tại", ""), "Đến từ", ""))
+						}
+						if strings.Contains(lowLabel, "người theo dõi") {
+							parts := strings.Fields(label)
+							if len(parts) > 0 {
+								resultMap["followers"] = parts[0]
+							}
+						}
+					}
+					return true
+				})
+			}
+		}
+	}
+
+	// FALLBACK Cố định bằng Regex nếu JSON Parser thất bại toàn tập
+	if resultMap["name"] == "" {
+		re := regexp.MustCompile(`"NAME":"([^"]+)"`)
+		if m := re.FindStringSubmatch(htmlText); len(m) > 1 {
+			resultMap["name"] = m[1]
+		}
+	}
+	if resultMap["gender"] == "" {
+		if strings.Contains(htmlText, `"gender":"MALE"`) {
+			resultMap["gender"] = "Nam (MALE)"
+		} else if strings.Contains(htmlText, `"gender":"FEMALE"`) {
+			resultMap["gender"] = "Nữ (FEMALE)"
+		}
+	}
+
+	// Xử lý các trường trống
+	if resultMap["location"] == "" {
+		resultMap["location"] = "Không công khai"
+	}
+	if resultMap["gender"] == "" {
+		resultMap["gender"] = "Không công khai"
+	}
+	if resultMap["followers"] == "" {
+		resultMap["followers"] = "0"
+	}
+	if resultMap["friends"] == "" {
+		resultMap["friends"] = "0"
+	}
+
+	bio := "" // Thường bị ẩn
+
+	// Tạo Data Thư mục
+	path := filepath.Join("Data", uid)
+	os.MkdirAll(path, os.ModePerm)
+
+	timestamp := time.Now().Format("2006-01-02 15:04:05")
+	content := fmt.Sprintf(`--- THÔNG TIN TÀI KHOẢN ---
+Quét lúc: %s
+UID: %s
+
+[CƠ BẢN]
+Họ tên: %s
+Giới tính: %s
+Tiểu sử: %s
+
+[VỊ TRÍ & MỐI QUAN HỆ]
+Nơi ở hiện tại / Quê quán: %s
+
+[CHI TIẾT TRÊN TRANG CÁ NHÂN]
+%s
+--------------------------`, timestamp, uid, resultMap["name"], resultMap["gender"], bio, resultMap["location"], details)
+
+	// File path
+	filePath := filepath.Join(path, "Profile_Scan.txt")
+	os.WriteFile(filePath, []byte(content), 0644)
+
+	return resultMap, nil
+}
+
+// ---------------------------------------------------------
+// TÍNH NĂNG QUÉT BẠN BÈ VÀ LƯU FRIENDS.TXT
+// ---------------------------------------------------------
+
+func (f *FacebookProvider) ScanAccountFriends(cookie string, uid string, docId string) (int, error) {
+	// Sử dụng doc_id chuyên biệt cho lấy danh sách bạn bè như hướng dẫn
+	docIdToUse := "26206414195674994"
+
+	fbDtsg := ""
+	lsd := ""
+	jazoest := ""
+	cursor := ""
+	hasNextPage := true
+	friendList := []string{}
+	friendMap := make(map[string]bool)
+
+	// Lấy fb_dtsg, lsd, jazoest lần đầu tiên từ trang cá nhân
+	req, err := http.NewRequest("GET", "https://www.facebook.com/profile.php?id="+uid, nil)
+	if err == nil {
+		req.Header.Set("Cookie", cookie)
+		req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
+		req.Header.Set("Accept", "text/html,application/xhtml+xml")
+		resp, err := f.client.Do(req)
+		if err == nil {
+			bodyBytes, _ := io.ReadAll(resp.Body)
+			htmlText := string(bodyBytes)
+			
+			dtsgRegex1 := regexp.MustCompile(`\["DTSGInitialData",\[\],{"token":"([^"]+)"}`)
+			if m := dtsgRegex1.FindStringSubmatch(htmlText); len(m) > 1 {
+				fbDtsg = m[1]
+			} else {
+				dtsgRegex2 := regexp.MustCompile(`"DTSGInitialData",.*?"token":"([^"]+)"`)
+				if m := dtsgRegex2.FindStringSubmatch(htmlText); len(m) > 1 {
+					fbDtsg = m[1]
+				}
+			}
+
+			lsdRegex := regexp.MustCompile(`"LSD",\[\],{"token":"([^"]+)"}`)
+			if m := lsdRegex.FindStringSubmatch(htmlText); len(m) > 1 {
+				lsd = m[1]
+			} else {
+				lsdRegex = regexp.MustCompile(`name="lsd" value="([^"]+)"`)
+				if m := lsdRegex.FindStringSubmatch(htmlText); len(m) > 1 {
+					lsd = m[1]
+				}
+			}
+
+			jazoestRegex := regexp.MustCompile(`name="jazoest" value="(\d+)"`)
+			if m := jazoestRegex.FindStringSubmatch(htmlText); len(m) > 1 {
+				jazoest = m[1]
+			} else {
+				jazoestRegex = regexp.MustCompile(`"jazoest":"(\d+)"`)
+				if m := jazoestRegex.FindStringSubmatch(htmlText); len(m) > 1 {
+					jazoest = m[1]
+				}
+			}
+
+			os.WriteFile("DEBUG_PROFILE_DUMP.html", bodyBytes, 0644)
+			resp.Body.Close()
+		}
+	}
+
+	if fbDtsg == "" {
+		return 0, errors.New("Không lấy được fb_dtsg từ trang cá nhân.")
+	}
+
+	// Bắt đầu vòng lặp lấy bạn bè
+	for hasNextPage {
+		// Tạo biến variable JSON sạch gọn, không dư dấu space
+		var variables string
+		if cursor == "" {
+			variables = `{"count":20,"cursor":null,"name":""}`
+		} else {
+			variables = fmt.Sprintf(`{"count":20,"cursor":"%s","name":""}`, cursor)
+		}
+
+		payload := url.Values{}
+		payload.Set("av", uid)
+		payload.Set("__user", uid)
+		payload.Set("__a", "1")
+		payload.Set("fb_dtsg", fbDtsg)
+		if lsd != "" {
+			payload.Set("lsd", lsd)
+		}
+		if jazoest != "" {
+			payload.Set("jazoest", jazoest)
+		}
+		payload.Set("doc_id", docIdToUse)
+		payload.Set("variables", variables)
+		payload.Set("fb_api_req_friendly_name", "FriendingCometFriendsListPaginationQuery")
+
+		graphReq, _ := http.NewRequest("POST", "https://www.facebook.com/api/graphql/", strings.NewReader(payload.Encode()))
+		graphReq.Header.Set("Cookie", cookie)
+		graphReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+		graphReq.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
+		graphReq.Header.Set("X-FB-Friendly-Name", "FriendingCometFriendsListPaginationQuery")
+
+		graphResp, _ := f.client.Do(graphReq)
+		if graphResp == nil {
+			break
+		}
+
+		bodyBytes, _ := io.ReadAll(graphResp.Body)
+		graphResp.Body.Close()
+		jsonStr := string(bodyBytes)
+
+		// Thêm dòng ghi file debug ra ngoài để theo dõi
+		os.WriteFile("DEBUG_FRIENDS_RESPONSE.json", bodyBytes, 0644)
+		os.WriteFile("DEBUG_FRIENDS_PAYLOAD.txt", []byte(payload.Encode() + "\nfb_dtsg: " + fbDtsg), 0644)
+
+		graphqlErrors := gjson.Get(jsonStr, "errors")
+		if graphqlErrors.Exists() && graphqlErrors.IsArray() {
+			errMsg := graphqlErrors.Get("0.message").String()
+			return len(friendList), fmt.Errorf("GraphQL Error: %s", errMsg)
+		}
+
+		// Đường dẫn dữ liệu theo đúng cấu trúc FriendingCometFriendsListPaginationQuery
+		edgesPath := "data.viewer.all_friends.edges"
+		pageInfoPath := "data.viewer.all_friends.page_info"
+
+		edges := gjson.Get(jsonStr, edgesPath)
+		pageInfo := gjson.Get(jsonStr, pageInfoPath)
+
+		// Dự phòng nếu FB trả theo username path (đôi khi đổi từ viewer sang user)
+		if !edges.Exists() {
+			edges = gjson.Get(jsonStr, "data.user.all_friends.edges")
+			pageInfo = gjson.Get(jsonStr, "data.user.all_friends.page_info")
+		}
+
+		if edges.Exists() && edges.IsArray() {
+			edges.ForEach(func(key, value gjson.Result) bool {
+				fName := value.Get("node.name").String()
+				if fName == "" {
+					fName = value.Get("node.title.text").String() // Fallback
+				}
+				
+				fId := value.Get("node.id").String()
+				fUrl := value.Get("node.url").String()
+				
+				displayStr := ""
+				if fId != "" {
+					displayStr = fmt.Sprintf("%s | %s", fId, fName)
+				} else if fUrl != "" {
+					displayStr = fmt.Sprintf("%s | %s", fName, fUrl)
+				}
+				
+				if displayStr != "" && fName != "" && !friendMap[displayStr] {
+					friendMap[displayStr] = true
+					friendList = append(friendList, displayStr)
+				}
+				return true
+			})
+		}
+
+		if pageInfo.Exists() {
+			hasNextPage = pageInfo.Get("has_next_page").Bool()
+			if hasNextPage {
+				cursor = pageInfo.Get("end_cursor").String()
+				time.Sleep(2 * time.Second) // Nghỉ 2 giây để chống block
+			}
+		} else {
+			hasNextPage = false
+		}
+	}
+
+	// Ghi danh sách ra file
+	path := filepath.Join("Data", uid)
+	os.MkdirAll(path, os.ModePerm)
+
+	content := fmt.Sprintf("Tổng cộng: %d bạn bè\n==============================\n", len(friendList))
+	for _, f := range friendList {
+		content += f + "\n"
+	}
+	os.WriteFile(filepath.Join(path, "Friends.txt"), []byte(content), 0644)
+
+	return len(friendList), nil
 }

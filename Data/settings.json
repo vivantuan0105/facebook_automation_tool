@@ -6,5 +6,7 @@
   "persistToJson": true,
   "graphqlLikeDocId": "26477330531933156",
   "graphqlCommentDocId": "27321223354145000",
-  "graphqlPostDocId": "26454041007581197"
+  "graphqlPostDocId": "26454041007581197",
+  "graphqlProfileDocId": "26242272355472355",
+  "graphqlFriendsDocId": "26206414195674994"
 }

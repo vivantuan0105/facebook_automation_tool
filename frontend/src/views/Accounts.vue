@@ -27,8 +27,41 @@
       </button>
     </div>
 
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-2">
+      <div class="flex flex-wrap items-center gap-2">
+        <button
+          @click="activeSection = 'accounts'"
+          :class="activeSection === 'accounts'
+            ? 'bg-indigo-600 text-white shadow-sm'
+            : 'text-slate-600 hover:text-indigo-700 hover:bg-indigo-50'"
+          class="px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          Danh sách tài khoản
+        </button>
+        <button
+          @click="activeSection = 'friends'"
+          :class="activeSection === 'friends'
+            ? 'bg-indigo-600 text-white shadow-sm'
+            : 'text-slate-600 hover:text-indigo-700 hover:bg-indigo-50'"
+          class="px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5V4H2v16h5m5-8V4m0 8l-4 4m4-4l4 4" />
+          </svg>
+          Chi tiết bạn bè
+        </button>
+        <div v-if="selectedFriendAccount" class="ml-auto flex items-center gap-2 rounded-lg border border-indigo-100 bg-indigo-50 px-3 py-2 text-xs text-indigo-700">
+          <span class="font-medium">Đang xem:</span>
+          <span class="font-semibold">{{ selectedFriendAccount.name || selectedFriendAccount.uid }}</span>
+        </div>
+      </div>
+    </div>
+
     <!-- Account List -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <div v-if="activeSection === 'accounts'" class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       <div v-if="loading" class="p-8 text-center text-gray-500">
         <div class="animate-spin inline-block w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mb-2"></div>
         <p>Đang tải danh sách tài khoản...</p>
@@ -55,7 +88,11 @@
               <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center">Mục tiêu</th>
               <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center">Trạng thái Tác vụ</th>
               <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center">Trạng thái Acc</th>
-              <th class="py-2.5 px-4 text-center">Thao tác</th>
+              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center">Thao tác</th>
+              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center bg-blue-50/50">Tên Profile</th>
+              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center bg-blue-50/50">Giới tính</th>
+              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center bg-blue-50/50">Nơi ở</th>
+              <th class="py-2.5 px-4 text-center bg-blue-50/50">Followers</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-100">
@@ -68,7 +105,21 @@
                 <div class="text-xs text-slate-500">{{ mem.acc.uid }}</div>
               </td>
               <td class="py-2 px-4 text-slate-600 border-r border-slate-100 text-center font-medium">
-                {{ mem.acc.friendCount != null ? mem.acc.friendCount : '-' }}
+                <div class="flex items-center justify-center gap-2">
+                  <span>{{ mem.acc.friends || '-' }}</span>
+                  <button
+                    @click="openFriendsView(mem.acc.uid)"
+                    :class="selectedFriendUid === mem.acc.uid
+                      ? 'bg-indigo-100 text-indigo-700'
+                      : 'text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50'"
+                    class="p-1 rounded transition-colors"
+                    title="Mở tab chi tiết bạn bè"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5V4H2v16h5m5-8V4m0 8l-4 4m4-4l4 4"/>
+                    </svg>
+                  </button>
+                </div>
               </td>
               <td class="py-2 px-4 text-slate-600 border-r border-slate-100 text-center">
                 {{ mem.task ? mem.task.taskType : '-' }}
@@ -95,17 +146,184 @@
                   {{ mem.acc.status }}
                 </span>
               </td>
-              <td class="py-2 px-4 flex justify-center gap-2">
+              <td class="py-2 px-4 border-r border-slate-100 flex justify-center gap-2">
+                <button @click="scanAccount(mem.acc.uid, mem.acc.cookie)" class="text-blue-500 hover:text-blue-700 p-1 rounded hover:bg-blue-50 transition-colors" title="Quét thông tin Profile">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                </button>
                 <button @click="deleteAccount(mem.acc.uid)" class="text-rose-500 hover:text-rose-700 p-1 rounded hover:bg-rose-50 transition-colors" title="Xóa tài khoản">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                   </svg>
                 </button>
               </td>
+              <td class="py-2 px-4 border-r border-slate-100 text-center font-medium text-slate-700 bg-blue-50/20">
+                {{ mem.acc.name || '-' }}
+              </td>
+              <td class="py-2 px-4 border-r border-slate-100 text-center text-slate-600 bg-blue-50/20">
+                {{ mem.acc.gender || '-' }}
+              </td>
+              <td class="py-2 px-4 border-r border-slate-100 text-center text-slate-600 bg-blue-50/20 max-w-[150px] truncate" :title="mem.acc.location">
+                {{ mem.acc.location || '-' }}
+              </td>
+              <td class="py-2 px-4 text-center font-medium text-slate-700 bg-blue-50/20">
+                {{ mem.acc.followers || '-' }}
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
+    </div>
+
+    <!-- Friends Detail Tab -->
+    <div v-else-if="selectedFriendAccount" class="grid grid-cols-1 xl:grid-cols-[minmax(0,2fr)_320px] gap-6">
+      <div class="space-y-6">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <div class="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-500">Tab chi tiết bạn bè</div>
+              <h3 class="mt-2 text-2xl font-bold text-slate-800">{{ selectedFriendAccount.name || 'Không xác định' }}</h3>
+              <div class="mt-1 text-sm text-slate-500">UID: {{ selectedFriendAccount.uid }}</div>
+              <div class="mt-2 text-sm text-slate-500">
+                Dữ liệu đang hiển thị từ lần quét gần nhất. Đây là vùng dành riêng để mở rộng thêm thông tin khi quét bạn bè sau này.
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-2">
+              <button @click="activeSection = 'accounts'" class="px-4 py-2 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 text-sm font-medium transition-colors">
+                Về danh sách
+              </button>
+              <button @click="reloadFriendsDetail" :disabled="loadingFriends || scanningFriends" class="px-4 py-2 rounded-lg border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 text-sm font-medium transition-colors disabled:opacity-60">
+                Tải lại
+              </button>
+              <button @click="scanSelectedFriends" :disabled="scanningFriends" class="px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 text-sm font-medium shadow-sm transition-colors disabled:opacity-60">
+                {{ scanningFriends ? 'Đang quét...' : 'Quét lại bạn bè' }}
+              </button>
+            </div>
+          </div>
+
+          <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+            <div class="rounded-xl border border-indigo-100 bg-indigo-50/70 p-4">
+              <div class="text-xs font-semibold uppercase tracking-wide text-indigo-500">Bạn bè</div>
+              <div class="mt-2 text-2xl font-bold text-slate-800">{{ selectedFriendCount }}</div>
+            </div>
+            <div class="rounded-xl border border-emerald-100 bg-emerald-50/70 p-4">
+              <div class="text-xs font-semibold uppercase tracking-wide text-emerald-500">Trạng thái</div>
+              <div class="mt-2 text-lg font-bold text-slate-800">{{ selectedFriendAccount.status || '-' }}</div>
+            </div>
+            <div class="rounded-xl border border-sky-100 bg-sky-50/70 p-4">
+              <div class="text-xs font-semibold uppercase tracking-wide text-sky-500">Followers</div>
+              <div class="mt-2 text-lg font-bold text-slate-800">{{ selectedFriendAccount.followers || '-' }}</div>
+            </div>
+            <div class="rounded-xl border border-violet-100 bg-violet-50/70 p-4">
+              <div class="text-xs font-semibold uppercase tracking-wide text-violet-500">Giới tính</div>
+              <div class="mt-2 text-lg font-bold text-slate-800">{{ selectedFriendAccount.gender || '-' }}</div>
+            </div>
+          </div>
+
+          <div class="mt-4 rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 text-sm text-slate-600">
+            <span class="font-medium text-slate-700">Nơi ở:</span>
+            {{ selectedFriendAccount.location || 'Chưa có dữ liệu' }}
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div class="border-b border-gray-100 px-6 py-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <h3 class="text-lg font-bold text-slate-800">Danh sách bạn bè</h3>
+              <p class="text-sm text-slate-500">
+                {{ filteredFriends.length }} / {{ friendsList.length }} bản ghi hiển thị
+              </p>
+            </div>
+
+            <div class="w-full lg:w-72">
+              <input
+                v-model="friendSearch"
+                type="text"
+                placeholder="Tìm theo UID hoặc tên"
+                class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              >
+            </div>
+          </div>
+
+          <div class="p-6 bg-slate-50/50 min-h-[420px]">
+            <div v-if="loadingFriends" class="flex h-full min-h-[320px] items-center justify-center">
+              <div class="text-center text-slate-500">
+                <svg class="mx-auto h-8 w-8 animate-spin text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <p class="mt-3 text-sm">{{ scanningFriends ? 'Đang quét và tải lại danh sách bạn bè...' : 'Đang tải danh sách bạn bè...' }}</p>
+              </div>
+            </div>
+
+            <div v-else-if="friendsError" class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-4 text-sm text-amber-700">
+              {{ friendsError }}
+            </div>
+
+            <div v-else-if="filteredFriends.length === 0" class="rounded-xl border border-dashed border-slate-200 bg-white px-6 py-12 text-center text-slate-500">
+              {{ friendSearch ? 'Không tìm thấy bạn bè phù hợp với từ khóa.' : 'Chưa có dữ liệu bạn bè cho tài khoản này.' }}
+            </div>
+
+            <ul v-else class="space-y-3">
+              <li
+                v-for="friend in filteredFriends"
+                :key="`${selectedFriendUid}-${friend.index}-${friend.raw}`"
+                class="flex items-start gap-3 rounded-xl border border-gray-100 bg-white p-4 shadow-sm"
+              >
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-indigo-100 font-bold text-indigo-600">
+                  {{ friend.index }}
+                </div>
+
+                <div class="min-w-0 flex-1">
+                  <div class="font-semibold text-slate-800 break-all">{{ friend.name || friend.raw }}</div>
+                  <div class="mt-1 text-xs text-slate-500 break-all">
+                    {{ friend.uid || 'Không tách được UID từ dữ liệu quét' }}
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+          <h3 class="text-base font-bold text-slate-800">Khu vực mở rộng</h3>
+          <p class="mt-2 text-sm text-slate-500">
+            Tab này được tách riêng để sau có thể gắn thêm các khối dữ liệu khác mà không phải dùng popup.
+          </p>
+
+          <div class="mt-5 space-y-3">
+            <div class="rounded-xl border border-slate-100 bg-slate-50 p-4">
+              <div class="text-sm font-semibold text-slate-700">Dữ liệu dự kiến</div>
+              <div class="mt-2 text-sm text-slate-500">Bạn chung, nhóm chung, trạng thái tương tác, ghi chú nội bộ.</div>
+            </div>
+            <div class="rounded-xl border border-slate-100 bg-slate-50 p-4">
+              <div class="text-sm font-semibold text-slate-700">Nguồn hiện có</div>
+              <div class="mt-2 text-sm text-slate-500">Hiện tab này đang nạp danh sách từ file `Friends.txt` của UID đã chọn.</div>
+            </div>
+            <div class="rounded-xl border border-slate-100 bg-slate-50 p-4">
+              <div class="text-sm font-semibold text-slate-700">Luồng thao tác</div>
+              <div class="mt-2 text-sm text-slate-500">Bấm icon ở cột Bạn bè để đổi tài khoản đang xem mà không mở popup.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-else class="bg-white rounded-xl shadow-sm border border-gray-100 p-10 text-center text-slate-500">
+      <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-indigo-50 text-indigo-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5V4H2v16h5m5-8V4m0 8l-4 4m4-4l4 4" />
+        </svg>
+      </div>
+      <h3 class="mt-4 text-lg font-semibold text-slate-800">Chưa chọn tài khoản để xem chi tiết</h3>
+      <p class="mt-2 text-sm">
+        Bấm icon chi tiết trong cột Bạn bè của danh sách tài khoản để mở tab này theo đúng UID.
+      </p>
     </div>
 
     <!-- Task Setup Modal -->
@@ -234,12 +452,13 @@
         </div>
       </div>
     </div>
+    
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, onUnmounted, watch } from 'vue'
-import { GetAllAccounts, AddAccount, DeleteAccount, SelectPhotoDialog } from '../../wailsjs/go/app/App'
+import { GetAllAccounts, AddAccount, DeleteAccount, SelectPhotoDialog, ScanAccountData, GetAccountFriendsList, ScanAccountFriendsAPI } from '../../wailsjs/go/app/App'
 import { useMainStore } from '../stores/main'
 import CustomSelect from '../components/CustomSelect.vue'
 
@@ -254,6 +473,97 @@ const isSubmitting = ref(false)
 const newAccName = ref('')
 const newAccCookie = ref('')
 const addError = ref('')
+
+// Friends Detail Tab
+const activeSection = ref<'accounts' | 'friends'>('accounts')
+const selectedFriendUid = ref<string | null>(null)
+const loadingFriends = ref(false)
+const scanningFriends = ref(false)
+const friendsError = ref('')
+const friendsList = ref<string[]>([])
+const friendSearch = ref('')
+
+const selectedFriendAccount = computed(() => {
+  if (!selectedFriendUid.value) return null
+  return accounts.value.find(acc => acc.uid === selectedFriendUid.value) || null
+})
+
+const selectedFriendCount = computed(() => {
+  if (friendsList.value.length > 0) return String(friendsList.value.length)
+  const count = selectedFriendAccount.value?.friends
+  return count && `${count}`.trim() !== '' ? count : '-'
+})
+
+const filteredFriends = computed(() => {
+  const keyword = friendSearch.value.trim().toLowerCase()
+  const parsed = friendsList.value.map((friend, index) => {
+    const [uidPart, ...nameParts] = friend.split('|')
+    const uid = uidPart?.trim() || ''
+    const name = nameParts.join('|').trim()
+
+    return {
+      index: index + 1,
+      raw: friend,
+      uid,
+      name: name || friend,
+    }
+  })
+
+  if (!keyword) {
+    return parsed
+  }
+
+  return parsed.filter((friend) =>
+    `${friend.raw} ${friend.uid} ${friend.name}`.toLowerCase().includes(keyword)
+  )
+})
+
+const loadFriendsList = async (uid: string) => {
+  friendsError.value = ''
+  friendsList.value = []
+  loadingFriends.value = true
+
+  try {
+    const list = await GetAccountFriendsList(uid)
+    friendsList.value = list || []
+  } catch (err: any) {
+    console.error(err)
+    friendsError.value = 'Chưa có dữ liệu bạn bè cho tài khoản này. Hãy quét bạn bè trước rồi mở lại tab chi tiết.'
+  } finally {
+    loadingFriends.value = false
+  }
+}
+
+const openFriendsView = async (uid: string) => {
+  activeSection.value = 'friends'
+  selectedFriendUid.value = uid
+  friendSearch.value = ''
+  await loadFriendsList(uid)
+}
+
+const reloadFriendsDetail = async () => {
+  if (!selectedFriendUid.value) return
+  await loadFriendsList(selectedFriendUid.value)
+}
+
+const scanSelectedFriends = async () => {
+  if (!selectedFriendAccount.value) return
+  const { uid, cookie } = selectedFriendAccount.value
+
+  scanningFriends.value = true
+  friendsError.value = ''
+
+  try {
+    await ScanAccountFriendsAPI(uid, cookie)
+    await fetchAccounts()
+    await loadFriendsList(uid)
+  } catch (err: any) {
+    console.error(err)
+    friendsError.value = `Không thể quét lại danh sách bạn bè: ${err}`
+  } finally {
+    scanningFriends.value = false
+  }
+}
 
 // Selected & Merged logic
 const selectedUids = ref<string[]>([])
@@ -331,11 +641,15 @@ const taskTypeOptions = [
   { value: 'Like bài viết', label: 'Thích (Reaction) bài viết' },
   { value: 'Comment bài viết', label: 'Bình luận bài viết' },
   { value: 'Đăng bài viết', label: 'Đăng bài viết (Post)' },
+  { value: 'Quét thông tin', label: 'Quét thông tin Cá nhân (Scan Profile)' },
+  { value: 'Quét bạn bè', label: 'Quét danh sách Bạn bè (Scan Friends)' },
   { value: 'Reaction batch', label: 'Reaction hàng loạt (Sắp có)', disabled: true }
 ]
 
 const targetModeOptions = computed(() => {
   if (form.taskType === 'Đăng bài viết') return [{ value: 'timeline', label: 'Đăng lên trang cá nhân (Timeline)' }]
+  if (form.taskType === 'Quét thông tin') return [{ value: 'self_profile', label: 'Quét thông tin chính tài khoản này' }]
+  if (form.taskType === 'Quét bạn bè') return [{ value: 'self_profile', label: 'Quét danh sách bạn bè của tài khoản này' }]
   return [{ value: 'post_url', label: 'Dùng URL Bài viết (Khuyên dùng)' }]
 })
 const reactionTypeOptions = [
@@ -351,6 +665,9 @@ const reactionTypeOptions = [
 const onTaskTypeChange = () => {
   if (form.taskType === 'Đăng bài viết') {
     form.targetMode = 'timeline'
+    form.postUrl = ''
+  } else if (form.taskType === 'Quét thông tin' || form.taskType === 'Quét bạn bè') {
+    form.targetMode = 'self_profile'
     form.postUrl = ''
   } else {
     form.targetMode = 'post_url'
@@ -419,6 +736,14 @@ async function fetchAccounts() {
   try {
     const data = await GetAllAccounts()
     accounts.value = data || []
+
+    if (selectedFriendUid.value && !accounts.value.some(acc => acc.uid === selectedFriendUid.value)) {
+      activeSection.value = 'accounts'
+      selectedFriendUid.value = null
+      friendsList.value = []
+      friendsError.value = ''
+      friendSearch.value = ''
+    }
   } catch (e: any) {
     console.error("Failed to load accounts:", e)
   } finally {
@@ -454,6 +779,16 @@ async function deleteAccount(uid: string) {
     } catch (err) {
       alert("Lỗi khi xóa: " + err)
     }
+  }
+}
+
+async function scanAccount(uid: string, cookie: string) {
+  try {
+    await ScanAccountData(uid, cookie)
+    await fetchAccounts()
+  } catch (err: any) {
+    console.error(err)
+    alert('Lỗi khi quét Profile. Chi tiết: ' + err)
   }
 }
 
