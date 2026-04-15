@@ -6,6 +6,8 @@ import (
 	"os"
 	"path/filepath"
 	"socialmanager/backend/models"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -22,6 +24,37 @@ func GetAccountPath(uid string) string {
 
 func GetAccountInfoPath(uid string) string {
 	return filepath.Join(GetAccountPath(uid), "Info.txt")
+}
+
+func GetScannedFriendsCount(uid string) (string, bool) {
+	friendsPath := filepath.Join(GetAccountPath(uid), "Friends.txt")
+	data, err := os.ReadFile(friendsPath)
+	if err != nil {
+		return "", false
+	}
+
+	lines := strings.Split(string(data), "\n")
+	nonEmpty := make([]string, 0, len(lines))
+	for _, line := range lines {
+		trimmed := strings.TrimSpace(line)
+		if trimmed != "" {
+			nonEmpty = append(nonEmpty, trimmed)
+		}
+	}
+
+	if len(nonEmpty) == 0 {
+		return "", false
+	}
+
+	if strings.HasPrefix(nonEmpty[0], "Tổng cộng:") {
+		count := len(nonEmpty) - 2
+		if count < 0 {
+			count = 0
+		}
+		return strconv.Itoa(count), true
+	}
+
+	return strconv.Itoa(len(nonEmpty)), true
 }
 
 func GetAllAccounts() ([]models.FacebookAccount, error) {
@@ -44,6 +77,9 @@ func GetAllAccounts() ([]models.FacebookAccount, error) {
 			if err == nil {
 				var acc models.FacebookAccount
 				if err := json.Unmarshal(data, &acc); err == nil {
+					if scannedCount, ok := GetScannedFriendsCount(uid); ok {
+						acc.Friends = scannedCount
+					}
 					accounts = append(accounts, acc)
 				}
 			}

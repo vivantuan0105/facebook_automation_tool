@@ -451,7 +451,11 @@ func (a *App) ScanAccountData(uid string, cookie string) (models.FacebookAccount
 	}
 	currentAcc.Gender = resultMap["gender"]
 	currentAcc.Location = resultMap["location"]
-	currentAcc.Friends = resultMap["friends"]
+	if scannedCount, ok := store.GetScannedFriendsCount(uid); ok {
+		currentAcc.Friends = scannedCount
+	} else if resultMap["friends"] != "" && resultMap["friends"] != "0" {
+		currentAcc.Friends = resultMap["friends"]
+	}
 	currentAcc.Followers = resultMap["followers"]
 
 	err = store.SaveAccount(*currentAcc)
