@@ -4,6 +4,7 @@
   "defaultExecutionMode": "mock",
   "maskCookieByDefault": true,
   "persistToJson": true,
+  "graphqlLoginDocId": "9807605492696448",
   "graphqlLikeDocId": "26477330531933156",
   "graphqlCommentDocId": "27321223354145000",
   "graphqlPostDocId": "26454041007581197",

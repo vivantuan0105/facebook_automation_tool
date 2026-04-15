@@ -593,3 +593,43 @@
 [2026-04-15T17:07:20+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
 [2026-04-15T17:07:28+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
 [2026-04-15T17:07:28+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-15T21:43:15+07:00] Settings | Update | Success | Cấu hình được lưu thành công vào file settings.json.
+[2026-04-15T21:43:38+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61574299097448
+[2026-04-15T21:44:09+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61574299097448
+[2026-04-15T21:44:10+07:00] Accounts | Login | Error | Đăng nhập 61574299097448 thất bại: khởi tạo session thất bại: không bóc tách được token LSD từ trang chủ Facebook (có thể bị chặn IP hoặc cần CAPTCHA)
+[2026-04-15T21:47:15+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61574299097448
+[2026-04-15T21:47:15+07:00] Accounts | Login | Error | Đăng nhập 61574299097448 thất bại: khởi tạo session thất bại: không bóc tách được token LSD từ trang chủ Facebook (có thể bị chặn IP hoặc cần CAPTCHA). Đã lưu HTML lúc lỗi vào file debug_login_init.html để kiểm tra
+[2026-04-15T21:51:07+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61574299097448
+[2026-04-15T21:51:08+07:00] Accounts | Login | Error | Đăng nhập 61574299097448 thất bại: đăng nhập không thành công — không lấy được Cookie/UID. Kiểm tra thông tin đăng nhập hoặc thử lại sau
+[2026-04-15T21:51:36+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61574299097448
+[2026-04-15T21:51:37+07:00] Accounts | Login | Error | Đăng nhập 61574299097448 thất bại: đăng nhập không thành công — không lấy được Cookie/UID. Kiểm tra thông tin đăng nhập hoặc thử lại sau
+[2026-04-15T21:53:30+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61574299097448
+[2026-04-15T21:53:30+07:00] Accounts | Login | Error | Đăng nhập 61574299097448 thất bại: đăng nhập không thành công — không lấy được Cookie/UID. Kiểm tra thông tin đăng nhập hoặc thử lại sau
+[2026-04-15T22:00:39+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61574299097448
+[2026-04-15T22:00:40+07:00] Accounts | Login | Error | Đăng nhập 61574299097448 thất bại: đăng nhập không thành công — không lấy được Cookie/UID. Kiểm tra thông tin đăng nhập hoặc thử lại sau
+[2026-04-15T22:03:53+07:00] Settings | Update | Success | Cấu hình được lưu thành công vào file settings.json.
+[2026-04-15T22:04:47+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61574299097448
+[2026-04-15T22:04:48+07:00] Accounts | Login | Error | Đăng nhập 61574299097448 thất bại: đăng nhập không thành công — không lấy được Cookie/UID. Kiểm tra thông tin đăng nhập hoặc thử lại sau
+[2026-04-15T22:14:19+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61574299097448
+[2026-04-15T22:14:20+07:00] Accounts | Login | Error | Đăng nhập 61574299097448 thất bại: tài khoản bị checkpoint — cần xác minh bảo mật trên trình duyệt
+[2026-04-15T22:23:47+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61573296730268
+[2026-04-15T22:23:48+07:00] Accounts | Login | Error | Đăng nhập 61573296730268 thất bại: đăng nhập không thành công — không lấy được Cookie/UID. Kiểm tra thông tin đăng nhập hoặc thử lại sau
+[2026-04-15T22:24:38+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61574270086235
+[2026-04-15T22:24:39+07:00] Accounts | Login | Error | Đăng nhập 61574270086235 thất bại: đăng nhập không thành công — không lấy được Cookie/UID. Kiểm tra thông tin đăng nhập hoặc thử lại sau
+[2026-04-15T22:25:28+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61574299097448
+[2026-04-15T22:25:29+07:00] Accounts | Login | Error | Đăng nhập 61574299097448 thất bại: đăng nhập không thành công — không lấy được Cookie/UID. Kiểm tra thông tin đăng nhập hoặc thử lại sau
+[2026-04-15T22:33:57+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61574299097448
+[2026-04-15T22:33:59+07:00] Accounts | Login | Error | Đăng nhập 61574299097448 thất bại: đăng nhập không thành công — không lấy được Cookie/UID. Kiểm tra thông tin đăng nhập hoặc thử lại sau
+[2026-04-15T22:34:15+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61574270086235
+[2026-04-15T22:34:16+07:00] Accounts | Login | Error | Đăng nhập 61574270086235 thất bại: đăng nhập không thành công — không lấy được Cookie/UID. Kiểm tra thông tin đăng nhập hoặc thử lại sau
+[2026-04-15T23:23:03+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61573333361840
+[2026-04-15T23:23:08+07:00] Accounts | Login | Error | Đăng nhập 61573333361840 thất bại: sai tài khoản / mật khẩu, hoặc tài khoản đã bị đổi pass
+[2026-04-15T23:23:35+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61572157625165
+[2026-04-15T23:23:39+07:00] Accounts | Login | Success | Đăng nhập thành công! Cookie thu được:
+c_user=61572157625165; xs=10:2QtLpbQwGA6Cww:2:1776270217:-1:-1; fr=0tXc2IlTHSgqVtVj8.AWeCcsaYBORcdErORx_tC4cD6atvtj-TUBsU0SdzutbNsHNxMtA.Bp37uI..AAA.0.0.Bp37uI.AWc0yydkdOHQ_jxUMgh8_s4TVDA; datr=iLvfae6FRib0ss8sWzWwQ1m1
+[2026-04-15T23:24:13+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61572157625165
+[2026-04-15T23:24:25+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61572157625165
+[2026-04-15T23:24:29+07:00] Accounts | Login | Success | Đăng nhập thành công! Cookie thu được:
+c_user=61572157625165; xs=7:TubC3bzfllu8Nw:2:1776270267:-1:-1; fr=0e32VOHJw5DZb4ftz.AWfaWgyh_RUixo9geBdLE7jMLEiNSW9Dky-31KFquamvcWkkVqI.Bp37u6..AAA.0.0.Bp37u6.AWdK06IHcjzoDQg3iym66dKndKs; datr=urvfaaQYAr_SLa042Y9rRG7V
+[2026-04-15T23:24:41+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-15T23:24:41+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.

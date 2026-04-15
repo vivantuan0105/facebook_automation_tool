@@ -395,6 +395,7 @@ func (a *App) DeleteAccount(uid string) error {
 	return err
 }
 
+
 func (a *App) AddAccount(name string, cookie string) (models.FacebookAccount, error) {
 	// Lấy UID từ Cookie (c_user=...)
 	re := regexp.MustCompile(`c_user=(\d+)`)
@@ -420,6 +421,34 @@ func (a *App) AddAccount(name string, cookie string) (models.FacebookAccount, er
 		store.DB.AddLog("Accounts", "Add", "Success", fmt.Sprintf("Đã thêm tài khoản %s (UID: %s)", name, uid))
 	}
 	return acc, err
+}
+
+// LoginWithPassword đăng nhập bằng user/pass, tự động lưu tài khoản vào hệ thống nếu thành công.
+func (a *App) LoginWithPassword(identifier string, password string, twoFA string) (models.LoginResult, error) {
+	store.DB.AddLog("Accounts", "LoginAttempt", "Info", fmt.Sprintf("Đang thử đăng nhập: %s", identifier))
+
+	docId := store.DB.Settings.GraphqlLoginDocId
+	result, err := providers.LoginWithPassword(identifier, password, docId)
+	if err != nil {
+		store.DB.AddLog("Accounts", "Login", "Error", fmt.Sprintf("Đăng nhập %s thất bại: %v", identifier, err))
+		return result, err
+	}
+
+	// Tự động lưu tài khoản vào hệ thống
+	acc := models.FacebookAccount{
+		UID:    result.UID,
+		Name:   identifier, // Dùng têm đăng nhập làm tên tạm
+		Cookie: result.CookieFull,
+		Status: "Live",
+	}
+	if saveErr := store.SaveAccount(acc); saveErr != nil {
+		store.DB.AddLog("Accounts", "Login", "Warning", fmt.Sprintf("Lưu tài khoản %s lỗi: %v", result.UID, saveErr))
+	} else {
+		// Log theo yều cầu người dùng
+		store.DB.AddLog("Accounts", "Login", "Success", "Đăng nhập thành công! Cookie thu được:\n" + result.CookieFull)
+	}
+
+	return result, nil
 }
 
 func (a *App) ScanAccountData(uid string, cookie string) (models.FacebookAccount, error) {

@@ -28,6 +28,7 @@ export namespace models {
 	    defaultExecutionMode: string;
 	    maskCookieByDefault: boolean;
 	    persistToJson: boolean;
+	    graphqlLoginDocId: string;
 	    graphqlLikeDocId: string;
 	    graphqlCommentDocId: string;
 	    graphqlPostDocId: string;
@@ -45,6 +46,7 @@ export namespace models {
 	        this.defaultExecutionMode = source["defaultExecutionMode"];
 	        this.maskCookieByDefault = source["maskCookieByDefault"];
 	        this.persistToJson = source["persistToJson"];
+	        this.graphqlLoginDocId = source["graphqlLoginDocId"];
 	        this.graphqlLikeDocId = source["graphqlLikeDocId"];
 	        this.graphqlCommentDocId = source["graphqlCommentDocId"];
 	        this.graphqlPostDocId = source["graphqlPostDocId"];
@@ -102,6 +104,24 @@ export namespace models {
 	        this.friends = source["friends"];
 	        this.followers = source["followers"];
 	        this.createdAt = source["createdAt"];
+	    }
+	}
+	export class LoginResult {
+	    uid: string;
+	    cookieFull: string;
+	    status: string;
+	    rawResponse: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new LoginResult(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.uid = source["uid"];
+	        this.cookieFull = source["cookieFull"];
+	        this.status = source["status"];
+	        this.rawResponse = source["rawResponse"];
 	    }
 	}
 	export class ReactionTask {

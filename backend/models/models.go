@@ -1,5 +1,13 @@
 package models
 
+// LoginResult là kết quả trả về sau khi đăng nhập bằng user/pass
+type LoginResult struct {
+	UID         string `json:"uid"`         // c_user UID của Facebook
+	CookieFull  string `json:"cookieFull"`  // Chuỗi cookie đầy đủ (dùng thêm vào DB)
+	Status      string `json:"status"`      // Live | Failed | Checkpoint | WrongPassword
+	RawResponse string `json:"rawResponse"` // Snippet response để debug (chỉ khi lỗi)
+}
+
 type FacebookAccount struct {
 	UID       string `json:"uid"`
 	Name             string `json:"name"` // Tên gợi nhớ hoặc tên Facebook
@@ -65,6 +73,7 @@ type AppSettings struct {
 	DefaultExecutionMode string `json:"defaultExecutionMode"`
 	MaskCookieByDefault  bool   `json:"maskCookieByDefault"`
 	PersistToJson        bool   `json:"persistToJson"`
+	GraphqlLoginDocId    string `json:"graphqlLoginDocId"`
 	GraphqlLikeDocId     string `json:"graphqlLikeDocId"`
 	GraphqlCommentDocId  string `json:"graphqlCommentDocId"`
 	GraphqlPostDocId     string `json:"graphqlPostDocId"`

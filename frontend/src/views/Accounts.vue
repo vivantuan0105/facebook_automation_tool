@@ -17,14 +17,24 @@
         </div>
       </div>
       
-      <button 
-        @click="showAddModal = true"
-        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium shadow-sm transition-colors flex items-center gap-2 whitespace-nowrap">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
-        </svg>
-        Thêm tài khoản
-      </button>
+      <div class="flex items-center gap-2">
+        <button 
+          @click="showLoginModal = true"
+          class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium shadow-sm transition-colors flex items-center gap-2 whitespace-nowrap">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clip-rule="evenodd" />
+          </svg>
+          Đăng nhập
+        </button>
+        <button 
+          @click="showAddModal = true"
+          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium shadow-sm transition-colors flex items-center gap-2 whitespace-nowrap">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+          </svg>
+          Thêm bằng Cookie
+        </button>
+      </div>
     </div>
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-2">
@@ -441,12 +451,66 @@
       </div>
     </div>
     
+    <!-- Login Account Modal -->
+    <div v-if="showLoginModal" @mousedown.self="showLoginModal = false" class="fixed inset-0 bg-slate-800/10 z-[100] pointer-events-auto transition-opacity">
+      <div 
+        ref="loginModalRef"
+        class="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden absolute pointer-events-auto shadow-[0_0_20px_rgba(0,0,0,0.15)]"
+        :style="{ top: loginModalY + 'px', left: loginModalX + 'px' }"
+      >
+        <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-emerald-50 cursor-move" @mousedown="startDragLoginModal">
+          <h3 class="text-lg font-bold text-gray-800">Đăng Nhập Bằng Mật Khẩu</h3>
+          <button @click="showLoginModal = false" class="text-gray-400 hover:text-gray-600 transition-colors">
+             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        
+        <div class="p-6 space-y-4">
+          <div v-if="loginError" class="bg-red-50 border border-red-200 text-red-600 text-sm p-3 rounded-lg flex items-start gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+            {{ loginError }}
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Tài khoản (Tên đăng nhập / Email / Số điện thoại)</label>
+            <input v-model="loginUsername" type="text" placeholder="Nhập tài khoản" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
+            <input v-model="loginPassword" type="password" placeholder="Nhập mật khẩu" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all">
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Mã 2FA (Nếu có)</label>
+            <input v-model="loginTwoFactorAuth" type="text" placeholder="Chuỗi khóa bảo mật 2FA hoặc mã 6 số" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all">
+            <p class="text-xs text-gray-500 mt-1">Để trống nếu tài khoản không bật bảo mật 2 lớp.</p>
+          </div>
+        </div>
+
+        <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end gap-3">
+          <button @click="showLoginModal = false" class="px-4 py-2 text-gray-600 font-medium hover:bg-gray-200 rounded-lg transition-colors">Hủy</button>
+          <button @click="submitLogin" :disabled="isSubmittingLogin" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg shadow-sm transition-colors flex items-center gap-2 disabled:opacity-70">
+            <svg v-if="isSubmittingLogin" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Đăng nhập
+          </button>
+        </div>
+      </div>
+    </div>
+    
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, onUnmounted, watch } from 'vue'
-import { GetAllAccounts, AddAccount, DeleteAccount, SelectPhotoDialog, ScanAccountData, GetAccountFriendsList } from '../../wailsjs/go/app/App'
+import { GetAllAccounts, AddAccount, DeleteAccount, SelectPhotoDialog, ScanAccountData, GetAccountFriendsList, LoginWithPassword } from '../../wailsjs/go/app/App'
 import { useMainStore } from '../stores/main'
 import CustomSelect from '../components/CustomSelect.vue'
 
@@ -461,6 +525,14 @@ const isSubmitting = ref(false)
 const newAccName = ref('')
 const newAccCookie = ref('')
 const addError = ref('')
+
+// Login Management
+const showLoginModal = ref(false)
+const isSubmittingLogin = ref(false)
+const loginUsername = ref('')
+const loginPassword = ref('')
+const loginTwoFactorAuth = ref('')
+const loginError = ref('')
 
 // Friends Detail Tab
 const activeSection = ref<'accounts' | 'friends'>('accounts')
@@ -830,6 +902,92 @@ function stopDragAddModal() {
   isDragging = false
   document.removeEventListener('mousemove', onDragAddModal)
   document.removeEventListener('mouseup', stopDragAddModal)
+}
+
+// Drag Login Modal Logic
+const loginModalX = ref(150)
+const loginModalY = ref(80)
+let isDraggingLogin = false
+let startXLogin = 0
+let startYLogin = 0
+let initialXLogin = 0
+let initialYLogin = 0
+
+function startDragLoginModal(e: MouseEvent) {
+  isDraggingLogin = true
+  startXLogin = e.clientX
+  startYLogin = e.clientY
+  initialXLogin = loginModalX.value
+  initialYLogin = loginModalY.value
+  document.addEventListener('mousemove', onDragLoginModal)
+  document.addEventListener('mouseup', stopDragLoginModal)
+}
+
+function onDragLoginModal(e: MouseEvent) {
+  if (!isDraggingLogin) return
+  const dx = e.clientX - startXLogin
+  const dy = e.clientY - startYLogin
+  loginModalX.value = initialXLogin + dx
+  loginModalY.value = initialYLogin + dy
+}
+
+function stopDragLoginModal() {
+  isDraggingLogin = false
+  document.removeEventListener('mousemove', onDragLoginModal)
+  document.removeEventListener('mouseup', stopDragLoginModal)
+}
+
+async function submitLogin() {
+  if (!loginUsername.value.trim()) {
+    loginError.value = 'Vui lòng nhập tài khoản (email hoặc số điện thoại)'
+    return
+  }
+  if (!loginPassword.value) {
+    loginError.value = 'Vui lòng nhập mật khẩu'
+    return
+  }
+
+  isSubmittingLogin.value = true
+  loginError.value = ''
+
+  try {
+    const result = await LoginWithPassword(
+      loginUsername.value.trim(),
+      loginPassword.value,
+      loginTwoFactorAuth.value.trim()
+    )
+
+    if (result && result.status === 'Live' && result.uid) {
+      // Đăng nhập thành công — cập nhật danh sách tài khoản
+      await fetchAccounts()
+      showLoginModal.value = false
+      loginUsername.value = ''
+      loginPassword.value = ''
+      loginTwoFactorAuth.value = ''
+    } else {
+      // Các trường hợp đặc biệt
+      const statusMsg: Record<string, string> = {
+        'Checkpoint': 'Tài khoản bị Checkpoint. Hãy vào Facebook trên trình duyệt để xác minh bảo mật rồi thử lại.',
+        'WrongPassword': 'Sai tài khoản hoặc mật khẩu. Kiểm tra lại thông tin đăng nhập.',
+        'Failed': 'Đăng nhập không thành công. ' + (result?.rawResponse || ''),
+      }
+      loginError.value = statusMsg[result?.status] || 'Đăng nhập thất bại. Vui lòng thử lại.'
+    }
+  } catch (err: any) {
+    // Backend trả lỗi qua error (go error truyền về JS)
+    const msg = String(err)
+    if (msg.includes('checkpoint') || msg.includes('Checkpoint')) {
+      loginError.value = 'Tài khoản bị Checkpoint — vào Facebook trên trình duyệt để xác minh.'
+    } else if (msg.includes('sai') || msg.includes('incorrect') || msg.includes('WrongPassword')) {
+      loginError.value = 'Sai tài khoản hoặc mật khẩu. Hãy kiểm tra lại.'
+    } else if (msg.includes('LSD') || msg.includes('publicKey') || msg.includes('bóc tách')) {
+      loginError.value = 'Không thể kết nối đến Facebook. Kiểm tra mạng hoặc thử lại sau.'
+    } else {
+      loginError.value = msg || 'Đã xảy ra lỗi không xác định.'
+    }
+  } finally {
+    isSubmittingLogin.value = false
+  }
 }
 
 // Drag Task Modal Logic

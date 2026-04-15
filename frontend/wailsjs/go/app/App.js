@@ -42,6 +42,10 @@ export function GetSettings() {
   return window['go']['app']['App']['GetSettings']();
 }
 
+export function LoginWithPassword(arg1, arg2, arg3) {
+  return window['go']['app']['App']['LoginWithPassword'](arg1, arg2, arg3);
+}
+
 export function MarkManualCompleted(arg1) {
   return window['go']['app']['App']['MarkManualCompleted'](arg1);
 }

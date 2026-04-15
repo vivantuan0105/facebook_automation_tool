@@ -44,6 +44,10 @@
             <label class="text-sm font-medium text-light-text">Global API Config</label>
             <div class="md:col-span-2 space-y-3">
               <div>
+                <label class="block text-xs text-light-muted mb-1">doc_id cho chức năng ĐĂNG NHẬP (Login)</label>
+                <input type="text" v-model="localSettings.graphqlLoginDocId" class="w-full bg-light-bg border border-light-border text-light-text text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5 transition-colors" placeholder="Ví dụ: 25845944448416411">
+              </div>
+              <div>
                 <label class="block text-xs text-light-muted mb-1">doc_id cho chức năng LIKE bài viết</label>
                 <input type="text" v-model="localSettings.graphqlLikeDocId" class="w-full bg-light-bg border border-light-border text-light-text text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5 transition-colors" placeholder="Ví dụ: 7750...4232">
               </div>
