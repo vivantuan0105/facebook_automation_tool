@@ -63,6 +63,10 @@
                 <label class="block text-xs text-light-muted mb-1">doc_id cho chức năng QUÉT BẠN BÈ</label>
                 <input type="text" v-model="localSettings.graphqlFriendsDocId" class="w-full bg-light-bg border border-light-border text-light-text text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5 transition-colors" placeholder="Ví dụ: 8094...331">
               </div>
+              <div>
+                <label class="block text-xs text-light-muted mb-1">doc_id cho chức năng LOGIN BẰNG REQUEST</label>
+                <input type="text" v-model="localSettings.graphqlLoginDocId" class="w-full bg-light-bg border border-light-border text-light-text text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5 transition-colors" placeholder="Ví dụ: 25845944448416411">
+              </div>
             </div>
           </div>
         </div>

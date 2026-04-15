@@ -2,39 +2,39 @@ package models
 
 type FacebookAccount struct {
 	UID       string `json:"uid"`
-	Name             string `json:"name"` // Tên gợi nhớ hoặc tên Facebook
-	Cookie              string `json:"cookie"`
-	Status              string `json:"status"` // Live, Die, Checkpoint, Unchecked
-	Gender              string `json:"gender"`
-	Location            string `json:"location"`
-	Friends             string `json:"friends"`
-	Followers           string `json:"followers"`
-	CreatedAt           string `json:"createdAt"`
+	Name      string `json:"name"` // Tên gợi nhớ hoặc tên Facebook
+	Cookie    string `json:"cookie"`
+	Status    string `json:"status"` // Live, Die, Checkpoint, Unchecked
+	Gender    string `json:"gender"`
+	Location  string `json:"location"`
+	Friends   string `json:"friends"`
+	Followers string `json:"followers"`
+	CreatedAt string `json:"createdAt"`
 }
 
 type ReactionTask struct {
-	ID            uint   `json:"id"`
-	Cookie        string `json:"cookie"`
-	CookieMasked  string `json:"cookieMasked"`
-	TaskType      string `json:"taskType"`
-	TargetMode    string `json:"targetMode"`
-	PostID        string `json:"postId"`
-	PostURL       string `json:"postUrl"`
-	ReactionType  string `json:"reactionType"`
-	Message       string   `json:"message"`
-	PhotoPaths    []string `json:"photoPaths"`
-	FeedbackID    string   `json:"feedbackId"`
-	FeedbackReactionID string `json:"feedbackReactionId"`
-	ActorID            string `json:"actorId"`
-	FeedbackSource     string `json:"feedbackSource"`
-	SessionID          string `json:"sessionId"`
-	ClientMutationID   string `json:"clientMutationId"`
-	Notes              string `json:"notes"`
-	ScheduleAt         string `json:"scheduleAt"`
-	QuantityLimit int    `json:"quantityLimit"`
-	Status        string `json:"status"` // Pending, Running, Success, Failed, Paused, WaitingConfirmation
-	CreatedAt     string `json:"createdAt"`
-	UpdatedAt     string `json:"updatedAt"`
+	ID                 uint     `json:"id"`
+	Cookie             string   `json:"cookie"`
+	CookieMasked       string   `json:"cookieMasked"`
+	TaskType           string   `json:"taskType"`
+	TargetMode         string   `json:"targetMode"`
+	PostID             string   `json:"postId"`
+	PostURL            string   `json:"postUrl"`
+	ReactionType       string   `json:"reactionType"`
+	Message            string   `json:"message"`
+	PhotoPaths         []string `json:"photoPaths"`
+	FeedbackID         string   `json:"feedbackId"`
+	FeedbackReactionID string   `json:"feedbackReactionId"`
+	ActorID            string   `json:"actorId"`
+	FeedbackSource     string   `json:"feedbackSource"`
+	SessionID          string   `json:"sessionId"`
+	ClientMutationID   string   `json:"clientMutationId"`
+	Notes              string   `json:"notes"`
+	ScheduleAt         string   `json:"scheduleAt"`
+	QuantityLimit      int      `json:"quantityLimit"`
+	Status             string   `json:"status"` // Pending, Running, Success, Failed, Paused, WaitingConfirmation
+	CreatedAt          string   `json:"createdAt"`
+	UpdatedAt          string   `json:"updatedAt"`
 }
 
 type TaskExecution struct {
@@ -68,6 +68,7 @@ type AppSettings struct {
 	GraphqlPostDocId     string `json:"graphqlPostDocId"`
 	GraphqlProfileDocId  string `json:"graphqlProfileDocId"`
 	GraphqlFriendsDocId  string `json:"graphqlFriendsDocId"`
+	GraphqlLoginDocId    string `json:"graphqlLoginDocId"`
 }
 
 type DashboardStats struct {

@@ -1122,3 +1122,143 @@ func (f *FacebookProvider) ScanAccountFriends(cookie string, uid string, docId s
 
 	return len(friendList), nil
 }
+
+// LoginWithRequest executes the raw manual login process using generated encryption
+func (f *FacebookProvider) LoginWithRequest(identifier string, password string, docId string) (string, error) {
+	if docId == "" {
+		return "", fmt.Errorf("CHƯA CẤU HÌNH DOC_ID ĐĂNG NHẬP! Vui lòng vào Cài đặt (Settings) và điền dãy số GraphQL Login Doc_ID chuẩn bằng cách bật F12 trên FB.")
+	}
+
+	// Buoc 1: Get the homepage to glean variables
+	req, err := http.NewRequest("GET", "https://www.facebook.com/", nil)
+	if err != nil {
+		return "", fmt.Errorf("lỗi khởi tạo request: %v", err)
+	}
+
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
+	req.Header.Set("Accept", "text/html,application/xhtml+xml,application/xml")
+	req.Header.Set("Sec-Fetch-Site", "none")
+	req.Header.Set("Sec-Fetch-Mode", "navigate")
+
+	resp, err := f.client.Do(req)
+	if err != nil {
+		return "", fmt.Errorf("lỗi kết nối fb: %v", err)
+	}
+	defer resp.Body.Close()
+
+	bodyBytes, _ := io.ReadAll(resp.Body)
+	htmlText := string(bodyBytes)
+
+	// Save the cookie
+	var cookies []string
+	for _, c := range resp.Cookies() {
+		cookies = append(cookies, c.Name+"="+c.Value)
+	}
+	cookieStr := strings.Join(cookies, "; ")
+
+	// Bóc tách
+	fbDtsg := ""
+	if m := regexp.MustCompile(`name="fb_dtsg" value="([^"]+)"`).FindStringSubmatch(htmlText); len(m) > 1 {
+		fbDtsg = m[1]
+	} else if m := regexp.MustCompile(`\["DTSGInitialData",\[\],{"token":"([^"]+)"}`).FindStringSubmatch(htmlText); len(m) > 1 {
+		fbDtsg = m[1]
+	}
+
+	lsd := ""
+	if m := regexp.MustCompile(`name="lsd" value="([^"]+)"`).FindStringSubmatch(htmlText); len(m) > 1 {
+		lsd = m[1]
+	} else if m := regexp.MustCompile(`"LSD",\[\],{"token":"([^"]+)"}`).FindStringSubmatch(htmlText); len(m) > 1 {
+		lsd = m[1]
+	}
+
+	jazoest := ""
+	if m := regexp.MustCompile(`name="jazoest" value="(\d+)"`).FindStringSubmatch(htmlText); len(m) > 1 {
+		jazoest = m[1]
+	} else if m := regexp.MustCompile(`"jazoest":"(\d+)"`).FindStringSubmatch(htmlText); len(m) > 1 {
+		jazoest = m[1]
+	}
+
+	if lsd == "" {
+		return "", errors.New("Không bóc tách được LSD từ trang chủ Facebook (IP có thể bị block)")
+	}
+
+	// Build Encrypted Password
+	encPassword, err := GenerateEncPassword(password)
+	if err != nil {
+		return "", fmt.Errorf("lỗi mã hóa mật khẩu: %v", err)
+	}
+
+	// Build Payload
+	variablesMap := map[string]interface{}{
+		"identifier":          identifier,
+		"enc_password":        encPassword,
+		"login_source":        "CometSessionCreateMutation",
+		"device_id":           generatePseudoUUID(), // Giả lập Device ID ngẫu nhiên cho Browser
+		"shared_prefs_data":   "eowYAw==",           // Có thể bóc từ HTML hoặc dùng mã cứng base64 này
+		"machine_id":          "",                   // Lấy sb cookie nếu có
+	}
+	
+	// Add machine id if present in cookies
+	for _, c := range resp.Cookies() {
+		if c.Name == "sb" || c.Name == "datr" {
+			variablesMap["machine_id"] = c.Value
+			break
+		}
+	}
+
+	varsJSON, _ := json.Marshal(variablesMap)
+
+	data := url.Values{}
+	data.Set("lsd", lsd)
+	if jazoest != "" {
+		data.Set("jazoest", jazoest)
+	}
+	// For login graphql fb_dtsg often is NA or blank initially.
+	if fbDtsg != "" {
+		data.Set("fb_dtsg", fbDtsg)
+	}
+	data.Set("variables", string(varsJSON))
+	data.Set("doc_id", docId)
+
+	postReq, _ := http.NewRequest("POST", "https://www.facebook.com/api/graphql/", strings.NewReader(data.Encode()))
+	postReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	postReq.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
+	postReq.Header.Set("Cookie", cookieStr)
+
+	resPost, err := f.client.Do(postReq)
+	if err != nil {
+		return "", fmt.Errorf("lỗi gửi lệnh login: %v", err)
+	}
+	defer resPost.Body.Close()
+
+	bodyPost, _ := io.ReadAll(resPost.Body)
+	respStr := string(bodyPost)
+
+	// Lọc check cookie đầu ra
+	var finalCookies []string
+	hasCUser := false
+	for _, c := range resPost.Cookies() {
+		finalCookies = append(finalCookies, c.Name+"="+c.Value)
+		if c.Name == "c_user" {
+			hasCUser = true
+		}
+	}
+	
+	if hasCUser {
+		return strings.Join(finalCookies, "; "), nil
+	}
+
+	// Phân tích mã lỗi từ Json
+	if strings.Contains(respStr, "checkpoint") {
+		return "", fmt.Errorf("Tài khoản dính Checkpoint hoặc yêu cầu xác minh Captcha. Vui lòng login bằng trình duyệt!")
+	}
+
+	if errorStr := gjson.Get(respStr, "errors.0.message").String(); errorStr != "" {
+		if strings.Contains(errorStr, "missing_required_variable_value") || strings.Contains(respStr, "noncoercible_argument_value") {
+			return "", fmt.Errorf("Doc ID không chính xác (hoặc sai tham số). Vui lòng cấu hình đúng Login DocID trong Settings!")
+		}
+		return "", fmt.Errorf("Facebook Error: %s", errorStr)
+	}
+
+	return "", fmt.Errorf("Không rõ kết quả đăng nhập (Không trích được c_user). Cần log: %s", respStr[:100])
+}

@@ -422,6 +422,36 @@ func (a *App) AddAccount(name string, cookie string) (models.FacebookAccount, er
 	return acc, err
 }
 
+func (a *App) LoginAccount(identifier string, password string, note string) (models.FacebookAccount, error) {
+	docId := store.DB.Settings.GraphqlLoginDocId
+	fbProvider := providers.NewFacebookProvider()
+
+	store.DB.AddLog("Accounts", "Login", "Info", fmt.Sprintf("Đang thử đăng nhập tài khoản %s...", identifier))
+
+	cookieStr, err := fbProvider.LoginWithRequest(identifier, password, docId)
+	if err != nil {
+		store.DB.AddLog("Accounts", "Login", "Error", fmt.Sprintf("Lỗi đăng nhập %s: %v", identifier, err))
+		return models.FacebookAccount{}, err
+	}
+
+	name := "Account " + identifier
+	if note != "" {
+		name = note
+	}
+
+	acc, err := a.AddAccount(name, cookieStr)
+	if err == nil {
+		store.DB.AddLog("Accounts", "Login", "Success", fmt.Sprintf("Đăng nhập thành công! Thêm vào danh sách UID: %s", acc.UID))
+		
+		// Immediately trigger a background scan
+		go func(uid, cookie string) {
+			_, _ = a.ScanAccountData(uid, cookie)
+		}(acc.UID, acc.Cookie)
+	}
+
+	return acc, err
+}
+
 func (a *App) ScanAccountData(uid string, cookie string) (models.FacebookAccount, error) {
 	docId := store.DB.Settings.GraphqlProfileDocId
 	fbProvider := providers.NewFacebookProvider()

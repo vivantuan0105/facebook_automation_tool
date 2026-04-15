@@ -22,6 +22,8 @@ export function GetReactionTasks():Promise<Array<models.ReactionTask>>;
 
 export function GetSettings():Promise<models.AppSettings>;
 
+export function LoginAccount(arg1:string,arg2:string,arg3:string):Promise<models.FacebookAccount>;
+
 export function MarkManualCompleted(arg1:number):Promise<void>;
 
 export function PauseReactionTask(arg1:number):Promise<void>;

@@ -33,6 +33,7 @@ export namespace models {
 	    graphqlPostDocId: string;
 	    graphqlProfileDocId: string;
 	    graphqlFriendsDocId: string;
+	    graphqlLoginDocId: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new AppSettings(source);
@@ -50,6 +51,7 @@ export namespace models {
 	        this.graphqlPostDocId = source["graphqlPostDocId"];
 	        this.graphqlProfileDocId = source["graphqlProfileDocId"];
 	        this.graphqlFriendsDocId = source["graphqlFriendsDocId"];
+	        this.graphqlLoginDocId = source["graphqlLoginDocId"];
 	    }
 	}
 	export class DashboardStats {
