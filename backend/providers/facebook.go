@@ -12,10 +12,11 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
-	"path/filepath"
 
 	"github.com/tidwall/gjson"
 )
@@ -26,6 +27,320 @@ type FacebookProvider struct {
 
 type FBUploadResponse struct {
 	PhotoID string `json:"fbid"`
+}
+
+var jsonTextValueRegex = regexp.MustCompile(`"(?:text|title|subtitle)"\s*:\s*"((?:\\.|[^"\\])*)"`)
+
+func normalizeWhitespace(s string) string {
+	return strings.Join(strings.Fields(strings.TrimSpace(s)), " ")
+}
+
+func parseLocationFromLabel(label string) string {
+	cleaned := normalizeWhitespace(label)
+	if cleaned == "" {
+		return ""
+	}
+
+	re := regexp.MustCompile(`(?i)^(sống tại|đến từ|lives in|from)\s*:?\s*(.+)$`)
+	if m := re.FindStringSubmatch(cleaned); len(m) >= 3 {
+		return normalizeWhitespace(m[2])
+	}
+	return ""
+}
+
+func isLocationSubtitle(subtitle string) bool {
+	low := strings.ToLower(normalizeWhitespace(subtitle))
+	if low == "" {
+		return false
+	}
+
+	keywords := []string{
+		"tỉnh/thành phố hiện tại",
+		"quê quán",
+		"sống tại",
+		"đến từ",
+		"current city",
+		"hometown",
+		"lives in",
+		"from",
+	}
+	for _, k := range keywords {
+		if strings.Contains(low, k) {
+			return true
+		}
+	}
+	return false
+}
+
+func extractTextCandidatesFromJSON(raw string) []string {
+	matches := jsonTextValueRegex.FindAllStringSubmatch(raw, -1)
+	if len(matches) == 0 {
+		return nil
+	}
+
+	result := make([]string, 0, len(matches))
+	for _, m := range matches {
+		if len(m) < 2 || m[1] == "" {
+			continue
+		}
+		decoded, err := strconv.Unquote(`"` + m[1] + `"`)
+		if err != nil {
+			decoded = m[1]
+		}
+		decoded = normalizeWhitespace(decoded)
+		if decoded != "" {
+			result = append(result, decoded)
+		}
+	}
+	return result
+}
+
+func parseLocationFromLabelSafe(label string) string {
+	cleaned := normalizeWhitespace(label)
+	if cleaned == "" {
+		return ""
+	}
+
+	prefixes := []string{
+		"s\u1ed1ng t\u1ea1i",
+		"\u0111\u1ebfn t\u1eeb",
+		"song tai",
+		"den tu",
+		"lives in",
+		"from",
+	}
+	for _, p := range prefixes {
+		re := regexp.MustCompile(`(?i)^` + regexp.QuoteMeta(p) + `\s*:?\s*(.+)$`)
+		if m := re.FindStringSubmatch(cleaned); len(m) >= 2 {
+			return normalizeWhitespace(m[1])
+		}
+	}
+	return ""
+}
+
+func isLocationSubtitleSafe(subtitle string) bool {
+	low := strings.ToLower(normalizeWhitespace(subtitle))
+	if low == "" {
+		return false
+	}
+
+	keywords := []string{
+		"t\u1ec9nh/th\u00e0nh ph\u1ed1 hi\u1ec7n t\u1ea1i",
+		"qu\u00ea qu\u00e1n",
+		"s\u1ed1ng t\u1ea1i",
+		"\u0111\u1ebfn t\u1eeb",
+		"tinh/thanh pho hien tai",
+		"que quan",
+		"song tai",
+		"den tu",
+		"current city",
+		"hometown",
+		"lives in",
+		"from",
+	}
+	for _, k := range keywords {
+		if strings.Contains(low, k) {
+			return true
+		}
+	}
+	return false
+}
+
+func isBirthdaySubtitleSafe(subtitle string) bool {
+	low := strings.ToLower(normalizeWhitespace(subtitle))
+	if low == "" {
+		return false
+	}
+
+	keywords := []string{
+		"ng\u00e0y sinh",
+		"n\u0103m sinh",
+		"sinh nh\u1eadt",
+		"ngay sinh",
+		"nam sinh",
+		"sinh nhat",
+		"birthday",
+		"birth date",
+		"date of birth",
+	}
+	for _, k := range keywords {
+		if strings.Contains(low, k) {
+			return true
+		}
+	}
+	return false
+}
+
+func parseBirthdayFromLabelSafe(label string) string {
+	cleaned := normalizeWhitespace(label)
+	if cleaned == "" {
+		return ""
+	}
+
+	low := strings.ToLower(cleaned)
+	keywords := []string{
+		"ng\u00e0y sinh",
+		"n\u0103m sinh",
+		"sinh nh\u1eadt",
+		"ngay sinh",
+		"nam sinh",
+		"sinh nhat",
+		"birthday",
+		"birth date",
+		"date of birth",
+		"born on",
+	}
+	hasKeyword := false
+	for _, k := range keywords {
+		if strings.Contains(low, k) {
+			hasKeyword = true
+			break
+		}
+	}
+	if !hasKeyword {
+		return ""
+	}
+
+	hiddenKeywords := []string{
+		"kh\u00f4ng c\u00f4ng khai",
+		"khong cong khai",
+		"ch\u1ec9 m\u00ecnh t\u00f4i",
+		"chi minh toi",
+		"not public",
+		"private",
+		"only me",
+	}
+	for _, k := range hiddenKeywords {
+		if strings.Contains(low, k) {
+			return "Khong cong khai"
+		}
+	}
+
+	noiseKeywords := []string{
+		"b\u1ea1n ch\u1ec9 c\u00f3 th\u1ec3 ch\u1ec9nh s\u1eeda",
+		"ban chi co the chinh sua",
+		"s\u1ed1 l\u1ea7n nh\u1ea5t \u0111\u1ecbnh",
+		"so lan nhat dinh",
+		"t\u00ecm hi\u1ec3u th\u00eam",
+		"tim hieu them",
+		"learn more",
+		"can be edited",
+		"policy",
+	}
+	for _, k := range noiseKeywords {
+		if strings.Contains(low, k) {
+			return ""
+		}
+	}
+
+	value := cleaned
+	for _, k := range keywords {
+		re := regexp.MustCompile(`(?i)\b` + regexp.QuoteMeta(k) + `\b`)
+		value = re.ReplaceAllString(value, " ")
+	}
+	value = strings.Trim(value, ":-|.,;•· ")
+	value = normalizeWhitespace(value)
+	if value == "" {
+		return ""
+	}
+	if !looksLikeBirthdayValue(value) {
+		return ""
+	}
+	return value
+}
+
+func looksLikeBirthdayValue(value string) bool {
+	low := strings.ToLower(normalizeWhitespace(value))
+	if low == "" {
+		return false
+	}
+
+	monthKeywords := []string{
+		"thang", "th\u00e1ng", "month",
+		"january", "february", "march", "april", "may", "june",
+		"july", "august", "september", "october", "november", "december",
+		"jan", "feb", "mar", "apr", "jun", "jul", "aug", "sep", "oct", "nov", "dec",
+	}
+	for _, m := range monthKeywords {
+		if strings.Contains(low, m) {
+			return true
+		}
+	}
+
+	numericDatePatterns := []string{
+		`^\d{1,2}[\/\-.]\d{1,2}([\/\-.]\d{2,4})?$`,
+		`^\d{4}[\/\-.]\d{1,2}[\/\-.]\d{1,2}$`,
+	}
+	for _, p := range numericDatePatterns {
+		if regexp.MustCompile(p).MatchString(low) {
+			return true
+		}
+	}
+
+	dayMonthWords := regexp.MustCompile(`\b\d{1,2}\b.*\b(tháng|thang|january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|oct|nov|dec)\b`)
+	return dayMonthWords.MatchString(low)
+}
+
+func looksLikeLocationValue(value string) bool {
+	low := strings.ToLower(normalizeWhitespace(value))
+	if low == "" {
+		return false
+	}
+
+	invalid := []string{
+		"khong cong khai",
+		"không công khai",
+		"sinh nhat",
+		"sinh nhật",
+		"ngay sinh",
+		"ngày sinh",
+		"nam sinh",
+		"năm sinh",
+		"chinh sua",
+		"chỉnh sửa",
+	}
+	for _, x := range invalid {
+		if strings.Contains(low, x) {
+			return false
+		}
+	}
+
+	if strings.Contains(low, "thành phố") || strings.Contains(low, "thanh pho") ||
+		strings.Contains(low, "tỉnh") || strings.Contains(low, "tinh") ||
+		strings.Contains(low, "city") || strings.Contains(low, "hometown") {
+		return true
+	}
+
+	// Cho phép tên địa danh ngắn nếu không chứa số/câu hệ thống.
+	if len([]rune(low)) >= 3 && len([]rune(low)) <= 60 && !regexp.MustCompile(`\d{2,}`).MatchString(low) {
+		return true
+	}
+	return false
+}
+
+func extractBirthYearFromBirthday(birthday string) string {
+	b := strings.TrimSpace(strings.ToLower(birthday))
+	if b == "" {
+		return ""
+	}
+	invalid := []string{
+		"khong cong khai",
+		"không công khai",
+		"not public",
+		"private",
+		"only me",
+	}
+	for _, x := range invalid {
+		if strings.Contains(b, x) {
+			return ""
+		}
+	}
+
+	years := regexp.MustCompile(`\b(19\d{2}|20\d{2})\b`).FindAllString(birthday, -1)
+	if len(years) == 0 {
+		return ""
+	}
+	return years[len(years)-1]
 }
 
 func NewFacebookProvider() *FacebookProvider {
@@ -768,23 +1083,38 @@ func (f *FacebookProvider) UploadPhoto(cookie, filePath string) (string, error) 
 
 func (f *FacebookProvider) ScanAccountInfo(cookie string, uid string, docId string) (map[string]string, error) {
 	// Lấy trang cá nhân section About để có nhiều thông tin nhất
-	req, err := http.NewRequest("GET", "https://www.facebook.com/profile.php?id="+uid+"&sk=about", nil)
-	if err != nil {
-		return nil, err
+	targetPages := []string{
+		"https://www.facebook.com/profile.php?id=" + uid + "&sk=directory_personal_details",
+		"https://www.facebook.com/profile.php?id=" + uid + "&sk=about",
 	}
-	req.Header.Set("Cookie", cookie)
-	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
-	req.Header.Set("Accept", "text/html,application/xhtml+xml")
-	req.Header.Set("Accept-Language", "vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7")
 
-	resp, err := f.client.Do(req)
-	if err != nil {
-		return nil, err
+	htmlParts := make([]string, 0, len(targetPages))
+	for _, pageURL := range targetPages {
+		req, err := http.NewRequest("GET", pageURL, nil)
+		if err != nil {
+			continue
+		}
+		req.Header.Set("Cookie", cookie)
+		req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
+		req.Header.Set("Accept", "text/html,application/xhtml+xml")
+		req.Header.Set("Accept-Language", "vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7")
+
+		resp, err := f.client.Do(req)
+		if err != nil {
+			continue
+		}
+		bodyBytes, _ := io.ReadAll(resp.Body)
+		_ = resp.Body.Close()
+		if len(bodyBytes) > 0 {
+			htmlParts = append(htmlParts, string(bodyBytes))
+		}
 	}
-	defer resp.Body.Close()
 
-	bodyBytes, _ := io.ReadAll(resp.Body)
-	htmlText := string(bodyBytes)
+	if len(htmlParts) == 0 {
+		return nil, errors.New("không tải được trang profile để quét thông tin")
+	}
+
+	htmlText := strings.Join(htmlParts, "\n")
 
 	// Lưới Vét Regex: Trích xuất tất cả các khối JSON trong thẻ script
 	jsonFragments := []string{}
@@ -805,6 +1135,8 @@ func (f *FacebookProvider) ScanAccountInfo(cookie string, uid string, docId stri
 
 	resultMap := map[string]string{
 		"gender":    "",
+		"birthday":  "",
+		"birthYear": "",
 		"location":  "",
 		"friends":   "",
 		"followers": "",
@@ -816,8 +1148,10 @@ func (f *FacebookProvider) ScanAccountInfo(cookie string, uid string, docId stri
 	for _, rawJson := range jsonFragments {
 		// 1. Tìm Tên (Name) - Có thể nằm ở nhiều chỗ khác nhau tùy section
 		namePaths := []string{
+			"data.node.name",
 			"data.user.name",
 			"data.viewer.actor.name",
+			"__bbox.result.data.node.name",
 			"__bbox.result.data.user.name",
 			"__bbox.result.data.name",
 			"data.name",
@@ -831,7 +1165,10 @@ func (f *FacebookProvider) ScanAccountInfo(cookie string, uid string, docId stri
 
 		// 2. Tìm Giới tính (Gender)
 		genderPaths := []string{
+			"data.node.gender",
 			"data.user.gender",
+			"data.viewer.actor.gender",
+			"__bbox.result.data.node.gender",
 			"__bbox.result.data.user.gender",
 			"__bbox.result.data.gender",
 		}
@@ -844,6 +1181,9 @@ func (f *FacebookProvider) ScanAccountInfo(cookie string, uid string, docId stri
 
 		// 3. Tìm Followers / Friends
 		fCount := gjson.Get(rawJson, "data.user.profile_header_actions.follower_count.count").String()
+		if fCount == "" {
+			fCount = gjson.Get(rawJson, "data.node.profile_header_actions.follower_count.count").String()
+		}
 		if fCount != "" && resultMap["followers"] == "" {
 			resultMap["followers"] = fCount
 		}
@@ -851,9 +1191,14 @@ func (f *FacebookProvider) ScanAccountInfo(cookie string, uid string, docId stri
 		// 4. Quét Context Items (Học vấn, Nơi ở, v.v.)
 		// Comet layout thường để ở timeline_context_item_sections hoặc profile_about_all_sections
 		contextPaths := []string{
+			"data.node.timeline_context_item_sections.0.items",
 			"data.user.timeline_context_item_sections.0.items",
+			"__bbox.result.data.node.timeline_context_item_sections.0.items",
 			"__bbox.result.data.user.timeline_context_item_sections.0.items",
+			"data.node.profile_about_all_sections.edges",
 			"data.user.profile_about_all_sections.edges",
+			"__bbox.result.data.node.profile_about_all_sections.edges",
+			"__bbox.result.data.user.profile_about_all_sections.edges",
 		}
 
 		for _, cp := range contextPaths {
@@ -865,11 +1210,32 @@ func (f *FacebookProvider) ScanAccountInfo(cookie string, uid string, docId stri
 					if label == "" {
 						label = value.Get("node.title.text").String() // fallback cho about sections
 					}
+					subtitle := value.Get("renderer.context_item.subtitle.text").String()
+					if subtitle == "" {
+						subtitle = value.Get("node.subtitle.text").String()
+					}
 
 					if label != "" {
 						details += fmt.Sprintf("- %s\n", label)
 						
 						lowLabel := strings.ToLower(label)
+						if loc := parseLocationFromLabelSafe(label); loc != "" {
+							resultMap["location"] = loc
+						} else if resultMap["location"] == "" && isLocationSubtitleSafe(subtitle) {
+							// Nhiều profile trả title là thành phố, subtitle mới cho biết đây là vị trí
+								resultMap["location"] = normalizeWhitespace(label)
+							}
+							if resultMap["birthday"] == "" {
+								if b := parseBirthdayFromLabelSafe(label); b != "" {
+									resultMap["birthday"] = b
+								} else if isBirthdaySubtitleSafe(subtitle) {
+									resultMap["birthday"] = normalizeWhitespace(label)
+								} else if b := parseBirthdayFromLabelSafe(subtitle); b != "" {
+									resultMap["birthday"] = b
+								} else if isBirthdaySubtitleSafe(label) && subtitle != "" {
+									resultMap["birthday"] = normalizeWhitespace(subtitle)
+								}
+							}
 						if strings.Contains(lowLabel, "sống tại") || strings.Contains(lowLabel, "đến từ") {
 							resultMap["location"] = strings.TrimSpace(strings.ReplaceAll(strings.ReplaceAll(label, "Sống tại", ""), "Đến từ", ""))
 						}
@@ -882,9 +1248,26 @@ func (f *FacebookProvider) ScanAccountInfo(cookie string, uid string, docId stri
 					}
 					return true
 				})
+				}
+			}
+
+			if resultMap["location"] == "" {
+				for _, candidate := range extractTextCandidatesFromJSON(rawJson) {
+					if loc := parseLocationFromLabelSafe(candidate); loc != "" {
+						resultMap["location"] = loc
+						break
+					}
+				}
+			}
+			if resultMap["birthday"] == "" {
+				for _, candidate := range extractTextCandidatesFromJSON(rawJson) {
+					if b := parseBirthdayFromLabelSafe(candidate); b != "" {
+						resultMap["birthday"] = b
+						break
+					}
+				}
 			}
 		}
-	}
 
 	// FALLBACK Cố định bằng Regex nếu JSON Parser thất bại toàn tập
 	if resultMap["name"] == "" {
@@ -902,6 +1285,53 @@ func (f *FacebookProvider) ScanAccountInfo(cookie string, uid string, docId stri
 	}
 
 	// Xử lý các trường trống
+	if resultMap["birthday"] == "" || resultMap["location"] == "" {
+		candidates := extractTextCandidatesFromJSON(htmlText)
+		neighborOffsets := []int{-3, -2, -1, 1, 2, 3}
+		for i, c := range candidates {
+			text := normalizeWhitespace(c)
+			if text == "" {
+				continue
+			}
+			if resultMap["birthday"] == "" {
+				if b := parseBirthdayFromLabelSafe(text); b != "" {
+					resultMap["birthday"] = b
+				} else if isBirthdaySubtitleSafe(text) {
+					for _, off := range neighborOffsets {
+						j := i + off
+						if j < 0 || j >= len(candidates) {
+							continue
+						}
+						near := normalizeWhitespace(candidates[j])
+						if looksLikeBirthdayValue(near) {
+							resultMap["birthday"] = near
+							break
+						}
+					}
+				}
+			}
+			if resultMap["location"] == "" {
+				if loc := parseLocationFromLabelSafe(text); loc != "" {
+					resultMap["location"] = loc
+				} else if isLocationSubtitleSafe(text) {
+					for _, off := range neighborOffsets {
+						j := i + off
+						if j < 0 || j >= len(candidates) {
+							continue
+						}
+						near := normalizeWhitespace(candidates[j])
+						if looksLikeLocationValue(near) {
+							resultMap["location"] = near
+							break
+						}
+					}
+				}
+			}
+			if resultMap["birthday"] != "" && resultMap["location"] != "" {
+				break
+			}
+		}
+	}
 	if resultMap["location"] == "" {
 		resultMap["location"] = "Không công khai"
 	}
@@ -910,6 +1340,12 @@ func (f *FacebookProvider) ScanAccountInfo(cookie string, uid string, docId stri
 	}
 	if resultMap["followers"] == "" {
 		resultMap["followers"] = "0"
+	}
+	if resultMap["birthday"] == "" {
+		resultMap["birthday"] = "Khong cong khai"
+	}
+	if resultMap["birthYear"] == "" {
+		resultMap["birthYear"] = extractBirthYearFromBirthday(resultMap["birthday"])
 	}
 	if resultMap["friends"] == "" {
 		resultMap["friends"] = "0"

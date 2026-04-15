@@ -468,3 +468,112 @@
 [2026-04-15T11:32:19+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
 [2026-04-15T11:32:19+07:00] FacebookProvider | UploadPhoto | Info | Đang tải ảnh từ C:\Users\ADMIN\Downloads\neww5 (1).jpg lên Facebook...
 [2026-04-15T11:32:30+07:00] FacebookProvider | Execute | Success | Task 4 chạy thật thành công
+[2026-04-15T14:09:41+07:00] Task Center | CreateTask | Success | Đã thêm task 'Đăng bài viết' vào queue.
+[2026-04-15T14:12:32+07:00] Accounts | Add | Success | Đã thêm tài khoản cc (UID: 61572157625165)
+[2026-04-15T14:12:40+07:00] Task Center | CreateTask | Success | Đã thêm task 'Đăng bài viết' vào queue.
+[2026-04-15T14:12:42+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-15T14:12:44+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T14:12:44+07:00] FacebookProvider | UploadPhoto | Info | Đang tải ảnh từ E:\CÁ NHÂN\ẢNH & VIDEO\Minh Hoàng 18-08-2023\DK4_1104.jpg lên Facebook...
+[2026-04-15T14:12:54+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-15T14:14:00+07:00] Task Center | CreateTask | Success | Đã thêm task 'Đăng bài viết' vào queue.
+[2026-04-15T14:14:01+07:00] Queue | RunTask | Running | Bắt đầu chạy task 3 ở mode live
+[2026-04-15T14:14:03+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T14:14:03+07:00] FacebookProvider | UploadPhoto | Info | Đang tải ảnh từ E:\CÁ NHÂN\ẢNH & VIDEO\Minh Hoàng 18-08-2023\DK4_1104.jpg lên Facebook...
+[2026-04-15T14:14:10+07:00] FacebookProvider | UploadPhoto | Info | Đang tải ảnh từ E:\CÁ NHÂN\ẢNH & VIDEO\Minh Hoàng 18-08-2023\DK4_1220.jpg lên Facebook...
+[2026-04-15T14:14:20+07:00] FacebookProvider | UploadPhoto | Info | Đang tải ảnh từ E:\CÁ NHÂN\ẢNH & VIDEO\Minh Hoàng 18-08-2023\DK4_1321.jpg lên Facebook...
+[2026-04-15T14:14:31+07:00] FacebookProvider | Execute | Success | Task 3 chạy thật thành công
+[2026-04-15T14:16:05+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T14:16:07+07:00] Queue | RunTask | Running | Bắt đầu chạy task 4 ở mode live
+[2026-04-15T14:16:08+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T14:16:10+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-15T14:16:10+07:00] FacebookProvider | Execute | Success | Task 4 chạy thật thành công
+[2026-04-15T14:23:13+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T14:38:47+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T14:38:49+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-15T14:38:50+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T14:38:52+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-15T14:38:52+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-15T14:40:12+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T14:40:14+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-15T14:40:15+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T14:40:17+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-15T14:40:17+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-15T14:40:30+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61572157625165
+[2026-04-15T14:40:54+07:00] Accounts | Add | Success | Đã thêm tài khoản aaaaa (UID: 61572157625165)
+[2026-04-15T14:40:59+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T14:41:00+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-15T14:41:01+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T14:41:02+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-15T14:41:02+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-15T14:47:00+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61572157625165
+[2026-04-15T14:47:05+07:00] Accounts | Add | Success | Đã thêm tài khoản qqq (UID: 61572157625165)
+[2026-04-15T14:47:09+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T14:47:15+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-15T14:47:16+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T14:47:20+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-15T14:47:20+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-15T15:01:34+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T15:01:36+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-15T15:01:38+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T15:01:41+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-15T15:01:41+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-15T15:02:15+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T15:02:16+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-15T15:02:17+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T15:02:21+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-15T15:02:21+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-15T15:02:55+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61572157625165
+[2026-04-15T15:03:01+07:00] Accounts | Add | Success | Đã thêm tài khoản sdsds (UID: 61572157625165)
+[2026-04-15T15:03:04+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T15:03:06+07:00] Queue | RunTask | Running | Bắt đầu chạy task 3 ở mode live
+[2026-04-15T15:03:08+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T15:03:12+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-15T15:03:12+07:00] FacebookProvider | Execute | Success | Task 3 chạy thật thành công
+[2026-04-15T15:26:17+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T15:26:19+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-15T15:26:21+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T15:26:25+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-15T15:26:25+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-15T15:34:07+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T15:34:08+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-15T15:34:09+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T15:35:10+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T15:35:18+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-15T15:35:20+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T15:38:11+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T15:38:15+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-15T15:38:17+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T15:38:21+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-15T15:38:21+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-15T15:51:29+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T15:51:30+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-15T15:51:31+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T15:51:35+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-15T15:51:35+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-15T16:27:43+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T16:27:44+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-15T16:27:45+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T16:27:54+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-15T16:27:54+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-15T16:36:46+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T16:36:48+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-15T16:36:50+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T16:36:56+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-15T16:36:56+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-15T16:37:16+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61572157625165
+[2026-04-15T16:37:51+07:00] Accounts | Add | Success | Đã thêm tài khoản dá (UID: 61572157625165)
+[2026-04-15T16:37:55+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T16:37:57+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-15T16:37:58+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T16:38:02+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-15T16:38:02+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-15T16:51:42+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T16:51:43+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-15T16:51:44+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T16:51:48+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-15T16:51:48+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-15T16:56:35+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T16:56:36+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-15T16:56:37+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T16:56:46+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-15T16:56:46+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công

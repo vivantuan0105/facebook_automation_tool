@@ -87,8 +87,11 @@
               <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center">Thao tác</th>
               <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center bg-blue-50/50">Tên Profile</th>
               <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center bg-blue-50/50">Giới tính</th>
-              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center bg-blue-50/50">Nơi ở</th>
-              <th class="py-2.5 px-4 text-center bg-blue-50/50">Followers</th>
+              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center bg-blue-50/50">Vị trí</th>
+              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center bg-blue-50/50">NgÃ y sinh</th>
+              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center bg-blue-50/50">Năm sinh</th>
+              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center bg-blue-50/50">Followers</th>
+              <th class="py-2.5 px-4 text-center bg-blue-50/50">Quê quán</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-100">
@@ -165,8 +168,19 @@
               <td class="py-2 px-4 border-r border-slate-100 text-center text-slate-600 bg-blue-50/20 max-w-[150px] truncate" :title="mem.acc.location">
                 {{ mem.acc.location || '-' }}
               </td>
-              <td class="py-2 px-4 text-center font-medium text-slate-700 bg-blue-50/20">
+              <td class="py-2 px-4 border-r border-slate-100 text-center text-slate-600 bg-blue-50/20">
+                {{ mem.acc.birthday || '-' }}
+              </td>
+              <td class="py-2 px-4 border-r border-slate-100 text-center text-slate-600 bg-blue-50/20">
+                {{ mem.acc.birthYear || '-' }}
+              </td>
+              <td class="py-2 px-4 border-r border-slate-100 text-center font-medium text-slate-700 bg-blue-50/20">
                 {{ mem.acc.followers || '-' }}
+              </td>
+              <td class="py-2 px-4 text-center text-slate-600 bg-blue-50/20 max-w-[180px] truncate" :title="mem.acc.location">
+                {{ mem.acc.location && String(mem.acc.location).trim() && String(mem.acc.location).trim().toLowerCase() !== 'không công khai'
+                  ? mem.acc.location
+                  : 'Không lấy được' }}
               </td>
             </tr>
           </tbody>

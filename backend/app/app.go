@@ -450,6 +450,8 @@ func (a *App) ScanAccountData(uid string, cookie string) (models.FacebookAccount
 		currentAcc.Name = resultMap["name"]
 	}
 	currentAcc.Gender = resultMap["gender"]
+	currentAcc.Birthday = resultMap["birthday"]
+	currentAcc.BirthYear = resultMap["birthYear"]
 	currentAcc.Location = resultMap["location"]
 	if scannedCount, ok := store.GetScannedFriendsCount(uid); ok {
 		currentAcc.Friends = scannedCount

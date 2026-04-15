@@ -6,6 +6,8 @@ type FacebookAccount struct {
 	Cookie              string `json:"cookie"`
 	Status              string `json:"status"` // Live, Die, Checkpoint, Unchecked
 	Gender              string `json:"gender"`
+	Birthday            string `json:"birthday"`
+	BirthYear           string `json:"birthYear"`
 	Location            string `json:"location"`
 	Friends             string `json:"friends"`
 	Followers           string `json:"followers"`

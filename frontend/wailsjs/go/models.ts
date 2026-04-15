@@ -78,6 +78,8 @@ export namespace models {
 	    cookie: string;
 	    status: string;
 	    gender: string;
+	    birthday: string;
+	    birthYear: string;
 	    location: string;
 	    friends: string;
 	    followers: string;
@@ -94,6 +96,8 @@ export namespace models {
 	        this.cookie = source["cookie"];
 	        this.status = source["status"];
 	        this.gender = source["gender"];
+	        this.birthday = source["birthday"];
+	        this.birthYear = source["birthYear"];
 	        this.location = source["location"];
 	        this.friends = source["friends"];
 	        this.followers = source["followers"];
