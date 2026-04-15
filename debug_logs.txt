@@ -577,3 +577,19 @@
 [2026-04-15T16:56:37+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
 [2026-04-15T16:56:46+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
 [2026-04-15T16:56:46+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-15T17:00:17+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T17:00:18+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-15T17:00:19+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T17:00:23+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-15T17:00:23+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-15T17:04:27+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T17:04:28+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-15T17:04:30+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T17:05:31+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T17:05:32+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-15T17:05:33+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T17:07:18+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-15T17:07:19+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-15T17:07:20+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-15T17:07:28+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-15T17:07:28+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công

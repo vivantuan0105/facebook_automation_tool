@@ -171,6 +171,90 @@ func isBirthdaySubtitleSafe(subtitle string) bool {
 	return false
 }
 
+func isGenderLabelSafe(text string) bool {
+	low := strings.ToLower(normalizeWhitespace(text))
+	if low == "" {
+		return false
+	}
+	keywords := []string{
+		"giới tính",
+		"gioi tinh",
+		"gender",
+		"sex",
+	}
+	for _, k := range keywords {
+		if strings.Contains(low, k) {
+			return true
+		}
+	}
+	return false
+}
+
+func normalizeGenderValue(raw string) string {
+	low := strings.ToLower(normalizeWhitespace(raw))
+	if low == "" {
+		return ""
+	}
+
+	if strings.Contains(low, "không công khai") || strings.Contains(low, "khong cong khai") ||
+		strings.Contains(low, "not public") || strings.Contains(low, "private") || strings.Contains(low, "only me") {
+		return "Không công khai"
+	}
+
+	if regexp.MustCompile(`(?i)\bfemale\b`).MatchString(low) || strings.Contains(low, "nữ") || strings.Contains(low, " nu ") {
+		return "Nữ (FEMALE)"
+	}
+
+	// Tránh bắt nhầm cụm "nam sinh".
+	if regexp.MustCompile(`(?i)\bmale\b`).MatchString(low) {
+		return "Nam (MALE)"
+	}
+	if strings.Contains(low, "nam sinh") || strings.Contains(low, "năm sinh") {
+		return ""
+	}
+	if strings.Contains(low, " nam ") || strings.HasPrefix(low, "nam ") || strings.HasSuffix(low, " nam") || low == "nam" {
+		return "Nam (MALE)"
+	}
+
+	return ""
+}
+
+func extractGenderFromCandidates(candidates []string) string {
+	if len(candidates) == 0 {
+		return ""
+	}
+
+	// 1) Nếu text tự chứa giá trị rõ ràng.
+	for _, c := range candidates {
+		if g := normalizeGenderValue(c); g != "" && !isGenderLabelSafe(c) {
+			return g
+		}
+	}
+
+	// 2) Tìm quanh nhãn "Giới tính".
+	neighborOffsets := []int{-2, -1, 1, 2}
+	for i, c := range candidates {
+		text := normalizeWhitespace(c)
+		if !isGenderLabelSafe(text) {
+			continue
+		}
+
+		if g := normalizeGenderValue(text); g != "" {
+			return g
+		}
+		for _, off := range neighborOffsets {
+			j := i + off
+			if j < 0 || j >= len(candidates) {
+				continue
+			}
+			if g := normalizeGenderValue(candidates[j]); g != "" {
+				return g
+			}
+		}
+	}
+	return ""
+}
+
 func parseBirthdayFromLabelSafe(label string) string {
 	cleaned := normalizeWhitespace(label)
 	if cleaned == "" {
@@ -341,6 +425,78 @@ func extractBirthYearFromBirthday(birthday string) string {
 		return ""
 	}
 	return years[len(years)-1]
+}
+
+func extractBirthYearFromCandidates(candidates []string, birthday string) string {
+	if len(candidates) == 0 {
+		return ""
+	}
+
+	findYear := func(text string) string {
+		years := regexp.MustCompile(`\b(19\d{2}|20\d{2})\b`).FindAllString(text, -1)
+		if len(years) == 0 {
+			return ""
+		}
+		return years[len(years)-1]
+	}
+
+	birthdayNorm := strings.ToLower(normalizeWhitespace(birthday))
+	neighborOffsets := []int{-4, -3, -2, -1, 1, 2, 3, 4}
+
+	// 1) Ưu tiên quanh nhãn "năm sinh"
+	for i, c := range candidates {
+		text := strings.ToLower(normalizeWhitespace(c))
+		if text == "" {
+			continue
+		}
+		if strings.Contains(text, "năm sinh") || strings.Contains(text, "nam sinh") || strings.Contains(text, "birth year") {
+			if y := findYear(c); y != "" {
+				return y
+			}
+			for _, off := range neighborOffsets {
+				j := i + off
+				if j < 0 || j >= len(candidates) {
+					continue
+				}
+				if y := findYear(candidates[j]); y != "" {
+					return y
+				}
+			}
+		}
+	}
+
+	// 2) Quanh cụm sinh nhật/ngày sinh hoặc text ngày sinh đã parse được
+	for i, c := range candidates {
+		text := strings.ToLower(normalizeWhitespace(c))
+		if text == "" {
+			continue
+		}
+		isBirthdayAnchor := isBirthdaySubtitleSafe(text)
+		if !isBirthdayAnchor && birthdayNorm != "" && text == birthdayNorm {
+			isBirthdayAnchor = true
+		}
+		if !isBirthdayAnchor && birthdayNorm != "" && strings.Contains(text, birthdayNorm) {
+			isBirthdayAnchor = true
+		}
+		if !isBirthdayAnchor {
+			continue
+		}
+
+		if y := findYear(c); y != "" {
+			return y
+		}
+		for _, off := range neighborOffsets {
+			j := i + off
+			if j < 0 || j >= len(candidates) {
+				continue
+			}
+			if y := findYear(candidates[j]); y != "" {
+				return y
+			}
+		}
+	}
+
+	return ""
 }
 
 func NewFacebookProvider() *FacebookProvider {
@@ -1174,7 +1330,11 @@ func (f *FacebookProvider) ScanAccountInfo(cookie string, uid string, docId stri
 		}
 		for _, path := range genderPaths {
 			if g := gjson.Get(rawJson, path).String(); g != "" {
-				resultMap["gender"] = g
+				if ng := normalizeGenderValue(g); ng != "" {
+					resultMap["gender"] = ng
+				} else {
+					resultMap["gender"] = g
+				}
 				break
 			}
 		}
@@ -1219,6 +1379,15 @@ func (f *FacebookProvider) ScanAccountInfo(cookie string, uid string, docId stri
 						details += fmt.Sprintf("- %s\n", label)
 						
 						lowLabel := strings.ToLower(label)
+						if isGenderLabelSafe(subtitle) {
+							if g := normalizeGenderValue(label); g != "" {
+								resultMap["gender"] = g
+							}
+						} else if isGenderLabelSafe(label) {
+							if g := normalizeGenderValue(subtitle); g != "" {
+								resultMap["gender"] = g
+							}
+						}
 						if loc := parseLocationFromLabelSafe(label); loc != "" {
 							resultMap["location"] = loc
 						} else if resultMap["location"] == "" && isLocationSubtitleSafe(subtitle) {
@@ -1267,6 +1436,9 @@ func (f *FacebookProvider) ScanAccountInfo(cookie string, uid string, docId stri
 					}
 				}
 			}
+			if g := extractGenderFromCandidates(extractTextCandidatesFromJSON(rawJson)); g != "" {
+				resultMap["gender"] = g
+			}
 		}
 
 	// FALLBACK Cố định bằng Regex nếu JSON Parser thất bại toàn tập
@@ -1285,6 +1457,9 @@ func (f *FacebookProvider) ScanAccountInfo(cookie string, uid string, docId stri
 	}
 
 	// Xử lý các trường trống
+	if g := extractGenderFromCandidates(extractTextCandidatesFromJSON(htmlText)); g != "" {
+		resultMap["gender"] = g
+	}
 	if resultMap["birthday"] == "" || resultMap["location"] == "" {
 		candidates := extractTextCandidatesFromJSON(htmlText)
 		neighborOffsets := []int{-3, -2, -1, 1, 2, 3}
@@ -1346,6 +1521,9 @@ func (f *FacebookProvider) ScanAccountInfo(cookie string, uid string, docId stri
 	}
 	if resultMap["birthYear"] == "" {
 		resultMap["birthYear"] = extractBirthYearFromBirthday(resultMap["birthday"])
+	}
+	if resultMap["birthYear"] == "" {
+		resultMap["birthYear"] = extractBirthYearFromCandidates(extractTextCandidatesFromJSON(htmlText), resultMap["birthday"])
 	}
 	if resultMap["friends"] == "" {
 		resultMap["friends"] = "0"
