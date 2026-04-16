@@ -10,6 +10,8 @@ export function DeleteAccount(arg1:string):Promise<void>;
 
 export function GetAccountFriendsList(arg1:string):Promise<Array<string>>;
 
+export function GetAccountPostsList(arg1:string):Promise<Array<string>>;
+
 export function GetAllAccounts():Promise<Array<models.FacebookAccount>>;
 
 export function GetExecutions():Promise<Array<models.TaskExecution>>;
@@ -37,6 +39,8 @@ export function RunReactionTaskNow(arg1:number,arg2:string):Promise<void>;
 export function ScanAccountData(arg1:string,arg2:string):Promise<models.FacebookAccount>;
 
 export function ScanAccountFriendsAPI(arg1:string,arg2:string):Promise<number>;
+
+export function ScanAccountPostsAPI(arg1:string,arg2:string,arg3:string):Promise<number>;
 
 export function SelectPhotoDialog():Promise<string>;
 

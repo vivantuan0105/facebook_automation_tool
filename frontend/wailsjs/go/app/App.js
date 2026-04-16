@@ -18,6 +18,10 @@ export function GetAccountFriendsList(arg1) {
   return window['go']['app']['App']['GetAccountFriendsList'](arg1);
 }
 
+export function GetAccountPostsList(arg1) {
+  return window['go']['app']['App']['GetAccountPostsList'](arg1);
+}
+
 export function GetAllAccounts() {
   return window['go']['app']['App']['GetAllAccounts']();
 }
@@ -72,6 +76,10 @@ export function ScanAccountData(arg1, arg2) {
 
 export function ScanAccountFriendsAPI(arg1, arg2) {
   return window['go']['app']['App']['ScanAccountFriendsAPI'](arg1, arg2);
+}
+
+export function ScanAccountPostsAPI(arg1, arg2, arg3) {
+  return window['go']['app']['App']['ScanAccountPostsAPI'](arg1, arg2, arg3);
 }
 
 export function SelectPhotoDialog() {

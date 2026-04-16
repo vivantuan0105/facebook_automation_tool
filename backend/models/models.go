@@ -18,6 +18,7 @@ type FacebookAccount struct {
 	BirthYear           string `json:"birthYear"`
 	Location            string `json:"location"`
 	Friends             string `json:"friends"`
+	Posts               string `json:"posts"`
 	Followers           string `json:"followers"`
 	CreatedAt           string `json:"createdAt"`
 }
@@ -77,6 +78,7 @@ type AppSettings struct {
 	GraphqlLikeDocId     string `json:"graphqlLikeDocId"`
 	GraphqlCommentDocId  string `json:"graphqlCommentDocId"`
 	GraphqlPostDocId     string `json:"graphqlPostDocId"`
+	GraphqlScanPostDocId string `json:"graphqlScanPostDocId"`
 	GraphqlProfileDocId  string `json:"graphqlProfileDocId"`
 	GraphqlFriendsDocId  string `json:"graphqlFriendsDocId"`
 }

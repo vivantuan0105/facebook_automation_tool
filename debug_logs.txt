@@ -633,3 +633,95 @@ c_user=61572157625165; xs=10:2QtLpbQwGA6Cww:2:1776270217:-1:-1; fr=0tXc2IlTHSgqV
 c_user=61572157625165; xs=7:TubC3bzfllu8Nw:2:1776270267:-1:-1; fr=0e32VOHJw5DZb4ftz.AWfaWgyh_RUixo9geBdLE7jMLEiNSW9Dky-31KFquamvcWkkVqI.Bp37u6..AAA.0.0.Bp37u6.AWdK06IHcjzoDQg3iym66dKndKs; datr=urvfaaQYAr_SLa042Y9rRG7V
 [2026-04-15T23:24:41+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
 [2026-04-15T23:24:41+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-16T09:14:09+07:00] Settings | Update | Success | Cấu hình được lưu thành công vào file settings.json.
+[2026-04-16T09:14:18+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-16T09:14:20+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-16T09:14:22+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-16T09:14:25+07:00] Accounts | ScanPosts | Error | Lỗi quét bài viết target 61571360758847: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T09:14:25+07:00] FacebookProvider | Execute | Error | Task 1 thất bại: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T09:16:59+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-16T09:17:00+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-16T09:17:01+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-16T09:17:04+07:00] Accounts | ScanPosts | Error | Lỗi quét bài viết target 61571360758847: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T09:17:04+07:00] FacebookProvider | Execute | Error | Task 1 thất bại: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T09:20:08+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-16T09:20:09+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-16T09:20:11+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-16T09:20:13+07:00] Accounts | ScanPosts | Error | Lỗi quét bài viết target 61571360758847: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T09:20:13+07:00] FacebookProvider | Execute | Error | Task 1 thất bại: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T09:20:35+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-16T09:20:36+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-16T09:20:37+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-16T09:20:40+07:00] Accounts | ScanPosts | Error | Lỗi quét bài viết target 61572157625165: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T09:20:40+07:00] FacebookProvider | Execute | Error | Task 2 thất bại: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T09:29:11+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-16T09:29:12+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-16T09:29:13+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-16T09:29:16+07:00] Accounts | ScanPosts | Error | Lỗi quét bài viết target 61572157625165: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T09:29:16+07:00] FacebookProvider | Execute | Error | Task 1 thất bại: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T09:35:21+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-16T09:35:23+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-16T09:35:24+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-16T09:35:27+07:00] Accounts | ScanPosts | Error | Lỗi quét bài viết target 61572157625165: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T09:35:27+07:00] FacebookProvider | Execute | Error | Task 1 thất bại: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T09:36:25+07:00] Settings | Update | Success | Cấu hình được lưu thành công vào file settings.json.
+[2026-04-16T09:55:03+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-16T09:55:04+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-16T09:55:06+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-16T09:55:08+07:00] Accounts | ScanPosts | Error | Lỗi quét bài viết target 61572157625165: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T09:55:08+07:00] FacebookProvider | Execute | Error | Task 1 thất bại: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T10:00:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-16T10:00:29+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-16T10:00:30+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-16T10:01:32+07:00] Accounts | ScanPosts | Success | Quét thành công 48 bài viết cho target 61571360758847
+[2026-04-16T10:01:32+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-16T10:03:49+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-16T10:03:50+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-16T10:03:52+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-16T10:04:46+07:00] Accounts | ScanPosts | Error | Lỗi quét bài viết target 61572157625165: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T10:04:46+07:00] FacebookProvider | Execute | Error | Task 2 thất bại: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T10:15:39+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-16T10:15:40+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-16T10:15:41+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-16T10:16:11+07:00] Accounts | ScanPosts | Success | Quét thành công 0 bài viết cho target 61572157625165
+[2026-04-16T10:16:11+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-16T10:16:44+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-16T10:16:45+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-16T10:16:46+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-16T10:17:49+07:00] Accounts | ScanPosts | Success | Quét thành công 0 bài viết cho target 61571360758847
+[2026-04-16T10:17:49+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-16T10:21:35+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-16T10:21:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-16T10:21:38+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-16T10:22:06+07:00] Accounts | ScanPosts | Success | Quét thành công 24 bài viết cho target 61572157625165
+[2026-04-16T10:22:06+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-16T10:28:11+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-16T10:28:12+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-16T10:28:14+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-16T10:28:35+07:00] Accounts | ScanPosts | Error | Lỗi quét bài viết target 61571360758847: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T10:28:35+07:00] FacebookProvider | Execute | Error | Task 1 thất bại: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T10:28:50+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-16T10:28:51+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-16T10:28:53+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-16T10:29:21+07:00] Accounts | ScanPosts | Error | Lỗi quét bài viết target 61572157625165: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T10:29:21+07:00] FacebookProvider | Execute | Error | Task 2 thất bại: GraphQL Error: A server error missing_required_variable_value occured. Check server logs for details.
+[2026-04-16T10:38:36+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-16T10:38:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-16T10:38:39+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-16T10:39:13+07:00] Accounts | ScanPosts | Success | Quét thành công 25 bài viết cho target 61571360758847
+[2026-04-16T10:39:13+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-16T10:39:50+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-16T10:39:52+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-16T10:39:53+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-16T10:40:50+07:00] Accounts | ScanPosts | Success | Quét thành công 24 bài viết cho target 61572157625165
+[2026-04-16T10:40:50+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-16T10:44:37+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-16T10:44:38+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-16T10:44:40+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-16T10:45:39+07:00] Accounts | ScanPosts | Success | Quét thành công 25 bài viết cho target 61571360758847
+[2026-04-16T10:45:39+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-16T10:46:37+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-16T10:46:39+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-16T10:46:40+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-16T10:47:11+07:00] Accounts | ScanPosts | Success | Quét thành công 26 bài viết cho target 61572157625165
+[2026-04-16T10:47:11+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công

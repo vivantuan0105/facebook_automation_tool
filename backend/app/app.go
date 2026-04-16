@@ -267,6 +267,32 @@ func (a *App) RunReactionTaskNow(taskID uint, mode string) error {
 				} else {
 					err = errors.New("Không thể lấy UID từ cookie để quét bạn")
 				}
+			} else if t.TaskType == "Quét bài viết" {
+				// Lấy UID chính từ cookie (cho tài khoản chạy)
+				re := regexp.MustCompile(`c_user=(\d+)`)
+				matches := re.FindStringSubmatch(t.Cookie)
+				accUID := ""
+				if len(matches) > 1 {
+					accUID = matches[1]
+				}
+
+				targetUID := ""
+				// Kiểm tra nếu người dùng chọn mode post_url thì lấy PostURL (UID)
+				if t.TargetMode == "post_url" && t.PostURL != "" {
+					targetUID = t.PostURL
+				} else {
+					targetUID = accUID
+				}
+
+				if targetUID != "" && accUID != "" {
+					count, errX := a.ScanAccountPostsAPI(accUID, t.Cookie, targetUID)
+					err = errX
+					if err == nil {
+						resultLog = fmt.Sprintf("Quét thành công %d bài viết.", count)
+					}
+				} else {
+					err = errors.New("Không thể xác định UID mục tiêu hoặc tài khoản chạy để quét bài viết")
+				}
 			} else {
 				resultLog, err = fbProvider.ReactToPost(t.Cookie, targetURL, t.ReactionType, docId)
 			}
@@ -537,6 +563,60 @@ func (a *App) GetAccountFriendsList(uid string) ([]string, error) {
 	// Bỏ qua 2 dòng header đầu tiên (Tính tổng cộng: ... và ====)
 	for i, line := range lines {
 		if i > 1 && strings.TrimSpace(line) != "" {
+			result = append(result, strings.TrimSpace(line))
+		}
+	}
+	return result, nil
+}
+
+// ─────────────────────────────────────────────
+// EXPOSE API: QUÉT BÀI VIẾT (TIMELINE POSTS)
+// ─────────────────────────────────────────────
+
+func (a *App) ScanAccountPostsAPI(uid string, cookie string, targetUID string) (int, error) {
+	docId := store.DB.Settings.GraphqlScanPostDocId
+	fbProvider := providers.NewFacebookProvider()
+	
+	count, err := fbProvider.ScanAccountPosts(cookie, targetUID, docId)
+	
+	// Thống kê đếm bài viết cho đúng targetUID hiển thị lên UI
+	if targetUID != "" && err == nil {
+		accounts, _ := store.GetAllAccounts()
+		var currentAcc *models.FacebookAccount
+		for i, acc := range accounts {
+			if acc.UID == targetUID {
+				currentAcc = &accounts[i]
+				break
+			}
+		}
+
+		if currentAcc != nil {
+			currentAcc.Posts = fmt.Sprintf("%d", count)
+			store.SaveAccount(*currentAcc)
+		}
+	}
+
+	if err != nil {
+		store.DB.AddLog("Accounts", "ScanPosts", "Error", fmt.Sprintf("Lỗi quét bài viết target %s: %v", targetUID, err))
+		return count, err
+	}
+
+	store.DB.AddLog("Accounts", "ScanPosts", "Success", fmt.Sprintf("Quét thành công %d bài viết cho target %s", count, targetUID))
+	return count, nil
+}
+
+func (a *App) GetAccountPostsList(targetUID string) ([]string, error) {
+	path := filepath.Join("Data", targetUID, "Posts.txt")
+	content, err := os.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+
+	lines := strings.Split(string(content), "\n")
+	var result []string
+	
+	for _, line := range lines {
+		if strings.TrimSpace(line) != "" && !strings.HasPrefix(line, "===") {
 			result = append(result, strings.TrimSpace(line))
 		}
 	}

@@ -57,6 +57,29 @@ func GetScannedFriendsCount(uid string) (string, bool) {
 	return strconv.Itoa(len(nonEmpty)), true
 }
 
+func GetScannedPostsCount(uid string) (string, bool) {
+	postsPath := filepath.Join(GetAccountPath(uid), "Posts.txt")
+	data, err := os.ReadFile(postsPath)
+	if err != nil {
+		return "", false
+	}
+
+	lines := strings.Split(string(data), "\n")
+	nonEmpty := make([]string, 0, len(lines))
+	for _, line := range lines {
+		trimmed := strings.TrimSpace(line)
+		if trimmed != "" && !strings.HasPrefix(trimmed, "===") {
+			nonEmpty = append(nonEmpty, trimmed)
+		}
+	}
+
+	if len(nonEmpty) == 0 {
+		return "", false
+	}
+
+	return strconv.Itoa(len(nonEmpty)), true
+}
+
 func GetAllAccounts() ([]models.FacebookAccount, error) {
 	accounts := make([]models.FacebookAccount, 0)
 
@@ -79,6 +102,9 @@ func GetAllAccounts() ([]models.FacebookAccount, error) {
 				if err := json.Unmarshal(data, &acc); err == nil {
 					if scannedCount, ok := GetScannedFriendsCount(uid); ok {
 						acc.Friends = scannedCount
+					}
+					if scannedPCount, ok := GetScannedPostsCount(uid); ok {
+						acc.Posts = scannedPCount
 					}
 					accounts = append(accounts, acc)
 				}

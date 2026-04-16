@@ -60,6 +60,10 @@
                 <input type="text" v-model="localSettings.graphqlPostDocId" class="w-full bg-light-bg border border-light-border text-light-text text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5 transition-colors" placeholder="Ví dụ: 9972...9780">
               </div>
               <div>
+                <label class="block text-xs text-light-muted mb-1">doc_id cho chức năng QUÉT BÀI VIẾT</label>
+                <input type="text" v-model="localSettings.graphqlScanPostDocId" class="w-full bg-light-bg border border-light-border text-light-text text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5 transition-colors" placeholder="Ví dụ: 7181313491953460">
+              </div>
+              <div>
                 <label class="block text-xs text-light-muted mb-1">doc_id cho chức năng QUÉT PROFILE</label>
                 <input type="text" v-model="localSettings.graphqlProfileDocId" class="w-full bg-light-bg border border-light-border text-light-text text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5 transition-colors" placeholder="(Không bắt buộc) Ví dụ: 6984...124">
               </div>

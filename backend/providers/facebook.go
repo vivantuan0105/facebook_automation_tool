@@ -1736,3 +1736,252 @@ func (f *FacebookProvider) ScanAccountFriends(cookie string, uid string, docId s
 
 	return len(friendList), nil
 }
+
+// ─────────────────────────────────────────────
+// TÍNH NĂNG QUÉT BÀI VIẾT VÀ LƯU POSTS.TXT
+// ─────────────────────────────────────────────
+
+func (f *FacebookProvider) ScanAccountPosts(cookie string, targetUID string, docId string) (int, error) {
+	fbDtsg := ""
+	lsd := ""
+	jazoest := ""
+	var cursor *string = nil
+	hasNextPage := true
+	postCount := 0
+
+	// Lấy token bảo vệ từ trang cá nhân
+	req, err := http.NewRequest("GET", "https://www.facebook.com/profile.php?id="+targetUID, nil)
+	if err == nil {
+		req.Header.Set("Cookie", cookie)
+		req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
+		req.Header.Set("Accept", "text/html,application/xhtml+xml")
+		resp, err := f.client.Do(req)
+		if err == nil {
+			bodyBytes, _ := io.ReadAll(resp.Body)
+			htmlText := string(bodyBytes)
+			
+			dtsgRegex1 := regexp.MustCompile(`\["DTSGInitialData",\[\],{"token":"([^"]+)"}`)
+			if m := dtsgRegex1.FindStringSubmatch(htmlText); len(m) > 1 {
+				fbDtsg = m[1]
+			} else {
+				dtsgRegex2 := regexp.MustCompile(`"DTSGInitialData",.*?"token":"([^"]+)"`)
+				if m := dtsgRegex2.FindStringSubmatch(htmlText); len(m) > 1 {
+					fbDtsg = m[1]
+				}
+			}
+
+			lsdRegex := regexp.MustCompile(`"LSD",\[\],{"token":"([^"]+)"}`)
+			if m := lsdRegex.FindStringSubmatch(htmlText); len(m) > 1 {
+				lsd = m[1]
+			} else {
+				lsdRegex = regexp.MustCompile(`name="lsd" value="([^"]+)"`)
+				if m := lsdRegex.FindStringSubmatch(htmlText); len(m) > 1 {
+					lsd = m[1]
+				}
+			}
+
+			jazoestRegex := regexp.MustCompile(`name="jazoest" value="(\d+)"`)
+			if m := jazoestRegex.FindStringSubmatch(htmlText); len(m) > 1 {
+				jazoest = m[1]
+			} else {
+				jazoestRegex = regexp.MustCompile(`"jazoest":"(\d+)"`)
+				if m := jazoestRegex.FindStringSubmatch(htmlText); len(m) > 1 {
+					jazoest = m[1]
+				}
+			}
+			resp.Body.Close()
+		}
+	}
+
+	if fbDtsg == "" {
+		return 0, errors.New("không lấy được fb_dtsg từ trang cá nhân")
+	}
+
+	// Chuẩn bị file để ghi trực tiếp (Mở cờ Truncate để xoá cũ, Create, WROnly)
+	dataPath := filepath.Join("Data", targetUID)
+	os.MkdirAll(dataPath, os.ModePerm)
+	file, err := os.OpenFile(filepath.Join(dataPath, "Posts.txt"), os.O_TRUNC|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return 0, fmt.Errorf("không thể mở file để ghi: %w", err)
+	}
+	defer file.Close()
+
+	file.WriteString(fmt.Sprintf("=== Quét Bài Viết %s ===\n", time.Now().Format("2006-01-02 15:04:05")))
+
+	postMap := make(map[string]bool)
+
+	// Bắt đầu vòng lặp lấy bài viết
+	for hasNextPage {
+		// Xây dựng biến variables bằng map[string]interface{} để tránh sót key
+		variablesMap := map[string]interface{}{
+			"UFI2CommentsProvider_commentsKey": "ProfileCometTimelineRoute",
+			"count": 10,
+			"cursor": cursor,
+			"feedLocation": "TIMELINE",
+			"feedbackSource": 0,
+			"focusCommentID": nil,
+			"id": targetUID,
+			"omitPinnedPost": true,
+			"privacySelectorRenderLocation": "COMET_STREAM",
+			"renderLocation": "timeline",
+			"scale": 1,
+			"useDefaultActor": false,
+			"beforeTime": nil,
+			"dialtone_active": false,
+			"has_react_native_v2": false,
+		}
+		variablesBytes, _ := json.Marshal(variablesMap)
+		variablesStr := string(variablesBytes)
+
+		// Lấy UID của tài khoản gửi request từ cookie
+		re := regexp.MustCompile(`c_user=(\d+)`)
+		matches := re.FindStringSubmatch(cookie)
+		accUID := ""
+		if len(matches) > 1 {
+			accUID = matches[1]
+		}
+
+		payload := url.Values{}
+		if accUID != "" {
+			payload.Set("av", accUID)
+			payload.Set("__user", accUID)
+			payload.Set("__a", "1")
+		}
+		payload.Set("fb_dtsg", fbDtsg)
+		if lsd != "" {
+			payload.Set("lsd", lsd)
+		}
+		if jazoest != "" {
+			payload.Set("jazoest", jazoest)
+		}
+		payload.Set("doc_id", docId)
+		payload.Set("variables", variablesStr)
+		payload.Set("fb_api_req_friendly_name", "ProfileCometTimelineFeedRefetchQuery")
+
+		graphReq, _ := http.NewRequest("POST", "https://www.facebook.com/api/graphql/", strings.NewReader(payload.Encode()))
+		graphReq.Header.Set("Cookie", cookie)
+		graphReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+		graphReq.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
+		graphReq.Header.Set("X-FB-Friendly-Name", "ProfileCometTimelineFeedRefetchQuery")
+
+		graphResp, _ := f.client.Do(graphReq)
+		if graphResp == nil {
+			break
+		}
+
+		bodyBytes, _ := io.ReadAll(graphResp.Body)
+		graphResp.Body.Close()
+		jsonStr := string(bodyBytes)
+
+		os.WriteFile("DEBUG_POSTS_RESPONSE.json", bodyBytes, 0644)
+		os.WriteFile("DEBUG_POSTS_PAYLOAD.txt", []byte(payload.Encode()+"\nVARIABLES: "+variablesStr), 0644)
+
+		graphqlErrors := gjson.Get(jsonStr, "errors")
+		if graphqlErrors.Exists() && graphqlErrors.IsArray() {
+			isCritical := false
+			errMsg := ""
+			graphqlErrors.ForEach(func(key, value gjson.Result) bool {
+				severity := value.Get("severity").String()
+				if severity == "CRITICAL" {
+					isCritical = true
+					errMsg = value.Get("message").String()
+					return false // Break
+				}
+				return true
+			})
+			if isCritical {
+				// Nếu server GraphQL văng lỗi khi đến cuối timeline nhưng trước đó đã lấy được bài
+				if postCount > 0 {
+					break // Thoát vòng lặp an toàn, giữ lại thành quả
+				}
+				return postCount, fmt.Errorf("GraphQL Error: %s", errMsg)
+			}
+		}
+
+		// Do GraphQL trả về NDJSON (nhiều JSON cách nhau bởi \n)
+		chunks := strings.Split(jsonStr, "\n")
+		var extractedEdges []gjson.Result
+		for _, chunk := range chunks {
+			if strings.TrimSpace(chunk) == "" {
+				continue
+			}
+			
+			// Thu thập các edges từ Line 0
+			edgesInChunk := gjson.Get(chunk, "data.node.timeline_list_feed_units.edges")
+			if edgesInChunk.Exists() && edgesInChunk.IsArray() {
+				extractedEdges = append(extractedEdges, edgesInChunk.Array()...)
+			}
+			// Nếu schema trả về dạng node gốc ở stream
+			chunkNode := gjson.Get(chunk, "data.node")
+			if chunkNode.Exists() {
+				extractedEdges = append(extractedEdges, gjson.Get(chunk, "data"))
+			}
+
+			// Tìm page_info 
+			pInfo := gjson.Get(chunk, "data.page_info")
+			if !pInfo.Exists() {
+				pInfo = gjson.Get(chunk, "data.node.timeline_list_feed_units.page_info")
+			}
+			if pInfo.Exists() {
+				hasNextPage = pInfo.Get("has_next_page").Bool()
+				if pInfo.Get("end_cursor").Exists() {
+					c := pInfo.Get("end_cursor").String()
+					cursor = &c
+				}
+			}
+		}
+
+		if len(extractedEdges) > 0 {
+			for _, edge := range extractedEdges {
+				node := edge.Get("node")
+				if !node.Exists() {
+					node = edge // Chunk trực tiếp
+				}
+				
+				postID := node.Get("comet_sections.feedback.story.feedback_context.feedback_target_with_context.ufi_reference_fbids.0").String()
+				if postID == "" {
+					postID = node.Get("post_id").String()
+				}
+				
+				// Lấy metadata link bài viết gốc
+				url := node.Get("comet_sections.content.story.wwwURL").String()
+				if url == "" {
+					url = node.Get("comet_sections.context_layout.story.comet_sections.metadata.0.story.url").String()
+				}
+				if url == "" {
+					url = fmt.Sprintf("https://facebook.com/%s/posts/%s", targetUID, postID)
+				}
+				
+				// Loại bỏ hình ảnh con trong 1 bài đăng nhiều hình (substory) để tránh lặp post ảo
+				if strings.Contains(url, "substory_index") {
+					continue
+				}
+				
+				timeX := node.Get("comet_sections.context_layout.story.comet_sections.metadata.0.story.creation_time").Int()
+
+				// Lấy phần text content
+				content := node.Get("comet_sections.content.story.message.text").String()
+				content = strings.ReplaceAll(content, "\n", " ")
+				
+				if postID != "" && !postMap[postID] {
+					postMap[postID] = true
+					postCount++
+					line := fmt.Sprintf("%s|%s|%d|%s\n", postID, url, timeX, content)
+					file.WriteString(line)
+				}
+			}
+		} else {
+			// Không tìm thấy nội dung
+			hasNextPage = false
+		}
+		
+		// Ghi đĩa ngay lập tức
+		file.Sync()
+
+		if hasNextPage {
+			time.Sleep(3 * time.Second) // Delay theo yêu cầu để tránh khóa cookie
+		}
+	}
+
+	return postCount, nil
+}

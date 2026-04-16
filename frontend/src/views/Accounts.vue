@@ -63,6 +63,18 @@
           </svg>
           Chi tiết bạn bè
         </button>
+        <button
+          @click="activeSection = 'posts'"
+          :class="activeSection === 'posts'
+            ? 'bg-indigo-600 text-white shadow-sm'
+            : 'text-slate-600 hover:text-indigo-700 hover:bg-indigo-50'"
+          class="px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+          </svg>
+          Chi tiết bài viết
+        </button>
       </div>
     </div>
 
@@ -90,6 +102,7 @@
               </th>
               <th class="py-2.5 px-4 border-r border-indigo-100/30 text-left">UID / Tên gợi nhớ</th>
               <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center">Bạn bè</th>
+              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center">Bài viết</th>
               <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center">Tác vụ</th>
               <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center">Mục tiêu</th>
               <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center">Trạng thái Tác vụ</th>
@@ -114,19 +127,36 @@
                 <div class="text-xs text-slate-500">{{ mem.acc.uid }}</div>
               </td>
               <td class="py-2 px-4 text-slate-600 border-r border-slate-100 text-center font-medium">
-                <div class="flex items-center justify-center gap-2">
-                  <span>{{ mem.acc.friends || '-' }}</span>
+                <div class="flex items-center justify-center gap-1.5">
+                  <span class="text-[11px] font-semibold px-1.5 text-slate-600">{{ mem.acc.friends || '-' }}</span>
                   <button
                     @click="openFriendsView(mem.acc.uid)"
                     :class="selectedFriendUid === mem.acc.uid
                       ? 'border-indigo-300 bg-indigo-100 text-indigo-700'
                       : 'border-indigo-200 bg-indigo-50/80 text-indigo-500 hover:border-indigo-300 hover:bg-indigo-100 hover:text-indigo-700'"
-                    class="inline-flex h-8 w-8 items-center justify-center rounded-lg border shadow-sm transition-colors"
+                    class="inline-flex h-6 w-6 items-center justify-center rounded border shadow-sm transition-colors"
                     title="Mở tab chi tiết bạn bè"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  </button>
+                </div>
+              </td>
+              <td class="py-2 px-4 text-slate-600 border-r border-slate-100 text-center font-medium">
+                <div class="flex items-center justify-center gap-1.5">
+                  <span class="text-[11px] font-semibold px-1.5 text-slate-600">{{ mem.acc.posts || '-' }}</span>
+                  <button
+                    @click="openPostsView(mem.acc.uid)"
+                    :class="selectedPostUid === mem.acc.uid
+                      ? 'border-emerald-300 bg-emerald-100 text-emerald-700'
+                      : 'border-emerald-200 bg-emerald-50/80 text-emerald-500 hover:border-emerald-300 hover:bg-emerald-100 hover:text-emerald-700'"
+                    class="inline-flex h-6 w-6 items-center justify-center rounded border shadow-sm transition-colors"
+                    title="Mở tab chi tiết bài viết"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                     </svg>
                   </button>
                 </div>
@@ -199,7 +229,7 @@
     </div>
 
     <!-- Friends Detail Tab -->
-    <div v-else class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <div v-else-if="activeSection === 'friends'" class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       <div class="border-b border-gray-100 px-6 py-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <h3 class="text-lg font-bold text-slate-800">Chi tiết bạn bè theo tài khoản</h3>
@@ -318,6 +348,126 @@
                   </tr>
                 </tbody>
               </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Posts Detail Tab -->
+    <div v-else-if="activeSection === 'posts'" class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="border-b border-gray-100 px-6 py-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <div>
+          <h3 class="text-lg font-bold text-slate-800">Chi tiết bài viết theo tài khoản</h3>
+          <p class="text-sm text-slate-500">
+            {{ selectedPostAccount ? `${selectedPostRows.length} bài viết hiển thị` : `${accounts.length} tài khoản có thể chọn` }}
+          </p>
+        </div>
+
+        <div class="w-full lg:w-80">
+          <input
+            v-model="postSearch"
+            type="text"
+            placeholder="Tìm theo ID bài viết hoặc nội dung"
+            class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+          >
+        </div>
+      </div>
+
+      <div class="p-6 bg-slate-50/50 min-h-[420px]">
+        <div v-if="accounts.length === 0" class="rounded-xl border border-dashed border-slate-200 bg-white px-6 py-12 text-center text-slate-500">
+          Chưa có tài khoản để hiển thị chi tiết bài viết.
+        </div>
+        <div v-else class="space-y-4">
+          <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm space-y-4">
+            <div class="grid grid-cols-1 xl:grid-cols-[380px_280px] xl:justify-between gap-4 items-start">
+              <div>
+                <label class="mb-2 block text-sm font-medium text-slate-700">Tài khoản</label>
+                <CustomSelect
+                  v-model="selectedPostUid"
+                  :options="friendAccountOptions"
+                  placeholder="Chọn tài khoản để xem bài viết"
+                  @change="handlePostAccountChange"
+                />
+              </div>
+
+              <div>
+                <label class="mb-2 block text-sm font-medium text-slate-700">Tìm bài viết</label>
+                <input
+                  v-model="postSearch"
+                  type="text"
+                  placeholder="Tìm theo text/ID"
+                  class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                >
+              </div>
+            </div>
+
+            <div v-if="selectedPostAccount" class="grid grid-cols-1 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_160px] gap-3">
+              <div class="rounded-xl border border-indigo-100 bg-indigo-50/70 px-4 py-3">
+                <p class="text-xs font-semibold text-indigo-400 uppercase tracking-wider mb-1">Đang xem bài viết của ID</p>
+                <p class="font-bold text-indigo-900 truncate">{{ selectedPostUid }}</p>
+              </div>
+              <div class="rounded-xl border border-emerald-100 bg-emerald-50/70 px-4 py-3">
+                <p class="text-xs font-semibold text-emerald-500 uppercase tracking-wider mb-1">Tên tài khoản</p>
+                <p class="font-bold text-emerald-900 truncate">{{ selectedPostAccount?.name || 'N/A' }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div v-if="selectedPostAccount">
+            <div v-if="loadingPostMap[selectedPostUid]" class="p-12 text-center text-slate-500 bg-white rounded-xl border border-slate-200">
+              <div class="animate-spin inline-block w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full mb-3"></div>
+              <p>Đang tải danh sách bài viết từ ổ đĩa...</p>
+            </div>
+            
+            <div v-else-if="postErrorMap[selectedPostUid]" class="p-8 text-center bg-rose-50 border border-rose-200 rounded-xl">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto text-rose-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <p class="text-rose-700 font-medium">{{ postErrorMap[selectedPostUid] }}</p>
+            </div>
+
+            <div v-else-if="selectedPostRows.length === 0" class="p-12 text-center bg-white border border-slate-200 rounded-xl text-slate-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-slate-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+              </svg>
+              <p class="text-lg font-medium text-slate-700">Không có bài viết nào</p>
+              <p class="text-sm mt-1">Chưa quét được bài viết hoặc không khớp từ khóa tìm kiếm.</p>
+            </div>
+
+            <div v-else class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col max-h-[600px]">
+              <div class="overflow-y-auto flex-1">
+                <table class="w-full text-left text-sm whitespace-nowrap">
+                  <thead class="bg-slate-50 text-slate-600 font-semibold sticky top-0 shadow-sm z-10 border-b border-slate-200">
+                    <tr>
+                      <th class="py-3 px-4 w-16 text-center border-r border-slate-200">#</th>
+                      <th class="py-3 px-4 border-r border-slate-200 w-48">Post ID</th>
+                      <th class="py-3 px-4 border-r border-slate-200 w-40">Thời gian</th>
+                      <th class="py-3 px-4 w-full">Nội dung text</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100">
+                    <tr v-for="post in selectedPostRows" :key="post.index" class="hover:bg-indigo-50/50 transition-colors">
+                      <td class="py-2.5 px-4 text-center text-slate-400 font-mono">{{ post.index }}</td>
+                      <td class="py-2.5 px-4 border-r border-slate-100 font-medium text-indigo-600 hover:underline cursor-pointer" @click="openPostUrl(post.url || post.id)" title="Click để mở bài viết trên Facebook">
+                        {{ post.id }}
+                      </td>
+                      <td class="py-2.5 px-4 border-r border-slate-100 text-slate-500 text-sm whitespace-nowrap">
+                        <div class="flex items-center gap-1.5" v-if="post.time">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                          {{ formatTimestamp(post.time) }}
+                        </div>
+                        <span v-else class="text-slate-300">-</span>
+                      </td>
+                      <td class="py-2.5 px-4 truncate max-w-lg text-slate-700" :title="post.text" @click="copyToClipboard(post.text)" style="cursor: copy;">{{ post.text }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="border-t border-slate-100 bg-slate-50 px-4 py-3 text-sm text-slate-600 flex justify-between items-center">
+                <span>Đang hiển thị <strong>{{ selectedPostRows.length }}</strong> bài viết</span>
+              </div>
             </div>
           </div>
         </div>
@@ -510,7 +660,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, onUnmounted, watch } from 'vue'
-import { GetAllAccounts, AddAccount, DeleteAccount, SelectPhotoDialog, ScanAccountData, GetAccountFriendsList, LoginWithPassword } from '../../wailsjs/go/app/App'
+import { GetAllAccounts, AddAccount, DeleteAccount, SelectPhotoDialog, ScanAccountData, GetAccountFriendsList, GetAccountPostsList, LoginWithPassword } from '../../wailsjs/go/app/App'
 import { useMainStore } from '../stores/main'
 import CustomSelect from '../components/CustomSelect.vue'
 
@@ -535,7 +685,7 @@ const loginTwoFactorAuth = ref('')
 const loginError = ref('')
 
 // Friends Detail Tab
-const activeSection = ref<'accounts' | 'friends'>('accounts')
+const activeSection = ref<'accounts' | 'friends' | 'posts'>('accounts')
 const selectedFriendUid = ref<string>('')
 const loadingFriendMap = ref<Record<string, boolean>>({})
 const friendErrorMap = ref<Record<string, string>>({})
@@ -627,6 +777,130 @@ const openFriendsView = async (uid: string) => {
   await handleFriendAccountChange(uid)
 }
 
+// Posts Detail Tab
+const selectedPostUid = ref<string>('')
+const loadingPostMap = ref<Record<string, boolean>>({})
+const postErrorMap = ref<Record<string, string>>({})
+const postsByAccount = ref<Record<string, string[]>>({})
+const postSearch = ref('')
+
+const selectedPostAccount = computed(() => {
+  return accounts.value.find((acc) => acc.uid === selectedPostUid.value) || null
+})
+
+const parsePostEntries = (posts: string[]) => {
+  return posts.map((post, index) => {
+    // format: postID|url|timeX|content
+    const parts = post.split('|')
+    if (parts.length >= 4 && !post.startsWith('[')) {
+      return {
+        index: index + 1,
+        id: parts[0],
+        url: parts[1],
+        time: parseInt(parts[2]),
+        text: parts.slice(3).join('|')
+      }
+    }
+    // format cu: [12345] content text...
+    const match = post.match(/^\[(.*?)\] (.*)$/)
+    if (match) {
+      return {
+        index: index + 1,
+        id: match[1],
+        url: '',
+        time: 0,
+        text: match[2]
+      }
+    }
+    return {
+      index: index + 1,
+      id: '',
+      url: '',
+      time: 0,
+      text: post
+    }
+  })
+}
+
+const formatTimestamp = (ts: number) => {
+  if (!ts) return ''
+  const d = new Date(ts * 1000)
+  return `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')} ${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}/${d.getFullYear()}`
+}
+
+const getFilteredPosts = (uid: string) => {
+  const keyword = postSearch.value.trim().toLowerCase()
+  const parsed = parsePostEntries(postsByAccount.value[uid] || [])
+
+  if (!keyword) {
+    return parsed
+  }
+
+  return parsed.filter((post) =>
+    `${post.id} ${post.text}`.toLowerCase().includes(keyword)
+  )
+}
+
+const selectedPostRows = computed(() => {
+  if (!selectedPostUid.value) return []
+  return getFilteredPosts(selectedPostUid.value)
+})
+
+const loadPostsList = async (uid: string) => {
+  postErrorMap.value = { ...postErrorMap.value, [uid]: '' }
+  loadingPostMap.value = { ...loadingPostMap.value, [uid]: true }
+
+  try {
+    const list = await GetAccountPostsList(uid)
+    postsByAccount.value = {
+      ...postsByAccount.value,
+      [uid]: list || [],
+    }
+  } catch (err: any) {
+    console.error(err)
+    if (String(err).includes('cannot find the file') || String(err).includes('no such file')) {
+        postErrorMap.value = {
+          ...postErrorMap.value,
+          [uid]: 'Chưa có dữ liệu bài viết. Hãy tạo Tác vụ Quét bài viết cho tài khoản này trước.'
+        }
+    } else {
+        postErrorMap.value = {
+          ...postErrorMap.value,
+          [uid]: String(err)
+        }
+    }
+  } finally {
+    loadingPostMap.value = { ...loadingPostMap.value, [uid]: false }
+  }
+}
+
+const handlePostAccountChange = async (uid: string) => {
+  if (!uid) return
+  selectedPostUid.value = uid
+  if (!postsByAccount.value[uid] && !loadingPostMap.value[uid]) {
+    await loadPostsList(uid)
+  }
+}
+
+const openPostsView = async (uid: string) => {
+  activeSection.value = 'posts'
+  selectedPostUid.value = uid
+  postSearch.value = ''
+  await handlePostAccountChange(uid)
+}
+
+const openPostUrl = (postLink: string) => {
+  if (postLink) {
+    const url = postLink.startsWith('http') ? postLink : `https://www.facebook.com/${postLink}`
+    window.open(url, '_blank')
+  }
+}
+
+const copyToClipboard = (text: string) => {
+  navigator.clipboard.writeText(text)
+  // Simple toast placeholder
+}
+
 // Selected & Merged logic
 const selectedUids = ref<string[]>([])
 const clearedTaskIds = ref<Set<number>>(new Set())
@@ -705,13 +979,21 @@ const taskTypeOptions = [
   { value: 'Đăng bài viết', label: 'Đăng bài viết (Post)' },
   { value: 'Quét thông tin', label: 'Quét thông tin Cá nhân (Scan Profile)' },
   { value: 'Quét bạn bè', label: 'Quét danh sách Bạn bè (Scan Friends)' },
+  { value: 'Quét bài viết', label: 'Quét bài viết (Scan Timeline)' },
   { value: 'Reaction batch', label: 'Reaction hàng loạt (Sắp có)', disabled: true }
 ]
 
 const targetModeOptions = computed(() => {
   if (form.taskType === 'Đăng bài viết') return [{ value: 'timeline', label: 'Đăng lên trang cá nhân (Timeline)' }]
-  if (form.taskType === 'Quét thông tin') return [{ value: 'self_profile', label: 'Quét thông tin chính tài khoản này' }]
-  if (form.taskType === 'Quét bạn bè') return [{ value: 'self_profile', label: 'Quét danh sách bạn bè của tài khoản này' }]
+  if (['Quét thông tin', 'Quét bạn bè'].includes(form.taskType)) {
+    return [{ value: 'self_profile', label: 'Quét chính tài khoản này' }]
+  }
+  if (form.taskType === 'Quét bài viết') {
+    return [
+      { value: 'self_profile', label: 'Dùng chính tài khoản này (Quét chính mình)' },
+      { value: 'post_url', label: 'Quét UID bất kỳ (Nhập vào URL bên dưới)' }
+    ]
+  }
   return [{ value: 'post_url', label: 'Dùng URL Bài viết (Khuyên dùng)' }]
 })
 const reactionTypeOptions = [
@@ -728,7 +1010,7 @@ const onTaskTypeChange = () => {
   if (form.taskType === 'Đăng bài viết') {
     form.targetMode = 'timeline'
     form.postUrl = ''
-  } else if (form.taskType === 'Quét thông tin' || form.taskType === 'Quét bạn bè') {
+  } else if (['Quét thông tin', 'Quét bạn bè', 'Quét bài viết'].includes(form.taskType)) {
     form.targetMode = 'self_profile'
     form.postUrl = ''
   } else {

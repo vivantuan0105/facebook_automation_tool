@@ -32,6 +32,7 @@ export namespace models {
 	    graphqlLikeDocId: string;
 	    graphqlCommentDocId: string;
 	    graphqlPostDocId: string;
+	    graphqlScanPostDocId: string;
 	    graphqlProfileDocId: string;
 	    graphqlFriendsDocId: string;
 	
@@ -50,6 +51,7 @@ export namespace models {
 	        this.graphqlLikeDocId = source["graphqlLikeDocId"];
 	        this.graphqlCommentDocId = source["graphqlCommentDocId"];
 	        this.graphqlPostDocId = source["graphqlPostDocId"];
+	        this.graphqlScanPostDocId = source["graphqlScanPostDocId"];
 	        this.graphqlProfileDocId = source["graphqlProfileDocId"];
 	        this.graphqlFriendsDocId = source["graphqlFriendsDocId"];
 	    }
@@ -84,6 +86,7 @@ export namespace models {
 	    birthYear: string;
 	    location: string;
 	    friends: string;
+	    posts: string;
 	    followers: string;
 	    createdAt: string;
 	
@@ -102,6 +105,7 @@ export namespace models {
 	        this.birthYear = source["birthYear"];
 	        this.location = source["location"];
 	        this.friends = source["friends"];
+	        this.posts = source["posts"];
 	        this.followers = source["followers"];
 	        this.createdAt = source["createdAt"];
 	    }

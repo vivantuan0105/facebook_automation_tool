@@ -8,6 +8,7 @@
   "birthYear": "1996",
   "location": "Thành phố Hồ Chí Minh",
   "friends": "",
+  "posts": "26",
   "followers": "0",
   "createdAt": "2026-04-15 23:24:29"
 }
