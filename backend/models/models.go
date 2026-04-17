@@ -8,6 +8,14 @@ type LoginResult struct {
 	RawResponse string `json:"rawResponse"` // Snippet response để debug (chỉ khi lỗi)
 }
 
+// ImportResult là kết quả trả về sau khi import tài khoản hàng loạt
+type ImportResult struct {
+	TotalProcessed int      `json:"totalProcessed"`
+	SuccessCount   int      `json:"successCount"`
+	FailedCount    int      `json:"failedCount"`
+	Errors         []string `json:"errors"`
+}
+
 type FacebookAccount struct {
 	UID       string `json:"uid"`
 	Name             string `json:"name"` // Tên gợi nhớ hoặc tên Facebook

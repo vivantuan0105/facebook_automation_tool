@@ -764,3 +764,411 @@ c_user=61572157625165; xs=14:l56IqUzNDLq27Q:2:1776313491:-1:-1; fr=0BdNOUFwNCvrG
 [2026-04-17T08:29:47+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
 [2026-04-17T08:30:58+07:00] Accounts | ScanPosts | Success | Quét thành công 29 bài viết cho target 61572157625165
 [2026-04-17T08:30:58+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-17T09:15:46+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61570765862138
+[2026-04-17T09:16:17+07:00] Accounts | Login | Error | Đăng nhập 61570765862138 thất bại: đăng nhập Web không thành công và API bị từ chối
+[2026-04-17T09:17:08+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61568329823461
+[2026-04-17T09:17:11+07:00] Accounts | Login | Success | Đăng nhập thành công! Cookie thu được:
+c_user=61568329823461; xs=30:EdLLmvx2o1JyhQ:2:1776392229:-1:-1; fr=0M9uWWUOXcgofS4lv.AWdzGHZu7OpDFGp6uaAeKAzsjj3iqyexjIm6vUx33_dhaXj5K98.Bp4Zgk..AAA.0.0.Bp4Zgk.AWcCBRf-G-7Qcvs9OgIMpEQolKg; datr=JJjhaSmr1NgPjo_TrHfznSCu
+[2026-04-17T09:17:17+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:17:18+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-17T09:17:20+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:17:22+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61568329823461
+[2026-04-17T09:17:22+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-17T09:17:59+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-17T09:18:01+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-17T09:18:02+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:18:03+07:00] Accounts | ScanFriends | Success | Quét thành công 0 bạn bè cho 61568329823461
+[2026-04-17T09:18:03+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-17T09:52:17+07:00] Accounts | ImportBulk | Info | Import hoàn tất. 16 thành công, 0 thất bại
+[2026-04-17T09:52:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:52:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:52:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:52:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:52:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:52:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:52:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:52:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:52:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:52:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:52:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:52:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:52:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:52:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:52:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:52:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:52:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:52:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:52:28+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T09:52:29+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-17T09:52:29+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-17T09:52:29+07:00] Queue | RunTask | Running | Bắt đầu chạy task 3 ở mode live
+[2026-04-17T09:52:29+07:00] Queue | RunTask | Running | Bắt đầu chạy task 4 ở mode live
+[2026-04-17T09:52:29+07:00] Queue | RunTask | Running | Bắt đầu chạy task 5 ở mode live
+[2026-04-17T09:52:29+07:00] Queue | RunTask | Running | Bắt đầu chạy task 6 ở mode live
+[2026-04-17T09:52:29+07:00] Queue | RunTask | Running | Bắt đầu chạy task 7 ở mode live
+[2026-04-17T09:52:29+07:00] Queue | RunTask | Running | Bắt đầu chạy task 8 ở mode live
+[2026-04-17T09:52:29+07:00] Queue | RunTask | Running | Bắt đầu chạy task 9 ở mode live
+[2026-04-17T09:52:29+07:00] Queue | RunTask | Running | Bắt đầu chạy task 10 ở mode live
+[2026-04-17T09:52:30+07:00] Queue | RunTask | Running | Bắt đầu chạy task 11 ở mode live
+[2026-04-17T09:52:30+07:00] Queue | RunTask | Running | Bắt đầu chạy task 12 ở mode live
+[2026-04-17T09:52:30+07:00] Queue | RunTask | Running | Bắt đầu chạy task 13 ở mode live
+[2026-04-17T09:52:30+07:00] Queue | RunTask | Running | Bắt đầu chạy task 14 ở mode live
+[2026-04-17T09:52:30+07:00] Queue | RunTask | Running | Bắt đầu chạy task 15 ở mode live
+[2026-04-17T09:52:30+07:00] Queue | RunTask | Running | Bắt đầu chạy task 16 ở mode live
+[2026-04-17T09:52:30+07:00] Queue | RunTask | Running | Bắt đầu chạy task 17 ở mode live
+[2026-04-17T09:52:30+07:00] Queue | RunTask | Running | Bắt đầu chạy task 18 ở mode live
+[2026-04-17T09:52:30+07:00] Queue | RunTask | Running | Bắt đầu chạy task 19 ở mode live
+[2026-04-17T09:52:31+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:52:33+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61568057993048
+[2026-04-17T09:52:33+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-17T09:52:33+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:52:36+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61568329823461
+[2026-04-17T09:52:36+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-17T09:52:36+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:52:37+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61568687183675
+[2026-04-17T09:52:37+07:00] FacebookProvider | Execute | Success | Task 3 chạy thật thành công
+[2026-04-17T09:52:37+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:52:40+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61569208286372
+[2026-04-17T09:52:40+07:00] FacebookProvider | Execute | Success | Task 4 chạy thật thành công
+[2026-04-17T09:52:40+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:52:42+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61569232407119
+[2026-04-17T09:52:42+07:00] FacebookProvider | Execute | Success | Task 5 chạy thật thành công
+[2026-04-17T09:52:42+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:52:44+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61570690349103
+[2026-04-17T09:52:44+07:00] FacebookProvider | Execute | Success | Task 6 chạy thật thành công
+[2026-04-17T09:52:44+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:52:47+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61570714770225
+[2026-04-17T09:52:47+07:00] FacebookProvider | Execute | Success | Task 7 chạy thật thành công
+[2026-04-17T09:52:47+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:52:49+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61570728690754
+[2026-04-17T09:52:49+07:00] FacebookProvider | Execute | Success | Task 8 chạy thật thành công
+[2026-04-17T09:52:49+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:52:51+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61570789892996
+[2026-04-17T09:52:51+07:00] FacebookProvider | Execute | Success | Task 9 chạy thật thành công
+[2026-04-17T09:52:51+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:52:53+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61570817283934
+[2026-04-17T09:52:53+07:00] FacebookProvider | Execute | Success | Task 10 chạy thật thành công
+[2026-04-17T09:52:53+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:52:55+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61570960744744
+[2026-04-17T09:52:55+07:00] FacebookProvider | Execute | Success | Task 11 chạy thật thành công
+[2026-04-17T09:52:55+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:52:59+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61570961944744
+[2026-04-17T09:52:59+07:00] FacebookProvider | Execute | Success | Task 12 chạy thật thành công
+[2026-04-17T09:52:59+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:53:08+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61571360758847
+[2026-04-17T09:53:08+07:00] FacebookProvider | Execute | Success | Task 13 chạy thật thành công
+[2026-04-17T09:53:08+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:53:11+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572010806699
+[2026-04-17T09:53:11+07:00] FacebookProvider | Execute | Success | Task 14 chạy thật thành công
+[2026-04-17T09:53:11+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:53:13+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572079809141
+[2026-04-17T09:53:13+07:00] FacebookProvider | Execute | Success | Task 15 chạy thật thành công
+[2026-04-17T09:53:13+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:53:17+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-17T09:53:17+07:00] FacebookProvider | Execute | Success | Task 16 chạy thật thành công
+[2026-04-17T09:53:17+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:53:19+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572160242262
+[2026-04-17T09:53:19+07:00] FacebookProvider | Execute | Success | Task 17 chạy thật thành công
+[2026-04-17T09:53:19+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:53:21+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61573266406289
+[2026-04-17T09:53:21+07:00] FacebookProvider | Execute | Success | Task 18 chạy thật thành công
+[2026-04-17T09:53:21+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:53:24+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61573268175920
+[2026-04-17T09:53:24+07:00] FacebookProvider | Execute | Success | Task 19 chạy thật thành công
+[2026-04-17T09:55:33+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T09:55:33+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T09:55:33+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T09:55:33+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T09:55:33+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T09:55:33+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T09:55:33+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T09:55:33+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T09:55:33+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T09:55:34+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T09:55:34+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T09:55:34+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T09:55:34+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T09:55:34+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T09:55:34+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T09:55:34+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T09:55:34+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T09:55:34+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T09:55:34+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T09:55:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 20 ở mode live
+[2026-04-17T09:55:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 21 ở mode live
+[2026-04-17T09:55:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 22 ở mode live
+[2026-04-17T09:55:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 23 ở mode live
+[2026-04-17T09:55:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 24 ở mode live
+[2026-04-17T09:55:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 25 ở mode live
+[2026-04-17T09:55:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 26 ở mode live
+[2026-04-17T09:55:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 27 ở mode live
+[2026-04-17T09:55:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 28 ở mode live
+[2026-04-17T09:55:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 29 ở mode live
+[2026-04-17T09:55:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 30 ở mode live
+[2026-04-17T09:55:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 31 ở mode live
+[2026-04-17T09:55:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 32 ở mode live
+[2026-04-17T09:55:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 33 ở mode live
+[2026-04-17T09:55:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 34 ở mode live
+[2026-04-17T09:55:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 35 ở mode live
+[2026-04-17T09:55:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 36 ở mode live
+[2026-04-17T09:55:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 37 ở mode live
+[2026-04-17T09:55:37+07:00] Queue | RunTask | Running | Bắt đầu chạy task 38 ở mode live
+[2026-04-17T09:55:39+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:55:40+07:00] FacebookProvider | Execute | Error | Task 20 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T09:55:40+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:55:41+07:00] FacebookProvider | Execute | Error | Task 21 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T09:55:41+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:55:42+07:00] FacebookProvider | Execute | Error | Task 22 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T09:55:42+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:55:43+07:00] FacebookProvider | Execute | Error | Task 23 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T09:55:43+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:55:44+07:00] FacebookProvider | Execute | Error | Task 24 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T09:55:44+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:55:45+07:00] FacebookProvider | Execute | Error | Task 25 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T09:55:45+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:55:46+07:00] FacebookProvider | Execute | Error | Task 26 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T09:55:46+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:55:46+07:00] FacebookProvider | Execute | Error | Task 27 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T09:55:46+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:55:47+07:00] FacebookProvider | Execute | Error | Task 28 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T09:55:47+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:55:48+07:00] FacebookProvider | Execute | Error | Task 29 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T09:55:48+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:55:49+07:00] FacebookProvider | Execute | Error | Task 30 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T09:55:49+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:55:50+07:00] FacebookProvider | Execute | Error | Task 31 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T09:55:50+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:55:58+07:00] FacebookProvider | Execute | Success | Task 32 chạy thật thành công
+[2026-04-17T09:55:58+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:55:59+07:00] FacebookProvider | Execute | Error | Task 33 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T09:55:59+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:55:59+07:00] FacebookProvider | Execute | Error | Task 34 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T09:55:59+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:56:01+07:00] FacebookProvider | Execute | Error | Task 35 thất bại: Bị chặn/Từ chối: N\u1ed9i dung kh\u00f4ng c\u00f2n t\u1ed3n t\u1ea1i (Chi tiết: N\u1ed9i dung b\u1ea1n \u0111ang c\u1ed1 g\u1eafng b\u00e0y t\u1ecf c\u1ea3m x\u00fac kh\u00f4ng c\u00f2n t\u1ed3n t\u1ea1i.)
+[2026-04-17T09:56:01+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:56:01+07:00] FacebookProvider | Execute | Error | Task 36 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T09:56:01+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:56:02+07:00] FacebookProvider | Execute | Error | Task 37 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T09:56:02+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T09:56:03+07:00] FacebookProvider | Execute | Error | Task 38 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:03:48+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61572157625165
+[2026-04-17T10:03:53+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61573268175920
+[2026-04-17T10:03:57+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61573266406289
+[2026-04-17T10:04:18+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:04:29+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:04:29+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:04:31+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-17T10:04:31+07:00] Queue | RunTask | Running | Bắt đầu chạy task 3 ở mode live
+[2026-04-17T10:04:33+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:04:33+07:00] FacebookProvider | Execute | Error | Task 2 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:04:33+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:04:34+07:00] FacebookProvider | Execute | Error | Task 3 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:05:40+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-17T10:05:40+07:00] Queue | RunTask | Running | Bắt đầu chạy task 3 ở mode live
+[2026-04-17T10:05:42+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:05:43+07:00] FacebookProvider | Execute | Error | Task 1 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:05:43+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:05:43+07:00] FacebookProvider | Execute | Error | Task 3 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:06:32+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:06:32+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:06:32+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:07:23+07:00] Queue | RunTask | Running | Bắt đầu chạy task 4 ở mode live
+[2026-04-17T10:07:23+07:00] Queue | RunTask | Running | Bắt đầu chạy task 5 ở mode live
+[2026-04-17T10:07:23+07:00] Queue | RunTask | Running | Bắt đầu chạy task 6 ở mode live
+[2026-04-17T10:07:24+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:07:25+07:00] FacebookProvider | Execute | Error | Task 4 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:07:25+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:07:26+07:00] FacebookProvider | Execute | Error | Task 5 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:07:26+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:07:27+07:00] FacebookProvider | Execute | Error | Task 6 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:11:04+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:11:04+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:11:04+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:11:04+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:11:04+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:11:04+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:11:04+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:11:04+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:11:04+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:11:04+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:11:04+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:11:04+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:11:04+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:11:04+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:11:04+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:11:04+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:11:05+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-17T10:11:05+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-17T10:11:05+07:00] Queue | RunTask | Running | Bắt đầu chạy task 3 ở mode live
+[2026-04-17T10:11:05+07:00] Queue | RunTask | Running | Bắt đầu chạy task 4 ở mode live
+[2026-04-17T10:11:05+07:00] Queue | RunTask | Running | Bắt đầu chạy task 5 ở mode live
+[2026-04-17T10:11:05+07:00] Queue | RunTask | Running | Bắt đầu chạy task 6 ở mode live
+[2026-04-17T10:11:05+07:00] Queue | RunTask | Running | Bắt đầu chạy task 7 ở mode live
+[2026-04-17T10:11:05+07:00] Queue | RunTask | Running | Bắt đầu chạy task 8 ở mode live
+[2026-04-17T10:11:05+07:00] Queue | RunTask | Running | Bắt đầu chạy task 9 ở mode live
+[2026-04-17T10:11:05+07:00] Queue | RunTask | Running | Bắt đầu chạy task 10 ở mode live
+[2026-04-17T10:11:05+07:00] Queue | RunTask | Running | Bắt đầu chạy task 11 ở mode live
+[2026-04-17T10:11:05+07:00] Queue | RunTask | Running | Bắt đầu chạy task 12 ở mode live
+[2026-04-17T10:11:05+07:00] Queue | RunTask | Running | Bắt đầu chạy task 13 ở mode live
+[2026-04-17T10:11:05+07:00] Queue | RunTask | Running | Bắt đầu chạy task 14 ở mode live
+[2026-04-17T10:11:05+07:00] Queue | RunTask | Running | Bắt đầu chạy task 15 ở mode live
+[2026-04-17T10:11:05+07:00] Queue | RunTask | Running | Bắt đầu chạy task 16 ở mode live
+[2026-04-17T10:11:07+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:11:08+07:00] FacebookProvider | Execute | Error | Task 1 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:11:08+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:11:08+07:00] FacebookProvider | Execute | Error | Task 2 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:11:08+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:11:09+07:00] FacebookProvider | Execute | Error | Task 3 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:11:09+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:11:10+07:00] FacebookProvider | Execute | Error | Task 4 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:11:10+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:11:11+07:00] FacebookProvider | Execute | Error | Task 5 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:11:11+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:11:12+07:00] FacebookProvider | Execute | Error | Task 6 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:11:12+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:11:13+07:00] FacebookProvider | Execute | Error | Task 7 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:11:13+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:11:13+07:00] FacebookProvider | Execute | Error | Task 8 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:11:13+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:11:14+07:00] FacebookProvider | Execute | Error | Task 9 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:11:14+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:11:15+07:00] FacebookProvider | Execute | Error | Task 10 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:11:15+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:11:16+07:00] FacebookProvider | Execute | Error | Task 11 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:11:16+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:11:16+07:00] FacebookProvider | Execute | Error | Task 12 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:11:16+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:11:19+07:00] FacebookProvider | Execute | Success | Task 13 chạy thật thành công
+[2026-04-17T10:11:19+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:11:19+07:00] FacebookProvider | Execute | Error | Task 14 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:11:19+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:11:20+07:00] FacebookProvider | Execute | Error | Task 15 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:11:20+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:11:21+07:00] FacebookProvider | Execute | Error | Task 16 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:14:32+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:14:32+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:14:32+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:14:32+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:14:32+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:14:34+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-17T10:14:34+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-17T10:14:34+07:00] Queue | RunTask | Running | Bắt đầu chạy task 3 ở mode live
+[2026-04-17T10:14:34+07:00] Queue | RunTask | Running | Bắt đầu chạy task 4 ở mode live
+[2026-04-17T10:14:34+07:00] Queue | RunTask | Running | Bắt đầu chạy task 5 ở mode live
+[2026-04-17T10:14:36+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:14:37+07:00] FacebookProvider | Execute | Error | Task 1 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:14:37+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:14:37+07:00] FacebookProvider | Execute | Error | Task 2 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:14:37+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:14:38+07:00] FacebookProvider | Execute | Error | Task 3 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:14:38+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:14:38+07:00] FacebookProvider | Execute | Error | Task 4 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:14:38+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:14:39+07:00] FacebookProvider | Execute | Error | Task 5 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:22:58+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:23:00+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-17T10:23:01+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:23:02+07:00] FacebookProvider | Execute | Error | Task 1 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:30:18+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T10:30:19+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-17T10:30:20+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:30:21+07:00] FacebookProvider | Execute | Error | Task 1 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T10:33:40+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61573266406289
+[2026-04-17T10:33:43+07:00] Accounts | Login | Error | Đăng nhập 61573266406289 thất bại: sai tài khoản / mật khẩu, hoặc tài khoản đã bị đổi pass
+[2026-04-17T10:34:07+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61572577874275
+[2026-04-17T10:34:10+07:00] Accounts | Login | Error | Đăng nhập 61572577874275 thất bại: sai tài khoản / mật khẩu, hoặc tài khoản đã bị đổi pass
+[2026-04-17T10:34:31+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61568057993048
+[2026-04-17T10:34:33+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61568687183675
+[2026-04-17T10:34:36+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61569208286372
+[2026-04-17T10:34:38+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61569232407119
+[2026-04-17T10:34:41+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61570690349103
+[2026-04-17T10:34:43+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61570714770225
+[2026-04-17T10:34:46+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61570789892996
+[2026-04-17T10:34:49+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61570817283934
+[2026-04-17T10:34:52+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61570960744744
+[2026-04-17T10:34:55+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61570961944744
+[2026-04-17T10:34:58+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61572010806699
+[2026-04-17T10:35:00+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61572079809141
+[2026-04-17T10:35:03+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61572160242262
+[2026-04-17T10:35:43+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61570774322487
+[2026-04-17T10:35:46+07:00] Accounts | Login | Error | Đăng nhập 61570774322487 thất bại: API từ chối truy cập. Lỗi: An unknown error occurred (1)
+[2026-04-17T10:36:14+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61573245105336
+[2026-04-17T10:36:17+07:00] Accounts | Login | Error | Đăng nhập 61573245105336 thất bại: API từ chối truy cập. Lỗi: An unknown error occurred (1)
+[2026-04-17T10:36:38+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61570696649261
+[2026-04-17T10:36:41+07:00] Accounts | Login | Error | Đăng nhập 61570696649261 thất bại: API từ chối truy cập. Lỗi: An unknown error occurred (1)
+[2026-04-17T10:37:01+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61571002535857
+[2026-04-17T10:37:03+07:00] Accounts | Login | Error | Đăng nhập 61571002535857 thất bại: API từ chối truy cập. Lỗi: An unknown error occurred (1)
+[2026-04-17T10:37:36+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61570781132731
+[2026-04-17T10:37:39+07:00] Accounts | Login | Success | Đăng nhập thành công! Cookie thu được:
+c_user=61570781132731; xs=9:MIsJggLotG0pHg:2:1776397057:-1:-1; fr=0rwdzO4bYeA7JoRNC.AWfQOeiU6F85fxQH98qH-9OnIw2HbtYxYAGmNGqjYjGekb6_a6k.Bp4asA..AAA.0.0.Bp4asA.AWeBdMzaudvWDBIGNtB6suZl2nc; datr=AKvhaeRYBQiyMNko5jhsfRTN
+[2026-04-17T10:37:50+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T10:37:52+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-17T10:37:53+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:37:55+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61570781132731
+[2026-04-17T10:37:55+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-17T10:38:40+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-17T10:38:43+07:00] Queue | RunTask | Running | Bắt đầu chạy task 3 ở mode live
+[2026-04-17T10:38:44+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:38:47+07:00] Accounts | ScanFriends | Success | Quét thành công 0 bạn bè cho 61570781132731
+[2026-04-17T10:38:47+07:00] FacebookProvider | Execute | Success | Task 3 chạy thật thành công
+[2026-04-17T10:38:52+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-17T10:38:54+07:00] Queue | RunTask | Running | Bắt đầu chạy task 4 ở mode live
+[2026-04-17T10:38:56+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:38:57+07:00] Accounts | ScanPosts | Success | Quét thành công 0 bài viết cho target 61570781132731
+[2026-04-17T10:38:57+07:00] FacebookProvider | Execute | Success | Task 4 chạy thật thành công
+[2026-04-17T10:39:38+07:00] Task Center | CreateTask | Success | Đã thêm task 'Đăng bài viết' vào queue.
+[2026-04-17T10:39:40+07:00] Queue | RunTask | Running | Bắt đầu chạy task 5 ở mode live
+[2026-04-17T10:39:41+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:39:42+07:00] FacebookProvider | Execute | Success | Task 5 chạy thật thành công
+[2026-04-17T10:39:52+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-17T10:39:54+07:00] Queue | RunTask | Running | Bắt đầu chạy task 6 ở mode live
+[2026-04-17T10:39:55+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:39:56+07:00] Accounts | ScanPosts | Success | Quét thành công 0 bài viết cho target 61570781132731
+[2026-04-17T10:39:56+07:00] FacebookProvider | Execute | Success | Task 6 chạy thật thành công
+[2026-04-17T10:42:42+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61573223864739
+[2026-04-17T10:42:46+07:00] Accounts | Login | Success | Đăng nhập thành công! Cookie thu được:
+c_user=61573223864739; xs=11:ainpCMWBKDlgfg:2:1776397364:-1:-1; fr=06VGFrWyy8povju4A.AWewMRLxopqgm-ye0j1VXEfUbLMjMTx5bqT9hYTqg_9sfTU5OzM.Bp4awy..AAA.0.0.Bp4awy.AWdZ2TUmLxIUmRPE5UEMa9ui45c; datr=MqzhaSVlLZBux1G_-xyhRRgY
+[2026-04-17T10:42:57+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T10:42:59+07:00] Queue | RunTask | Running | Bắt đầu chạy task 7 ở mode live
+[2026-04-17T10:43:00+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:43:03+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61573223864739
+[2026-04-17T10:43:03+07:00] FacebookProvider | Execute | Success | Task 7 chạy thật thành công
+[2026-04-17T10:43:14+07:00] Task Center | CreateTask | Success | Đã thêm task 'Đăng bài viết' vào queue.
+[2026-04-17T10:43:15+07:00] Queue | RunTask | Running | Bắt đầu chạy task 8 ở mode live
+[2026-04-17T10:43:17+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:43:20+07:00] FacebookProvider | Execute | Success | Task 8 chạy thật thành công
+[2026-04-17T10:43:52+07:00] Task Center | CreateTask | Success | Đã thêm task 'Đăng bài viết' vào queue.
+[2026-04-17T10:43:54+07:00] Queue | RunTask | Running | Bắt đầu chạy task 9 ở mode live
+[2026-04-17T10:43:56+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:43:59+07:00] FacebookProvider | Execute | Success | Task 9 chạy thật thành công
+[2026-04-17T10:44:34+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bài viết' vào queue.
+[2026-04-17T10:44:36+07:00] Queue | RunTask | Running | Bắt đầu chạy task 10 ở mode live
+[2026-04-17T10:44:37+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:44:39+07:00] Accounts | ScanPosts | Success | Quét thành công 3 bài viết cho target 61573223864739
+[2026-04-17T10:44:39+07:00] FacebookProvider | Execute | Success | Task 10 chạy thật thành công
+[2026-04-17T10:51:03+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-17T10:51:03+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-17T10:51:03+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-17T10:51:03+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-17T10:51:03+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-17T10:51:04+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-17T10:51:04+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-17T10:51:04+07:00] Queue | RunTask | Running | Bắt đầu chạy task 3 ở mode live
+[2026-04-17T10:51:04+07:00] Queue | RunTask | Running | Bắt đầu chạy task 4 ở mode live
+[2026-04-17T10:51:04+07:00] Queue | RunTask | Running | Bắt đầu chạy task 5 ở mode live
+[2026-04-17T10:51:05+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:51:06+07:00] Accounts | ScanFriends | Success | Quét thành công 0 bạn bè cho 61568329823461
+[2026-04-17T10:51:06+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-17T10:51:06+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:51:08+07:00] Accounts | ScanFriends | Success | Quét thành công 0 bạn bè cho 61570728690754
+[2026-04-17T10:51:08+07:00] FacebookProvider | Execute | Success | Task 2 chạy thật thành công
+[2026-04-17T10:51:08+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:51:09+07:00] Accounts | ScanFriends | Success | Quét thành công 0 bạn bè cho 61570781132731
+[2026-04-17T10:51:09+07:00] FacebookProvider | Execute | Success | Task 3 chạy thật thành công
+[2026-04-17T10:51:09+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:51:11+07:00] Accounts | ScanFriends | Success | Quét thành công 8 bạn bè cho 61571360758847
+[2026-04-17T10:51:11+07:00] FacebookProvider | Execute | Success | Task 4 chạy thật thành công
+[2026-04-17T10:51:11+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T10:51:13+07:00] Accounts | ScanFriends | Success | Quét thành công 0 bạn bè cho 61573223864739
+[2026-04-17T10:51:13+07:00] FacebookProvider | Execute | Success | Task 5 chạy thật thành công
+[2026-04-17T10:55:24+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.

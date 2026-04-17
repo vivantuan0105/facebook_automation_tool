@@ -1,0 +1,14 @@
+{
+  "uid": "61570728690754",
+  "name": "Michelle Reed",
+  "cookie": "c_user=61570728690754;xs=40:0Rir-mcn6Q4mbg:2:1776388986:-1:-1;locale=en_GB;datr=J2VJaMdnAH46X-ZAs0xKxjhg;",
+  "status": "Live",
+  "gender": "Không công khai",
+  "birthday": "Khong cong khai",
+  "birthYear": "",
+  "location": "Không công khai",
+  "friends": "0",
+  "posts": "",
+  "followers": "0",
+  "createdAt": "2026-04-17 09:52:17"
+}

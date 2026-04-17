@@ -24,6 +24,8 @@ export function GetReactionTasks():Promise<Array<models.ReactionTask>>;
 
 export function GetSettings():Promise<models.AppSettings>;
 
+export function ImportMultipleAccounts(arg1:string):Promise<models.ImportResult>;
+
 export function LoginWithPassword(arg1:string,arg2:string,arg3:string):Promise<models.LoginResult>;
 
 export function MarkManualCompleted(arg1:number):Promise<void>;

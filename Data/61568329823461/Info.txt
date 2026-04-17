@@ -1,0 +1,14 @@
+{
+  "uid": "61568329823461",
+  "name": "Jose Brooks",
+  "cookie": "c_user=61568329823461; xs=30:EdLLmvx2o1JyhQ:2:1776392229:-1:-1; fr=0M9uWWUOXcgofS4lv.AWdzGHZu7OpDFGp6uaAeKAzsjj3iqyexjIm6vUx33_dhaXj5K98.Bp4Zgk..AAA.0.0.Bp4Zgk.AWcCBRf-G-7Qcvs9OgIMpEQolKg; datr=JJjhaSmr1NgPjo_TrHfznSCu",
+  "status": "Live",
+  "gender": "Không công khai",
+  "birthday": "Khong cong khai",
+  "birthYear": "",
+  "location": "Không công khai",
+  "friends": "0",
+  "posts": "",
+  "followers": "0",
+  "createdAt": "2026-04-17 09:17:11"
+}

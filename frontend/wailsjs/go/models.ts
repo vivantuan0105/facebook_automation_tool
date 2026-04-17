@@ -110,6 +110,24 @@ export namespace models {
 	        this.createdAt = source["createdAt"];
 	    }
 	}
+	export class ImportResult {
+	    totalProcessed: number;
+	    successCount: number;
+	    failedCount: number;
+	    errors: string[];
+	
+	    static createFrom(source: any = {}) {
+	        return new ImportResult(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.totalProcessed = source["totalProcessed"];
+	        this.successCount = source["successCount"];
+	        this.failedCount = source["failedCount"];
+	        this.errors = source["errors"];
+	    }
+	}
 	export class LoginResult {
 	    uid: string;
 	    cookieFull: string;

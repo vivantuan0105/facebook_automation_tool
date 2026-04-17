@@ -1,0 +1,14 @@
+{
+  "uid": "61573223864739",
+  "name": "Karen Robinson",
+  "cookie": "c_user=61573223864739; xs=11:ainpCMWBKDlgfg:2:1776397364:-1:-1; fr=06VGFrWyy8povju4A.AWewMRLxopqgm-ye0j1VXEfUbLMjMTx5bqT9hYTqg_9sfTU5OzM.Bp4awy..AAA.0.0.Bp4awy.AWdZ2TUmLxIUmRPE5UEMa9ui45c; datr=MqzhaSVlLZBux1G_-xyhRRgY",
+  "status": "Live",
+  "gender": "Nam (MALE)",
+  "birthday": "Khong cong khai",
+  "birthYear": "",
+  "location": "Không công khai",
+  "friends": "0",
+  "posts": "3",
+  "followers": "0",
+  "createdAt": "2026-04-17 10:42:46"
+}

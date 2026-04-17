@@ -449,6 +449,87 @@ func (a *App) AddAccount(name string, cookie string) (models.FacebookAccount, er
 	return acc, err
 }
 
+func (a *App) ImportMultipleAccounts(rawText string) models.ImportResult {
+	store.DB.Mu.Lock()
+	defer store.DB.Mu.Unlock()
+
+	var result models.ImportResult
+	lines := strings.Split(rawText, "\n")
+	
+	reUid := regexp.MustCompile(`c_user=(\d+)`)
+	
+	for i, rawLine := range lines {
+		line := strings.TrimSpace(rawLine)
+		if line == "" {
+			continue
+		}
+		result.TotalProcessed++
+
+		// Tìm phần cookie trong dòng bằng cách tách bởi dấu "|"
+		parts := strings.Split(line, "|")
+		var cookiePart string
+		for _, p := range parts {
+			if strings.Contains(p, "c_user=") {
+				cookiePart = strings.TrimSpace(p)
+				break
+			}
+		}
+
+		if cookiePart == "" {
+			// Fallback: nếu không có "|" thì xem toàn bộ dòng có chứa c_user= không
+			if strings.Contains(line, "c_user=") {
+				cookiePart = line
+			}
+		}
+
+		if cookiePart == "" {
+			result.FailedCount++
+			result.Errors = append(result.Errors, fmt.Sprintf("Dòng %d: Không tìm thấy cookie (c_user=)", i+1))
+			continue
+		}
+
+		// Trích xuất UID
+		matches := reUid.FindStringSubmatch(cookiePart)
+		uid := ""
+		if len(matches) > 1 {
+			uid = matches[1]
+		}
+
+		if uid == "" {
+			result.FailedCount++
+			result.Errors = append(result.Errors, fmt.Sprintf("Dòng %d: Cookie không hợp lệ (không đọc được c_user)", i+1))
+			continue
+		}
+
+		// Tên mặc định là UID, hoặc nếu người dùng dùng định dạng Tên|Cookie
+		name := uid
+		if len(parts) >= 2 && !strings.Contains(parts[0], "c_user=") {
+			// Nếu phần trước cookie có vẻ là tên
+			name = strings.TrimSpace(parts[0])
+		}
+
+		acc := models.FacebookAccount{
+			UID:    uid,
+			Name:   name,
+			Cookie: cookiePart,
+			Status: "Live",
+		}
+
+		err := store.SaveAccount(acc)
+		if err != nil {
+			result.FailedCount++
+			result.Errors = append(result.Errors, fmt.Sprintf("Dòng %d: Lỗi khi lưu (%v)", i+1, err))
+		} else {
+			result.SuccessCount++
+			// Ghi log đơn giản để không spam
+		}
+	}
+
+	store.DB.AddLog("Accounts", "ImportBulk", "Info", fmt.Sprintf("Import hoàn tất. %d thành công, %d thất bại", result.SuccessCount, result.FailedCount))
+	
+	return result
+}
+
 // LoginWithPassword đăng nhập bằng user/pass, tự động lưu tài khoản vào hệ thống nếu thành công.
 func (a *App) LoginWithPassword(identifier string, password string, twoFA string) (models.LoginResult, error) {
 	store.DB.AddLog("Accounts", "LoginAttempt", "Info", fmt.Sprintf("Đang thử đăng nhập: %s", identifier))

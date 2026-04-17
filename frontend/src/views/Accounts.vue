@@ -19,20 +19,12 @@
       
       <div class="flex items-center gap-2">
         <button 
-          @click="showLoginModal = true"
-          class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium shadow-sm transition-colors flex items-center gap-2 whitespace-nowrap">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clip-rule="evenodd" />
-          </svg>
-          Đăng nhập
-        </button>
-        <button 
-          @click="showAddModal = true"
-          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium shadow-sm transition-colors flex items-center gap-2 whitespace-nowrap">
+          @click="showAccountChoiceModal = true"
+          class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-medium shadow-sm transition-colors flex items-center gap-2 whitespace-nowrap">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
           </svg>
-          Thêm bằng Cookie
+          Thêm tài khoản
         </button>
       </div>
     </div>
@@ -601,6 +593,65 @@
       </div>
     </div>
 
+    <!-- Account Choice Modal -->
+    <div v-if="showAccountChoiceModal" @mousedown.self="showAccountChoiceModal = false" class="fixed inset-0 bg-slate-800/40 backdrop-blur-sm z-[100] pointer-events-auto transition-opacity flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.2)] w-full max-w-3xl overflow-hidden transform transition-all animate-in fade-in zoom-in duration-200">
+        <div class="px-6 py-5 border-b border-gray-100 flex justify-between items-center bg-gradient-to-r from-blue-50 to-indigo-50">
+          <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Chọn phương thức thêm tài khoản
+          </h3>
+          <button @click="showAccountChoiceModal = false" class="text-gray-400 hover:text-gray-600 hover:bg-white rounded-full p-2 transition-all shadow-sm">
+             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        
+        <div class="p-6 sm:p-8 bg-gray-50/50">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <!-- Login Option -->
+            <div @click="showAccountChoiceModal = false; showLoginModal = true" class="bg-white hover:bg-emerald-50/50 border-2 border-transparent hover:border-emerald-500 rounded-2xl p-6 flex flex-col items-center text-center cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
+              <div class="absolute inset-0 bg-gradient-to-b from-transparent to-emerald-50/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300 shadow-sm relative z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <h4 class="text-lg font-bold text-gray-800 mb-2 relative z-10 group-hover:text-emerald-700 transition-colors">Đăng nhập tài khoản</h4>
+              <p class="text-sm text-gray-500 relative z-10 leading-relaxed">Sử dụng Tên đăng nhập, Email hoặc Số điện thoại kèm Mật khẩu. Hỗ trợ hệ thống bảo mật 2FA.</p>
+            </div>
+
+            <!-- Cookie Option -->
+            <div @click="showAccountChoiceModal = false; showAddModal = true" class="bg-white hover:bg-blue-50/50 border-2 border-transparent hover:border-blue-500 rounded-2xl p-6 flex flex-col items-center text-center cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
+              <div class="absolute inset-0 bg-gradient-to-b from-transparent to-blue-50/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-sm relative z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <h4 class="text-lg font-bold text-gray-800 mb-2 relative z-10 group-hover:text-blue-700 transition-colors">Thêm bằng Cookie</h4>
+              <p class="text-sm text-gray-500 relative z-10 leading-relaxed">Chèn thẳng mã Cookie lấy từ trình duyệt. Giải pháp an toàn, không cần để lộ mật khẩu gốc.</p>
+            </div>
+
+            <!-- Bulk Import Option -->
+            <div @click="showAccountChoiceModal = false; showBulkAddModal = true" class="bg-white hover:bg-indigo-50/50 border-2 border-transparent hover:border-indigo-500 rounded-2xl p-6 flex flex-col items-center text-center cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
+              <div class="absolute inset-0 bg-gradient-to-b from-transparent to-indigo-50/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-sm relative z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <h4 class="text-lg font-bold text-gray-800 mb-2 relative z-10 group-hover:text-indigo-700 transition-colors">Import hàng loạt</h4>
+              <p class="text-sm text-gray-500 relative z-10 leading-relaxed">Thêm chục đến hàng trăm tài khoản một lúc qua danh sách định dạng văn bản (UID|Pass|Cookie).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Add Account Modal -->
     <div v-if="showAddModal" @mousedown.self="showAddModal = false" class="fixed inset-0 bg-slate-800/10 z-[100] pointer-events-auto transition-opacity">
       <div 
@@ -645,6 +696,60 @@
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
             Lưu tài khoản
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bulk Add Modal -->
+    <div v-if="showBulkAddModal" @mousedown.self="showBulkAddModal = false" class="fixed inset-0 bg-slate-800/10 z-[100] pointer-events-auto transition-opacity">
+      <div 
+        ref="bulkAddModalRef"
+        class="bg-white rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden absolute pointer-events-auto shadow-[0_0_20px_rgba(0,0,0,0.15)]"
+        :style="{ top: bulkModalY + 'px', left: bulkModalX + 'px' }"
+      >
+        <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-indigo-50 cursor-move" @mousedown="startDragBulkModal">
+          <h3 class="text-lg font-bold text-gray-800">Import Nhiều Tài Khoản (Cookie)</h3>
+          <button @click="showBulkAddModal = false" class="text-gray-400 hover:text-gray-600 transition-colors">
+             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        
+        <div class="p-6 space-y-4">
+          <div v-if="bulkResult && bulkResult.error" class="bg-red-50 border border-red-200 text-red-600 text-sm p-3 rounded-lg flex items-start gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+            {{ bulkResult.error }}
+          </div>
+
+          <div v-if="bulkResult && !bulkResult.error" class="bg-emerald-50 border border-emerald-200 p-4 rounded-lg">
+             <p class="font-medium text-emerald-800 text-lg">Kết quả Import:</p>
+             <p class="text-emerald-700 mt-1">✔ Thành công: <strong>{{ bulkResult.successCount }}</strong> / {{ bulkResult.totalProcessed }} dòng</p>
+             <p v-if="bulkResult.failedCount > 0" class="text-red-600 mt-1">✘ Thất bại: <strong>{{ bulkResult.failedCount }}</strong></p>
+             <div v-if="bulkResult.errors && bulkResult.errors.length > 0" class="mt-2 bg-white text-red-500 text-xs p-2 rounded max-h-24 overflow-y-auto border border-red-100">
+                <div v-for="(err, idx) in bulkResult.errors" :key="idx">{{ err }}</div>
+             </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Danh sách Cookie (Định dạng <code>UID|Pass|Cookie</code> hoặc chỉ <code>Cookie</code>)</label>
+            <textarea v-model="bulkCookies" rows="10" placeholder="c_user=1000...; xs=...;&#10;Clone_X|c_user=1000...; xs=...;&#10;uid|pass|c_user=100..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all font-mono text-xs whitespace-pre"></textarea>
+            <p class="text-xs text-gray-500 mt-2">Mỗi tài khoản trên một dòng. 
+                Hệ thống tự động tách và tìm chỗ chứa <strong>c_user=</strong> thành Cookie an toàn.</p>
+          </div>
+        </div>
+
+        <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end gap-3">
+          <button @click="showBulkAddModal = false" class="px-4 py-2 text-gray-600 font-medium hover:bg-gray-200 rounded-lg transition-colors">Hủy / Đóng</button>
+          <button @click="submitBulkAdd" :disabled="isSubmittingBulk" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-sm transition-colors flex items-center gap-2 disabled:opacity-70">
+            <svg v-if="isSubmittingBulk" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Thực thi Import
           </button>
         </div>
       </div>
@@ -709,7 +814,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, onUnmounted, watch } from 'vue'
-import { GetAllAccounts, AddAccount, DeleteAccount, SelectPhotoDialog, GetAccountFriendsList, GetAccountPostsList, LoginWithPassword } from '../../wailsjs/go/app/App'
+import { GetAllAccounts, AddAccount, ImportMultipleAccounts, DeleteAccount, SelectPhotoDialog, GetAccountFriendsList, GetAccountPostsList, LoginWithPassword } from '../../wailsjs/go/app/App'
 import { useMainStore } from '../stores/main'
 import CustomSelect from '../components/CustomSelect.vue'
 
@@ -719,11 +824,18 @@ const loading = ref(true)
 let interval: any
 
 // Accounts Management
+const showAccountChoiceModal = ref(false)
 const showAddModal = ref(false)
 const isSubmitting = ref(false)
 const newAccName = ref('')
 const newAccCookie = ref('')
 const addError = ref('')
+
+// Bulk Add Management
+const showBulkAddModal = ref(false)
+const isSubmittingBulk = ref(false)
+const bulkCookies = ref('')
+const bulkResult = ref<any>(null)
 
 // Login Management
 const showLoginModal = ref(false)
@@ -1194,6 +1306,31 @@ async function submitAdd() {
   }
 }
 
+async function submitBulkAdd() {
+  if (!bulkCookies.value.trim()) {
+    bulkResult.value = { error: "Vui lòng nhập danh sách cookie" }
+    return
+  }
+  isSubmittingBulk.value = true
+  bulkResult.value = null
+  try {
+    const result = await ImportMultipleAccounts(bulkCookies.value)
+    bulkResult.value = result
+    await fetchAccounts()
+    if (result.failedCount === 0 && result.successCount > 0) {
+      setTimeout(() => {
+        showBulkAddModal.value = false
+        bulkCookies.value = ''
+        bulkResult.value = null
+      }, 3000)
+    }
+  } catch (err: any) {
+    bulkResult.value = { error: err.toString() }
+  } finally {
+    isSubmittingBulk.value = false
+  }
+}
+
 async function deleteAccount(uid: string) {
   if (confirm(`Bạn có chắc muốn xóa tài khoản có UID ${uid}? Mọi dữ liệu sẽ bị xóa.`)) {
     try {
@@ -1236,6 +1373,39 @@ function stopDragAddModal() {
   isDragging = false
   document.removeEventListener('mousemove', onDragAddModal)
   document.removeEventListener('mouseup', stopDragAddModal)
+}
+
+// Drag Bulk Modal Logic
+const bulkModalX = ref(150)
+const bulkModalY = ref(60)
+let isDraggingBulk = false
+let startXBulk = 0
+let startYBulk = 0
+let initialXBulk = 0
+let initialYBulk = 0
+
+function startDragBulkModal(e: MouseEvent) {
+  isDraggingBulk = true
+  startXBulk = e.clientX
+  startYBulk = e.clientY
+  initialXBulk = bulkModalX.value
+  initialYBulk = bulkModalY.value
+  document.addEventListener('mousemove', onDragBulkModal)
+  document.addEventListener('mouseup', stopDragBulkModal)
+}
+
+function onDragBulkModal(e: MouseEvent) {
+  if (!isDraggingBulk) return
+  const dx = e.clientX - startXBulk
+  const dy = e.clientY - startYBulk
+  bulkModalX.value = initialXBulk + dx
+  bulkModalY.value = initialYBulk + dy
+}
+
+function stopDragBulkModal() {
+  isDraggingBulk = false
+  document.removeEventListener('mousemove', onDragBulkModal)
+  document.removeEventListener('mouseup', stopDragBulkModal)
 }
 
 // Drag Login Modal Logic
