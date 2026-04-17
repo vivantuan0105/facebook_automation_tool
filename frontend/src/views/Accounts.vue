@@ -75,6 +75,18 @@
           </svg>
           Chi tiết bài viết
         </button>
+        <button
+          @click="activeSection = 'profile'"
+          :class="activeSection === 'profile'
+            ? 'bg-indigo-600 text-white shadow-sm'
+            : 'text-slate-600 hover:text-indigo-700 hover:bg-indigo-50'"
+          class="px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+          Chi tiết Profile
+        </button>
       </div>
     </div>
 
@@ -107,14 +119,7 @@
               <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center">Mục tiêu</th>
               <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center">Trạng thái Tác vụ</th>
               <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center">Trạng thái Acc</th>
-              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center">Thao tác</th>
-              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center bg-blue-50/50">Tên Profile</th>
-              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center bg-blue-50/50">Giới tính</th>
-              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center bg-blue-50/50">Vị trí</th>
-              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center bg-blue-50/50">NgÃ y sinh</th>
-              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center bg-blue-50/50">Năm sinh</th>
-              <th class="py-2.5 px-4 border-r border-indigo-100/30 text-center bg-blue-50/50">Followers</th>
-              <th class="py-2.5 px-4 text-center bg-blue-50/50">Quê quán</th>
+              <th class="py-2.5 px-4 text-center">Thao tác</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-100">
@@ -186,8 +191,8 @@
                   {{ mem.acc.status }}
                 </span>
               </td>
-              <td class="py-2 px-4 border-r border-slate-100 flex justify-center gap-2">
-                <button @click="scanAccount(mem.acc.uid, mem.acc.cookie)" class="text-blue-500 hover:text-blue-700 p-1 rounded hover:bg-blue-50 transition-colors" title="Quét thông tin Profile">
+              <td class="py-2 px-4 flex justify-center gap-2">
+                <button @click="openProfileView(mem.acc.uid)" class="text-blue-500 hover:text-blue-700 p-1 rounded hover:bg-blue-50 transition-colors" title="Xem chi tiết Profile">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -199,32 +204,76 @@
                   </svg>
                 </button>
               </td>
-              <td class="py-2 px-4 border-r border-slate-100 text-center font-medium text-slate-700 bg-blue-50/20">
-                {{ mem.acc.name || '-' }}
-              </td>
-              <td class="py-2 px-4 border-r border-slate-100 text-center text-slate-600 bg-blue-50/20">
-                {{ mem.acc.gender || '-' }}
-              </td>
-              <td class="py-2 px-4 border-r border-slate-100 text-center text-slate-600 bg-blue-50/20 max-w-[150px] truncate" :title="mem.acc.location">
-                {{ mem.acc.location || '-' }}
-              </td>
-              <td class="py-2 px-4 border-r border-slate-100 text-center text-slate-600 bg-blue-50/20">
-                {{ mem.acc.birthday || '-' }}
-              </td>
-              <td class="py-2 px-4 border-r border-slate-100 text-center text-slate-600 bg-blue-50/20">
-                {{ mem.acc.birthYear || '-' }}
-              </td>
-              <td class="py-2 px-4 border-r border-slate-100 text-center font-medium text-slate-700 bg-blue-50/20">
-                {{ mem.acc.followers || '-' }}
-              </td>
-              <td class="py-2 px-4 text-center text-slate-600 bg-blue-50/20 max-w-[180px] truncate" :title="mem.acc.location">
-                {{ mem.acc.location && String(mem.acc.location).trim() && String(mem.acc.location).trim().toLowerCase() !== 'không công khai'
-                  ? mem.acc.location
-                  : 'Không lấy được' }}
-              </td>
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- Profile Detail Tab -->
+    <div v-else-if="activeSection === 'profile'" class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="border-b border-gray-100 px-6 py-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <div>
+          <h3 class="text-lg font-bold text-slate-800">Hồ sơ cá nhân (Profile)</h3>
+          <p class="text-sm text-slate-500">Xem chi tiết thông tin nhân khẩu học của tài khoản</p>
+        </div>
+      </div>
+      <div class="p-6 bg-slate-50/50 min-h-[420px]">
+        <div v-if="accounts.length === 0" class="rounded-xl border border-dashed border-slate-200 bg-white px-6 py-12 text-center text-slate-500">
+          Chưa có tài khoản nào được lưu trên hệ thống
+        </div>
+        <div v-else class="space-y-4">
+          <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div class="max-w-[380px]">
+              <label class="mb-2 block text-sm font-medium text-slate-700">Tài khoản hiển thị thông tin</label>
+              <CustomSelect
+                v-model="selectedProfileUid"
+                :options="friendAccountOptions"
+                placeholder="Chọn tài khoản để xem Profile"
+              />
+            </div>
+          </div>
+          
+          <div v-if="!currentProfileData" class="rounded-xl border border-dashed border-slate-200 bg-white px-6 py-12 text-center text-slate-500">
+            Vui lòng chọn tài khoản ở bộ lọc phía trên để xem chi tiết
+          </div>
+          <div v-else class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center gap-4">
+                <div class="h-16 w-16 bg-slate-100 rounded-full flex items-center justify-center border border-slate-200 overflow-hidden">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div>
+                  <h4 class="text-xl font-bold text-slate-800">{{ currentProfileData.name || 'Chưa cập nhật' }}</h4>
+                  <p class="text-sm text-slate-500 mt-0.5">UID: {{ currentProfileData.uid }}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 pt-4 border-t border-slate-100">
+              <div>
+                <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block">Giới tính</label>
+                <div class="font-medium text-slate-700">{{ currentProfileData.gender || 'Không có thông tin' }}</div>
+              </div>
+              <div>
+                <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block">Followers</label>
+                <div class="font-medium text-slate-700">{{ currentProfileData.followers || '0' }}</div>
+              </div>
+              <div>
+                <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block">Ngày sinh</label>
+                <div class="font-medium text-slate-700">{{ currentProfileData.birthday || 'Không có' }}</div>
+              </div>
+              <div>
+                <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block">Năm sinh</label>
+                <div class="font-medium text-slate-700">{{ currentProfileData.birthYear || 'Không có' }}</div>
+              </div>
+              <div class="md:col-span-2">
+                <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1 block">Vị trí (Location)</label>
+                <div class="font-medium text-slate-700">{{ currentProfileData.location || 'Không tiết lộ' }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -660,7 +709,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, onUnmounted, watch } from 'vue'
-import { GetAllAccounts, AddAccount, DeleteAccount, SelectPhotoDialog, ScanAccountData, GetAccountFriendsList, GetAccountPostsList, LoginWithPassword } from '../../wailsjs/go/app/App'
+import { GetAllAccounts, AddAccount, DeleteAccount, SelectPhotoDialog, GetAccountFriendsList, GetAccountPostsList, LoginWithPassword } from '../../wailsjs/go/app/App'
 import { useMainStore } from '../stores/main'
 import CustomSelect from '../components/CustomSelect.vue'
 
@@ -684,8 +733,21 @@ const loginPassword = ref('')
 const loginTwoFactorAuth = ref('')
 const loginError = ref('')
 
+// Setup Tabs Navigation
+const activeSection = ref<'accounts' | 'profile' | 'friends' | 'posts'>('accounts')
+
+// Profile Detail View
+const selectedProfileUid = ref<string>('')
+const currentProfileData = computed(() => {
+  return accounts.value.find(acc => acc.uid === selectedProfileUid.value) || null
+})
+
+const openProfileView = (uid: string) => {
+  activeSection.value = 'profile'
+  selectedProfileUid.value = uid
+}
+
 // Friends Detail Tab
-const activeSection = ref<'accounts' | 'friends' | 'posts'>('accounts')
 const selectedFriendUid = ref<string>('')
 const loadingFriendMap = ref<Record<string, boolean>>({})
 const friendErrorMap = ref<Record<string, string>>({})
@@ -1140,16 +1202,6 @@ async function deleteAccount(uid: string) {
     } catch (err) {
       alert("Lỗi khi xóa: " + err)
     }
-  }
-}
-
-async function scanAccount(uid: string, cookie: string) {
-  try {
-    await ScanAccountData(uid, cookie)
-    await fetchAccounts()
-  } catch (err: any) {
-    console.error(err)
-    alert('Lỗi khi quét Profile. Chi tiết: ' + err)
   }
 }
 
