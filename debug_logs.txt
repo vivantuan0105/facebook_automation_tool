@@ -1172,3 +1172,9 @@ c_user=61573223864739; xs=11:ainpCMWBKDlgfg:2:1776397364:-1:-1; fr=06VGFrWyy8pov
 [2026-04-17T10:51:13+07:00] Accounts | ScanFriends | Success | Quét thành công 0 bạn bè cho 61573223864739
 [2026-04-17T10:51:13+07:00] FacebookProvider | Execute | Success | Task 5 chạy thật thành công
 [2026-04-17T10:55:24+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-17T11:22:25+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T11:22:43+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-17T11:22:44+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-17T11:22:58+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T11:22:58+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T11:22:58+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
