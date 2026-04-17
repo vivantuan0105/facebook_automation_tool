@@ -633,3 +633,28 @@ c_user=61572157625165; xs=10:2QtLpbQwGA6Cww:2:1776270217:-1:-1; fr=0tXc2IlTHSgqV
 c_user=61572157625165; xs=7:TubC3bzfllu8Nw:2:1776270267:-1:-1; fr=0e32VOHJw5DZb4ftz.AWfaWgyh_RUixo9geBdLE7jMLEiNSW9Dky-31KFquamvcWkkVqI.Bp37u6..AAA.0.0.Bp37u6.AWdK06IHcjzoDQg3iym66dKndKs; datr=urvfaaQYAr_SLa042Y9rRG7V
 [2026-04-15T23:24:41+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
 [2026-04-15T23:24:41+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-16T08:26:52+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61571360758847
+[2026-04-16T08:26:53+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61571360758847
+[2026-04-16T08:26:54+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61571360758847
+[2026-04-16T08:26:55+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61571360758847
+[2026-04-16T08:26:55+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61571360758847
+[2026-04-16T08:26:57+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61571360758847
+[2026-04-16T08:35:32+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61572157625165
+[2026-04-16T08:36:40+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61574299097448
+[2026-04-16T08:36:45+07:00] Accounts | Login | Error | Đăng nhập 61574299097448 thất bại: tài khoản yêu cầu mã bảo mật 2 lớp (2FA). Vui lòng thêm 2FA vào hệ thống
+[2026-04-16T08:37:04+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61574270086235
+[2026-04-16T08:37:10+07:00] Accounts | Login | Error | Đăng nhập 61574270086235 thất bại: tài khoản yêu cầu mã bảo mật 2 lớp (2FA). Vui lòng thêm 2FA vào hệ thống
+[2026-04-16T08:37:34+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61573333361840
+[2026-04-16T08:37:38+07:00] Accounts | Login | Error | Đăng nhập 61573333361840 thất bại: tài khoản yêu cầu mã bảo mật 2 lớp (2FA). Vui lòng thêm 2FA vào hệ thống
+[2026-04-16T08:38:37+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61572157625165
+[2026-04-16T08:38:39+07:00] Accounts | Login | Error | Đăng nhập 61572157625165 thất bại: sai tài khoản / mật khẩu, hoặc tài khoản đã bị đổi pass
+[2026-04-16T08:39:06+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61572157625165
+[2026-04-16T08:39:09+07:00] Accounts | Login | Success | Đăng nhập thành công! Cookie thu được:
+c_user=61572157625165; xs=47:BKkDuD8JBIbUCg:2:1776303547:-1:-1; fr=07wqeRzJ5C2c4YMXg.AWfD5PGJtnlhhKUhVWO5_6DN9DtshG-JEdclL3FGF-asFh7gICc.Bp4D26..AAA.0.0.Bp4D26.AWf1884R6Qr5kGj9DVGjvscGXZQ; datr=uj3gaX6TlfiPMrNZm97lP6Ff
+[2026-04-16T08:39:15+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-16T08:39:25+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-16T08:39:27+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-16T08:39:32+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572157625165
+[2026-04-16T08:39:32+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-17T13:52:56+07:00] Settings | Update | Success | Cấu hình được lưu thành công vào file settings.json.
+[2026-04-17T13:53:05+07:00] Settings | Update | Success | Cấu hình được lưu thành công vào file settings.json.
