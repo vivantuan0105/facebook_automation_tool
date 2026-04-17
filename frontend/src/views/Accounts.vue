@@ -745,20 +745,17 @@ let interval: any
 // Accounts Management
 const showAccountChoiceModal = ref(false)
 const addModalType = ref<'login' | 'cookie' | 'bulk'>('login')
-const showAddModal = ref(false)
 const isSubmitting = ref(false)
 const newAccName = ref('')
 const newAccCookie = ref('')
 const addError = ref('')
 
 // Bulk Add Management
-const showBulkAddModal = ref(false)
 const isSubmittingBulk = ref(false)
 const bulkCookies = ref('')
 const bulkResult = ref<any>(null)
 
 // Login Management
-const showLoginModal = ref(false)
 const isSubmittingLogin = ref(false)
 const loginUsername = ref('')
 const loginPassword = ref('')
@@ -1018,9 +1015,6 @@ const mergedAccounts = computed(() => {
     const activeTask = accTasks.find((t: any) => t.status !== 'Success' && t.status !== 'Failed') || accTasks[0]
     
     let displayTask = activeTask
-    if (activeTask && !selectedUids.value.includes(acc.uid)) {
-      displayTask = null
-    }
 
     return { acc, task: displayTask, realTask: activeTask }
   })
@@ -1262,104 +1256,6 @@ async function deleteAccount(uid: string) {
   }
 }
 
-// Drag Add Modal Logic
-const addModalX = ref(100)
-const addModalY = ref(50)
-let isDragging = false
-let startX = 0
-let startY = 0
-let initialX = 0
-let initialY = 0
-
-function startDragAddModal(e: MouseEvent) {
-  isDragging = true
-  startX = e.clientX
-  startY = e.clientY
-  initialX = addModalX.value
-  initialY = addModalY.value
-  document.addEventListener('mousemove', onDragAddModal)
-  document.addEventListener('mouseup', stopDragAddModal)
-}
-
-function onDragAddModal(e: MouseEvent) {
-  if (!isDragging) return
-  const dx = e.clientX - startX
-  const dy = e.clientY - startY
-  addModalX.value = initialX + dx
-  addModalY.value = initialY + dy
-}
-
-function stopDragAddModal() {
-  isDragging = false
-  document.removeEventListener('mousemove', onDragAddModal)
-  document.removeEventListener('mouseup', stopDragAddModal)
-}
-
-// Drag Bulk Modal Logic
-const bulkModalX = ref(150)
-const bulkModalY = ref(60)
-let isDraggingBulk = false
-let startXBulk = 0
-let startYBulk = 0
-let initialXBulk = 0
-let initialYBulk = 0
-
-function startDragBulkModal(e: MouseEvent) {
-  isDraggingBulk = true
-  startXBulk = e.clientX
-  startYBulk = e.clientY
-  initialXBulk = bulkModalX.value
-  initialYBulk = bulkModalY.value
-  document.addEventListener('mousemove', onDragBulkModal)
-  document.addEventListener('mouseup', stopDragBulkModal)
-}
-
-function onDragBulkModal(e: MouseEvent) {
-  if (!isDraggingBulk) return
-  const dx = e.clientX - startXBulk
-  const dy = e.clientY - startYBulk
-  bulkModalX.value = initialXBulk + dx
-  bulkModalY.value = initialYBulk + dy
-}
-
-function stopDragBulkModal() {
-  isDraggingBulk = false
-  document.removeEventListener('mousemove', onDragBulkModal)
-  document.removeEventListener('mouseup', stopDragBulkModal)
-}
-
-// Drag Login Modal Logic
-const loginModalX = ref(150)
-const loginModalY = ref(80)
-let isDraggingLogin = false
-let startXLogin = 0
-let startYLogin = 0
-let initialXLogin = 0
-let initialYLogin = 0
-
-function startDragLoginModal(e: MouseEvent) {
-  isDraggingLogin = true
-  startXLogin = e.clientX
-  startYLogin = e.clientY
-  initialXLogin = loginModalX.value
-  initialYLogin = loginModalY.value
-  document.addEventListener('mousemove', onDragLoginModal)
-  document.addEventListener('mouseup', stopDragLoginModal)
-}
-
-function onDragLoginModal(e: MouseEvent) {
-  if (!isDraggingLogin) return
-  const dx = e.clientX - startXLogin
-  const dy = e.clientY - startYLogin
-  loginModalX.value = initialXLogin + dx
-  loginModalY.value = initialYLogin + dy
-}
-
-function stopDragLoginModal() {
-  isDraggingLogin = false
-  document.removeEventListener('mousemove', onDragLoginModal)
-  document.removeEventListener('mouseup', stopDragLoginModal)
-}
 
 async function submitLogin() {
   if (!loginUsername.value.trim()) {

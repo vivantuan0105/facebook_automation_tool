@@ -535,7 +535,7 @@ func (a *App) LoginWithPassword(identifier string, password string, twoFA string
 	store.DB.AddLog("Accounts", "LoginAttempt", "Info", fmt.Sprintf("Đang thử đăng nhập: %s", identifier))
 
 	docId := store.DB.Settings.GraphqlLoginDocId
-	result, err := providers.LoginWithPassword(identifier, password, docId)
+	result, err := providers.LoginWithPassword(identifier, password, docId, twoFA)
 	if err != nil {
 		store.DB.AddLog("Accounts", "Login", "Error", fmt.Sprintf("Đăng nhập %s thất bại: %v", identifier, err))
 		return result, err

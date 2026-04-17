@@ -1178,3 +1178,73 @@ c_user=61573223864739; xs=11:ainpCMWBKDlgfg:2:1776397364:-1:-1; fr=06VGFrWyy8pov
 [2026-04-17T11:22:58+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
 [2026-04-17T11:22:58+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
 [2026-04-17T11:22:58+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T12:59:52+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-17T12:59:52+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-17T12:59:52+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-17T12:59:52+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-17T12:59:52+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét bạn bè' vào queue.
+[2026-04-17T13:03:50+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T13:03:51+07:00] Queue | RunTask | Running | Bắt đầu chạy task 18 ở mode live
+[2026-04-17T13:03:53+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T13:03:57+07:00] FacebookProvider | Execute | Success | Task 18 chạy thật thành công
+[2026-04-17T13:04:01+07:00] Queue | RunTask | Running | Bắt đầu chạy task 16 ở mode live
+[2026-04-17T13:04:03+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T13:04:05+07:00] Accounts | ScanFriends | Success | Quét thành công 8 bạn bè cho 61571360758847
+[2026-04-17T13:04:05+07:00] FacebookProvider | Execute | Success | Task 16 chạy thật thành công
+[2026-04-17T13:04:41+07:00] Task Center | CreateTask | Success | Đã thêm task 'Comment bài viết' vào queue.
+[2026-04-17T13:04:44+07:00] Queue | RunTask | Running | Bắt đầu chạy task 19 ở mode live
+[2026-04-17T13:04:45+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T13:04:48+07:00] FacebookProvider | Execute | Success | Task 19 chạy thật thành công
+[2026-04-17T13:06:18+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61573223864739
+[2026-04-17T13:06:46+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61573223864739
+[2026-04-17T13:06:49+07:00] Accounts | Login | Error | Đăng nhập 61573223864739 thất bại: API từ chối truy cập. Lỗi: An unknown error occurred (1)
+[2026-04-17T13:11:38+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61573226385097
+[2026-04-17T13:11:39+07:00] Accounts | Login | Error | Đăng nhập 61573226385097 thất bại: sai tài khoản / mật khẩu, hoặc tài khoản đã bị đổi pass
+[2026-04-17T13:12:03+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61568893734847
+[2026-04-17T13:12:05+07:00] Accounts | Login | Error | Đăng nhập 61568893734847 thất bại: sai tài khoản / mật khẩu, hoặc tài khoản đã bị đổi pass
+[2026-04-17T13:16:17+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61573223864739
+[2026-04-17T13:16:19+07:00] Accounts | Login | Error | Đăng nhập 61573223864739 thất bại: API từ chối truy cập. Lỗi: An unknown error occurred (1)
+[2026-04-17T13:16:45+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61570727010741
+[2026-04-17T13:16:46+07:00] Accounts | Login | Error | Đăng nhập 61570727010741 thất bại: sai tài khoản / mật khẩu, hoặc tài khoản đã bị đổi pass
+[2026-04-17T13:17:08+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61573225694985
+[2026-04-17T13:17:09+07:00] Accounts | Login | Error | Đăng nhập 61573225694985 thất bại: sai tài khoản / mật khẩu, hoặc tài khoản đã bị đổi pass
+[2026-04-17T13:28:04+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61573225694985
+[2026-04-17T13:28:05+07:00] Accounts | Login | Error | Đăng nhập 61573225694985 thất bại: sai tài khoản / mật khẩu, hoặc tài khoản đã bị đổi pass
+[2026-04-17T13:30:03+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61572011077080
+[2026-04-17T13:30:06+07:00] Accounts | Login | Success | Đăng nhập thành công! Cookie thu được:
+c_user=61572011077080; xs=14:NhSHargSG7foRA:2:1776407404:-1:-1; fr=0lNCjHjZPlYZjhHyP.AWe89OhwhLgz5pes_Lqcm-YT2Oa_xBq1exzwHdPdm8N1SFzt4EA.Bp4dNr..AAA.0.0.Bp4dNr.AWe87RVoBwsj59MmaLHrUIXhlGQ; datr=a9PhaShJZEChZl7Shvyyeoam
+[2026-04-17T13:30:26+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T13:30:33+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-17T13:30:35+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T13:30:37+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61572011077080
+[2026-04-17T13:30:37+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
+[2026-04-17T13:31:40+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T13:31:42+07:00] Queue | RunTask | Running | Bắt đầu chạy task 2 ở mode live
+[2026-04-17T13:31:44+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T13:31:45+07:00] FacebookProvider | Execute | Error | Task 2 thất bại: Không bóc tách được Feedback ID hoặc Numeric ID Bài viết từ mã nguồn html.
+[2026-04-17T13:31:55+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T13:32:25+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61572011077080
+[2026-04-17T13:32:47+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61570765862138
+[2026-04-17T13:32:50+07:00] Accounts | Login | Error | Đăng nhập 61570765862138 thất bại: API từ chối truy cập. Lỗi: An unknown error occurred (1)
+[2026-04-17T13:33:25+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61568329823461
+[2026-04-17T13:33:27+07:00] Accounts | Login | Error | Đăng nhập 61568329823461 thất bại: API từ chối truy cập. Lỗi: An unknown error occurred (1)
+[2026-04-17T13:34:07+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61570746301607
+[2026-04-17T13:34:08+07:00] Accounts | Login | Error | Đăng nhập 61570746301607 thất bại: sai tài khoản / mật khẩu, hoặc tài khoản đã bị đổi pass
+[2026-04-17T13:34:10+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61570746301607
+[2026-04-17T13:34:10+07:00] Accounts | Login | Error | Đăng nhập 61570746301607 thất bại: sai tài khoản / mật khẩu, hoặc tài khoản đã bị đổi pass
+[2026-04-17T13:34:31+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61570746301607
+[2026-04-17T13:34:32+07:00] Accounts | Login | Error | Đăng nhập 61570746301607 thất bại: sai tài khoản / mật khẩu, hoặc tài khoản đã bị đổi pass
+[2026-04-17T13:34:57+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61573226385097
+[2026-04-17T13:34:58+07:00] Accounts | Login | Error | Đăng nhập 61573226385097 thất bại: sai tài khoản / mật khẩu, hoặc tài khoản đã bị đổi pass
+[2026-04-17T13:35:15+07:00] Task Center | CreateTask | Success | Đã thêm task 'Like bài viết' vào queue.
+[2026-04-17T13:35:17+07:00] Queue | RunTask | Running | Bắt đầu chạy task 4 ở mode live
+[2026-04-17T13:35:18+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T13:35:23+07:00] FacebookProvider | Execute | Success | Task 4 chạy thật thành công
+[2026-04-17T13:36:31+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61568893734847
+[2026-04-17T13:36:32+07:00] Accounts | Login | Error | Đăng nhập 61568893734847 thất bại: sai tài khoản / mật khẩu, hoặc tài khoản đã bị đổi pass
+[2026-04-17T13:40:52+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61568893734847
+[2026-04-17T13:40:56+07:00] Accounts | Login | Error | Đăng nhập 61568893734847 thất bại: sai tài khoản / mật khẩu, hoặc tài khoản đã bị đổi pass
+[2026-04-17T13:50:29+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61573223864739
+[2026-04-17T13:50:33+07:00] Accounts | Login | Error | Đăng nhập 61573223864739 thất bại: đăng nhập Web không thành công và API bị từ chối
+[2026-04-17T13:54:53+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61573223864739
+[2026-04-17T13:54:59+07:00] Accounts | Login | Error | Đăng nhập 61573223864739 thất bại: đăng nhập Web không thành công và API bị từ chối

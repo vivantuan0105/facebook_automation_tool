@@ -284,8 +284,8 @@ func escapeJSON(s string) string {
 // ─────────────────────────────────────────────
 
 func SubmitAndroidLogin(identifier string, password string) ([]*http.Cookie, string, error) {
-	apiKey := "882a8490361da98702bf97a021ddc14d"
-	apiSecret := "62f8ce9f74b12f84c123cc23437a4a32"
+	apiKey := "256002347743983"
+	apiSecret := "374e60f8b9bb6b8cbb30f78030438895"
 
 	machineId := fmt.Sprintf("%08x-%04x-%04x-%04x-%012x", mrand.Int31(), mrand.Int31(), mrand.Int31(), mrand.Int31(), mrand.Int63())
 	deviceId := fmt.Sprintf("%08x-%04x-%04x-%04x-%012x", mrand.Int31(), mrand.Int31(), mrand.Int31(), mrand.Int31(), mrand.Int63())
@@ -353,7 +353,7 @@ func SubmitAndroidLogin(identifier string, password string) ([]*http.Cookie, str
 // ─────────────────────────────────────────────
 
 // LoginWithPassword thực hiện quy trình đăng nhập
-func LoginWithPassword(identifier string, password string, docId string) (models.LoginResult, error) {
+func LoginWithPassword(identifier string, password string, docId string, twoFA string) (models.LoginResult, error) {
 
 	// 1. NGHIỆP VỤ B-API ANDROID CHÍNH GỐC (Bypass WEB Shadow-ban bằng UID)
 	_, rawResponse, err := SubmitAndroidLogin(identifier, password)
@@ -386,23 +386,11 @@ func LoginWithPassword(identifier string, password string, docId string) (models
 		errCode := j.Get("error_code").Int()
 		if errCode != 0 {
 			msg := j.Get("error_msg").String()
-			lowBody := strings.ToLower(msg)
 			
-			// 405 : Checkpoint / 2FA Verify
-			if errCode == 405 {
-				if strings.Contains(lowBody, "two-factor") || strings.Contains(lowBody, "approvals_code") || strings.Contains(lowBody, "2fa") || strings.Contains(lowBody, "verify their account") {
-					return models.LoginResult{Status: "2FARequired", RawResponse: msg}, errors.New("tài khoản yêu cầu mã bảo mật 2 lớp (2FA). Vui lòng thêm 2FA vào hệ thống")
-				}
-				return models.LoginResult{Status: "Checkpoint", RawResponse: msg}, errors.New("tài khoản dính Checkpoint (cần xác minh danh tính trên trình duyệt thực)")
-			}
-			// 401/400: Sai mật khẩu
-			if errCode == 401 || errCode == 400 || strings.Contains(lowBody, "invalid username") {
-				return models.LoginResult{Status: "WrongPassword", RawResponse: msg}, errors.New("sai tài khoản / mật khẩu, hoặc tài khoản đã bị đổi pass")
-			}
-			
-			// Lỗi khác
+			// Lỗi B-API có thể là sai pass HOẶC block vì đăng nhập máy lạ, 2FA. 
+			// Do đó ta CHỈ ghi log và KHÔNG return ngay, để hệ thống tự rơi xuống (fallback) đăng nhập Web!
 			os.WriteFile("debug_login_response_bapi.json", []byte(rawResponse), 0644)
-			return models.LoginResult{Status: "Failed", RawResponse: msg}, fmt.Errorf("API từ chối truy cập. Lỗi: %s", msg)
+			fmt.Printf("[B-API Fallback] API từ chối (%d): %s\n", errCode, msg)
 		}
 	}
 
@@ -419,7 +407,8 @@ func LoginWithPassword(identifier string, password string, docId string) (models
 	}
 
 	rawBody, finalUrl, err := SubmitGraphQLLogin(sd, identifier, encPwd, docId)
-	if err != nil {
+	if err != nil || strings.Contains(rawBody, `"errors"`) || strings.Contains(rawBody, "noncoercible_variable_value") {
+		// Fallback sang POST truyền thống nếu GraphQL báo lỗi (vd: noncoercible_variable_value)
 		rawBody, finalUrl, err = SubmitLogin(sd, identifier, encPwd, docId)
 		if err != nil {
 			return models.LoginResult{}, fmt.Errorf("gửi login request thất bại: %w", err)
