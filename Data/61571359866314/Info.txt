@@ -1,0 +1,14 @@
+{
+  "uid": "61571359866314",
+  "name": "Jonathan Allen",
+  "cookie": "c_user=61571359866314; xs=6:ulTrV08gra8Bgw:2:1776417437:-1:-1; fr=0wgrPxjd1mxILOiZd.AWfIkcv-ELgxTVUYvmwqm_pH6YtnvvBrfBc_4TaqLbPJLnf8LUI.Bp4fqc..AAA.0.0.Bp4fqc.AWcQUSywYz5KG7Hk7DWsvszbMWU; datr=nPrhad3XTyvWiDj1aLYVL6XA",
+  "status": "Live",
+  "gender": "Nam (MALE)",
+  "birthday": "Khong cong khai",
+  "birthYear": "",
+  "location": "Không công khai",
+  "friends": "",
+  "posts": "",
+  "followers": "0",
+  "createdAt": "2026-04-17 16:17:18"
+}

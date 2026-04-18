@@ -1273,3 +1273,17 @@ c_user=61572011077080; xs=43:pko1PPKVjsrv2g:2:1776409702:-1:-1; fr=0SkU6ZyakoZsx
 [2026-04-17T14:21:12+07:00] Accounts | Login | Error | Đăng nhập 61573226385097 thất bại: đăng nhập Web không thành công và API bị từ chối
 [2026-04-17T14:21:17+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61573226385097
 [2026-04-17T14:21:20+07:00] Accounts | Login | Error | Đăng nhập 61573226385097 thất bại: đăng nhập Web không thành công và API bị từ chối
+[2026-04-17T16:13:47+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61571359866314
+[2026-04-17T16:13:52+07:00] Accounts | Login | Error | Đăng nhập 61571359866314 thất bại: đăng nhập Web không thành công và API bị từ chối
+[2026-04-17T16:16:53+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61571359866314
+[2026-04-17T16:16:56+07:00] Accounts | Login | Success | Đăng nhập thành công! Cookie thu được:
+c_user=61571359866314; xs=30:gX3KnjfvUi1n8g:2:1776417414:-1:-1; fr=01Cj44pPc1XYnjPoS.AWfOjWPsDhkkcPp1w1nRa2lRJo3oEumsWKBrrASgwKDo3_8P6Us.Bp4fqF..AAA.0.0.Bp4fqF.AWcLSzjfT8vjiCuHtNxBHdQqX3c; datr=hfrhabDdPVghFuNZ7wdzXFdP
+[2026-04-17T16:17:08+07:00] Accounts | Delete | Success | Đã xóa tài khoản UID 61571359866314
+[2026-04-17T16:17:16+07:00] Accounts | LoginAttempt | Info | Đang thử đăng nhập: 61571359866314
+[2026-04-17T16:17:18+07:00] Accounts | Login | Success | Đăng nhập thành công! Cookie thu được:
+c_user=61571359866314; xs=6:ulTrV08gra8Bgw:2:1776417437:-1:-1; fr=0wgrPxjd1mxILOiZd.AWfIkcv-ELgxTVUYvmwqm_pH6YtnvvBrfBc_4TaqLbPJLnf8LUI.Bp4fqc..AAA.0.0.Bp4fqc.AWcQUSywYz5KG7Hk7DWsvszbMWU; datr=nPrhad3XTyvWiDj1aLYVL6XA
+[2026-04-17T16:17:26+07:00] Task Center | CreateTask | Success | Đã thêm task 'Quét thông tin' vào queue.
+[2026-04-17T16:17:27+07:00] Queue | RunTask | Running | Bắt đầu chạy task 1 ở mode live
+[2026-04-17T16:17:29+07:00] Queue | Execution | Info | Đang phân tích trang và chuẩn bị payload...
+[2026-04-17T16:17:36+07:00] Accounts | Scan | Success | Cập nhật thông tin thành công cho 61571359866314
+[2026-04-17T16:17:36+07:00] FacebookProvider | Execute | Success | Task 1 chạy thật thành công
