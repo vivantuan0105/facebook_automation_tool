@@ -279,14 +279,7 @@
           </p>
         </div>
 
-        <div class="w-full lg:w-80">
-          <input
-            v-model="friendSearch"
-            type="text"
-            placeholder="Tìm theo UID hoặc tên bạn bè"
-            class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"
-          >
-        </div>
+        <!-- Removed top friend search -->
       </div>
 
       <div class="p-6 bg-slate-50/50 min-h-[420px]">
@@ -364,26 +357,35 @@
               <table class="w-full text-left text-sm">
                 <thead class="bg-slate-50 text-slate-700">
                   <tr>
-                    <th class="w-20 border-b border-slate-100 px-4 py-3 text-center font-semibold">STT</th>
-                    <th class="w-72 border-b border-slate-100 px-4 py-3 font-semibold">UID</th>
-                    <th class="border-b border-slate-100 px-4 py-3 font-semibold">Tên bạn bè</th>
+                    <th class="w-16 border-b border-slate-100 px-4 py-3 text-center font-semibold text-slate-600">STT</th>
+                    <th class="w-20 border-b border-slate-100 px-4 py-3 text-center font-semibold text-slate-600">Avatar</th>
+                    <th class="w-64 border-b border-slate-100 px-4 py-3 font-semibold text-slate-600">UID</th>
+                    <th class="border-b border-slate-100 px-4 py-3 font-semibold text-slate-600">Tên bạn bè</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                   <tr
                     v-for="friend in selectedFriendRows"
-                    :key="`${selectedFriendAccount.uid}-${friend.index}-${friend.raw}`"
-                    class="transition-colors hover:bg-slate-50"
+                    :key="`${selectedFriendAccount.uid}-${friend.index}-${friend.uid}`"
+                    class="transition-colors hover:bg-slate-50/80 group"
                   >
-                    <td class="px-4 py-3 text-center">
-                      <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-indigo-100 font-bold text-indigo-600">
+                    <td class="px-4 py-3 text-center align-middle">
+                      <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-indigo-50 font-bold text-indigo-600 text-xs shadow-sm border border-indigo-100">
                         {{ friend.index }}
                       </span>
                     </td>
-                    <td class="px-4 py-3 font-medium text-slate-600 break-all">
+                    <td class="px-4 py-3 flex justify-center text-center align-middle">
+                      <div class="h-10 w-10 overflow-hidden rounded-full border border-slate-200 bg-slate-100 shadow-sm flex items-center justify-center">
+                        <img v-if="friend.avatar" :src="friend.avatar" :alt="friend.name" class="h-full w-full object-cover" />
+                        <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-300" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                        </svg>
+                      </div>
+                    </td>
+                    <td class="px-4 py-3 font-medium text-slate-600 break-all align-middle text-sm">
                       {{ friend.uid || 'Không tách được UID từ dữ liệu quét' }}
                     </td>
-                    <td class="px-4 py-3 font-semibold text-slate-800 break-all">
+                    <td class="px-4 py-3 font-semibold text-slate-800 break-all align-middle">
                       {{ friend.name || friend.raw }}
                     </td>
                   </tr>
@@ -406,14 +408,7 @@
           </p>
         </div>
 
-        <div class="w-full lg:w-80">
-          <input
-            v-model="postSearch"
-            type="text"
-            placeholder="Tìm theo ID bài viết hoặc nội dung"
-            class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"
-          >
-        </div>
+        <!-- Removed top post search -->
       </div>
 
       <div class="p-6 bg-slate-50/50 min-h-[420px]">
@@ -796,15 +791,26 @@ const friendAccountOptions = computed(() =>
 
 const parseFriendEntries = (friends: string[]) => {
   return friends.map((friend, index) => {
-    const [uidPart, ...nameParts] = friend.split('|')
-    const uid = uidPart?.trim() || ''
-    const name = nameParts.join('|').trim()
+    const parts = friend.split('|')
+    const uid = parts[0]?.trim() || ''
+    let name = ''
+    let avatar = ''
+    
+    if (parts.length >= 3) {
+      name = parts[1]?.trim() || ''
+      avatar = parts.slice(2).join('|').trim() || ''
+    } else if (parts.length === 2) {
+      name = parts[1]?.trim() || ''
+    } else {
+      name = parts[0]?.trim() || ''
+    }
 
     return {
       index: index + 1,
       raw: friend,
       uid,
       name: name || friend,
+      avatar
     }
   })
 }

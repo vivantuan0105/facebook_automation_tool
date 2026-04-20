@@ -1762,12 +1762,13 @@ func (f *FacebookProvider) ScanAccountFriends(cookie string, uid string, docId s
 				
 				fId := value.Get("node.id").String()
 				fUrl := value.Get("node.url").String()
+				fAvatar := value.Get("node.profile_picture.uri").String()
 				
 				displayStr := ""
 				if fId != "" {
-					displayStr = fmt.Sprintf("%s | %s", fId, fName)
+					displayStr = fmt.Sprintf("%s | %s | %s", fId, fName, fAvatar)
 				} else if fUrl != "" {
-					displayStr = fmt.Sprintf("%s | %s", fName, fUrl)
+					displayStr = fmt.Sprintf("%s | %s | %s", fName, fUrl, fAvatar)
 				}
 				
 				if displayStr != "" && fName != "" && !friendMap[displayStr] {
